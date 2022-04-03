@@ -4,6 +4,7 @@ import WeatherCard from './WeatherCard'
 import { CountyName, getTwoDays } from './src/api'
 import Weather from './src/Weather'
 import "./WeatherDialogContent.scss"
+import icon from '../../../icon'
 
 class WeaherLocation {
   county: CountyName
@@ -99,7 +100,7 @@ const WeatherDialogContent = ({
             </div>
             
         </div>
-        { loading && <img className="loading" src={require('./processing.gif')}  alt='source not found'/>}
+        { loading && <img className="loading" src={icon.others.processing}  alt='source not found'/>}
         <div className="weather-card-container">
           {
             weatherItems.map((item, index) => (
