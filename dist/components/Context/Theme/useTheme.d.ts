@@ -1,12 +1,12 @@
 export declare const defaultStyle: {
-    '--rui-primary': string;
-    '--rui-secondary': string;
-    '--rui-accent': string;
-    '--rui-bg-primary': string;
-    '--rui-bg-secondary': string;
-    '--rui-bg-accent': string;
-    '--rui-text-primary': string;
-    '--rui-text-gray': string;
+    '--dui-primary': string;
+    '--dui-secondary': string;
+    '--dui-accent': string;
+    '--dui-bg-primary': string;
+    '--dui-bg-secondary': string;
+    '--dui-bg-accent': string;
+    '--dui-text-primary': string;
+    '--dui-text-gray': string;
 };
 export declare type StyleType = Partial<typeof defaultStyle & {
     [k: string]: string;

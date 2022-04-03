@@ -14,7 +14,7 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
   onOpacityChange
 }) => {
   return (
-    <div className='rui-LayerDialogContent'>
+    <div className='dui-LayerDialogContent'>
       {
         layerInfos.map(item => (
           <LayerItem key={item.id} {...item} onToggleShow={show => onToggleShow(item.id, show)} onOpacityChange={value => onOpacityChange(item.id, value)}/>

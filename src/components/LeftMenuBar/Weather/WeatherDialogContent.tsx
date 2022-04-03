@@ -86,7 +86,7 @@ const WeatherDialogContent = ({
     setInfo()
   }, [])
   return (
-    <div className="rui-WeatherDialogContent">
+    <div className="dui-WeatherDialogContent">
         <div className="select" ref={selectElem}>
             <span className="selected" onClick={() => setshowOption(!showOption)}>{activeLocation.fullName}
                 <div className="pointer">▼</div>

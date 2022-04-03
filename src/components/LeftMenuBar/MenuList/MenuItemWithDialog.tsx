@@ -32,7 +32,7 @@ const MenuItemWithDialog = ({
     onClick()
   }
   return (
-    <div className='rui-MenuItemWithDialog'>
+    <div className='dui-MenuItemWithDialog'>
       <div className="list-item" onClick={() => handleClick()}>
           {startIconSrc && <img className="icon"  alt='source not found' src={active ? startIconSrcActive : startIconSrc} />}
           <div className="text">{title}</div>

@@ -1,6 +1,6 @@
 @import '../../../style/index.scss';
 
-.rui-CreditDialogContent{
+.dui-CreditDialogContent{
   padding-right: 35px;
     padding-left: 35px;
     padding-bottom: 45px;
@@ -14,7 +14,7 @@
     .title{
         display: flex;
         flex-direction: column;
-        color: var(--rui-primary);
+        color: var(--dui-primary);
         align-items: center;
         font-weight: bolder;
         font-size: 15px;

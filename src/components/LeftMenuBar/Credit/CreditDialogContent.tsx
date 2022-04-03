@@ -10,8 +10,8 @@ const CreditDialogContent = ({
   description
 }: ICreditDialogContentProps) => {
   return (
-    <div className="rui-CreditDialogContent">
-      <div className="rui-CreditDialogContent-content">
+    <div className="dui-CreditDialogContent">
+      <div className="dui-CreditDialogContent-content">
           {description}
           <img className="qr-code" src={icon.credit.qrcode} alt='missing' />
       </div>
