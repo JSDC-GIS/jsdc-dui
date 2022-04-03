@@ -63,8 +63,13 @@ const credit = {
     logo: `${baseUrl}credit/main-logo.svg`,
 }
 
+const others = {
+    processing: `${baseUrl}others/processing.gif`
+}
+
 export default {
   activable,
   legend,
-  credit
+  credit,
+  others
 }
