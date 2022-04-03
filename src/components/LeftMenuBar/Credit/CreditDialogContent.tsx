@@ -13,10 +13,10 @@ const CreditDialogContent = ({
     <div className="rui-CreditDialogContent">
       <div className="rui-CreditDialogContent-content">
           {description}
-          <img className="qr-code" src={icon.credit.qrcode} />
+          <img className="qr-code" src={icon.credit.qrcode} alt='missing' />
       </div>
       <div className="final">
-          <img src={icon.credit.logo}  />
+          <img src={icon.credit.logo} alt='missing' />
       </div>
     </div>
   )

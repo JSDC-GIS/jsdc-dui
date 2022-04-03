@@ -5,7 +5,7 @@ import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC';
 import { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider';
 import Leaflet, { GeoJSON, Marker } from 'leaflet'
-import { IRuiContextProviderProps, RuiContext, RuiContextProvider } from './components/Context';
+import { IDuiContextProviderProps, DuiContext, DuiContextProvider } from './components/Context';
 import DguideWalksApp from './components/DguideWalksApp';
 import Dialog from './components/Dialog';
 import MenuItemWithDialog from './components/LeftMenuBar/MenuList/MenuItemWithDialog';
@@ -14,7 +14,7 @@ import './style/index.css'
 import { DguidewalksContext, DguidewalksProvider } from './JSDC/Dguidewalks/Context';
 
 
-const ruiConfigProps: IRuiContextProviderProps = {
+const ruiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
   sidebarSubtitle: '標題2',
   credit: '本平臺由智紳數位文化事業有限公司建置。若有其他利用或授權需求請洽【智紳數位文化事業】Facebook粉絲專頁。',
@@ -50,7 +50,7 @@ const getPOIIcon = (type: string) => {
 
 function App() {
   const { Jsdc } = useContext(JSDCContext)
-  const rui = useContext(RuiContext)
+  const rui = useContext(DuiContext)
   const { dgw } = useContext(DguidewalksContext)
   const [open, setopen] = useState(false)
   const [title, settitle] = useState<string>()
@@ -109,9 +109,9 @@ const AppWrapper: React.FC = () => {
         activeBasemaps={['臺灣通用電子地圖(灰階)', '正射影像圖(通用)', '嘉南大圳平圖(1933)', '臺灣經建1版地形圖']}
         layersHiddenFromUI={['浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}
         layersShowOnMapByDefault={['臺灣通用電子地圖(灰階)', '浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}>
-        <RuiContextProvider {...ruiConfigProps}>
+        <DuiContextProvider {...ruiConfigProps}>
           <App/>
-        </RuiContextProvider>
+        </DuiContextProvider>
       </DguidewalksProvider>
     </JSDCProvider>
   )

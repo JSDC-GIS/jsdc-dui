@@ -1,6 +1,6 @@
 export const baseUrl = 'https://map.jsdc.com.tw/webgis/dguidewalks/assets/'
 
-const legend = {
+export const legend = {
   '人文地景': {
       default: `${baseUrl}legends/icon-l-01-g.svg`,
       active: `${baseUrl}legends/icon-l-01.svg`
@@ -43,7 +43,7 @@ const legend = {
   }
 }
 
-const activable = {
+export const activable = {
   layer: `${baseUrl}menu_icons/layer.svg`,
   layerActive: `${baseUrl}menu_icons/layer_active.svg`,
   weather: `${baseUrl}menu_icons/weather.svg`,
@@ -58,12 +58,12 @@ const activable = {
   locationMappinActive: `${baseUrl}menu_icons/location-mappin_active.svg`,
 }
 
-const credit = {
+export const credit = {
     qrcode: `${baseUrl}credit/fb_qrcode.png`,
     logo: `${baseUrl}credit/main-logo.svg`,
 }
 
-const others = {
+export const others = {
     processing: `${baseUrl}others/processing.gif`
 }
 

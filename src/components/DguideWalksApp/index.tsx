@@ -5,7 +5,7 @@ import MenuList from '../LeftMenuBar/MenuList'
 import WeatherMenuItem from '../LeftMenuBar/Weather/WeatherMenuItem'
 import MapViewContainer from '../MapViewContainer'
 import React, { useContext } from 'react'
-import { RuiContext } from '../Context'
+import { DuiContext } from '../Context'
 import { JSDCContext } from '../../JSDC/Context'
 import { latLng } from 'leaflet'
 
@@ -18,22 +18,22 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
   mainMenuChildren,
   endMenuChildren
 }) => {
-  const rui = useContext(RuiContext)
+  const dui = useContext(DuiContext)
   const { Jsdc, layerInfos } = useContext(JSDCContext)
   
   return (
     <MapViewContainer
       Jsdc={Jsdc}
-      headerImgSrc={rui.headerMBImgSrc}
+      headerImgSrc={dui.headerMBImgSrc}
       menuChildren={(
         <MenuList
-          title={rui.sidebarTitle} subtitle={rui.sidebarSubtitle}
-          headerImg={rui.headerDImgSrc} headerMBImg={rui.headerMBImgSrc}
+          title={dui.sidebarTitle} subtitle={dui.sidebarSubtitle}
+          headerImg={dui.headerDImgSrc} headerMBImg={dui.headerMBImgSrc}
           endChildren={
             <>
               <CreditMenuItem
-                active={rui.activeMenuId === '關於圖台'} {...rui.menuSwitcherAction('關於圖台')}
-                description={rui.credit}/>
+                active={dui.activeMenuId === '關於圖台'} {...dui.menuSwitcherAction('關於圖台')}
+                description={dui.credit}/>
               {endMenuChildren}
             </>
           }>
@@ -47,20 +47,20 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
               }))}
               onToggleShow={(id, show) => Jsdc.Controller.get('Layer').getById(id).show = show}
               onOpacityChange={(id, opacity) => Jsdc.Controller.get('Layer').getById(id).setOpacity( Number( 1 - ( opacity/ 100 ) ) )}
-              active={rui.activeMenuId === '地圖圖層'} {...rui.menuSwitcherAction('地圖圖層')}/>
+              active={dui.activeMenuId === '地圖圖層'} {...dui.menuSwitcherAction('地圖圖層')}/>
             {
-              rui.weatherConfig.disabled || (
-                <WeatherMenuItem active={rui.activeMenuId === '氣象預測'} {...rui.menuSwitcherAction('氣象預測')}
-                  locations={rui.weatherConfig.locations}
-                  token={rui.weatherConfig.token!}
+              dui.weatherConfig.disabled || (
+                <WeatherMenuItem active={dui.activeMenuId === '氣象預測'} {...dui.menuSwitcherAction('氣象預測')}
+                  locations={dui.weatherConfig.locations}
+                  token={dui.weatherConfig.token!}
                   onSelectLocation={([y, x]) => Jsdc.viewer?.flyTo(latLng(y, x), 13)}/>
               )
             }
             {
-              rui.legendConfig.disabled || (
+              dui.legendConfig.disabled || (
                 <LegendMenuItem
-                  active={rui.activeMenuId === '圖例說明'} {...rui.menuSwitcherAction('圖例說明')}
-                  activeLegends={rui.legendConfig.activeLegends}/>
+                  active={dui.activeMenuId === '圖例說明'} {...dui.menuSwitcherAction('圖例說明')}
+                  activeLegends={dui.legendConfig.activeLegends}/>
               )
             }
             {mainMenuChildren}

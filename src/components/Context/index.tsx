@@ -36,7 +36,7 @@ export type LegendConfig = {
   activeLegends: ILegendDialogContentProps['activeLegends']
 }
 
-export type RuiContextType = {
+export type DuiContextType = {
   sidebarTitle: string
   sidebarSubtitle: string
   credit: string
@@ -51,7 +51,7 @@ export type RuiContextType = {
   legendConfig: LegendConfig
 }
 
-export const initialRuiContext: RuiContextType = {
+export const initialDuiContext: DuiContextType = {
   sidebarTitle: '',
   sidebarSubtitle: '',
   credit: '本平臺由智紳數位文化事業有限公司建置。若有其他利用或授權需求請洽【智紳數位文化事業】Facebook粉絲專頁。',
@@ -66,14 +66,14 @@ export const initialRuiContext: RuiContextType = {
   legendConfig: { activeLegends: [] }
 }
 
-const RuiContext = createContext<RuiContextType>(initialRuiContext)
+const DuiContext = createContext<DuiContextType>(initialDuiContext)
 
 type MenuItemType = {
   id: string,
   name: string
 }
 
-export interface IRuiContextProviderProps {
+export interface IDuiContextProviderProps {
   sidebarTitle: string
   sidebarSubtitle: string
   credit: string
@@ -85,7 +85,7 @@ export interface IRuiContextProviderProps {
   themeConfig?: StyleType
 }
 
-const RuiContextProvider: React.FC<IRuiContextProviderProps> = ({
+const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   sidebarTitle,
   sidebarSubtitle,
   credit,
@@ -118,13 +118,13 @@ const RuiContextProvider: React.FC<IRuiContextProviderProps> = ({
     legendConfig
   }
   return (
-    <RuiContext.Provider value={value}>
+    <DuiContext.Provider value={value}>
       {children}
-    </RuiContext.Provider>
+    </DuiContext.Provider>
   )
 }
 
 export {
-  RuiContextProvider,
-  RuiContext
+  DuiContextProvider,
+  DuiContext
 }

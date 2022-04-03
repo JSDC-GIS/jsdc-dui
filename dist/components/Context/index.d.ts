@@ -15,7 +15,7 @@ export declare type LegendConfig = {
     disabled?: boolean;
     activeLegends: ILegendDialogContentProps['activeLegends'];
 };
-export declare type RuiContextType = {
+export declare type DuiContextType = {
     sidebarTitle: string;
     sidebarSubtitle: string;
     credit: string;
@@ -29,13 +29,13 @@ export declare type RuiContextType = {
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
 };
-export declare const initialRuiContext: RuiContextType;
-declare const RuiContext: React.Context<RuiContextType>;
+export declare const initialDuiContext: DuiContextType;
+declare const DuiContext: React.Context<DuiContextType>;
 declare type MenuItemType = {
     id: string;
     name: string;
 };
-export interface IRuiContextProviderProps {
+export interface IDuiContextProviderProps {
     sidebarTitle: string;
     sidebarSubtitle: string;
     credit: string;
@@ -46,5 +46,5 @@ export interface IRuiContextProviderProps {
     legendConfig: LegendConfig;
     themeConfig?: StyleType;
 }
-declare const RuiContextProvider: React.FC<IRuiContextProviderProps>;
-export { RuiContextProvider, RuiContext };
+declare const DuiContextProvider: React.FC<IDuiContextProviderProps>;
+export { DuiContextProvider, DuiContext };
