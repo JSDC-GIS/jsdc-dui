@@ -1,0 +1,2 @@
+import{__assign as e}from"../../../node_modules/tslib/tslib.es6.js";import t from"../MenuList/MenuItemWithDialog.js";import r from"../../../icon/index.js";import i from"react";import o from"./LegendDialogContent.js";var a=function(a){return i.createElement(t,e({},a,{title:"圖例說明",startIconSrc:r.activable.hamburger,startIconSrcActive:r.activable.hamburgerActive}),i.createElement(o,{activeLegends:a.activeLegends}))};export{a as default};
+//# sourceMappingURL=LegendMenuItem.js.map

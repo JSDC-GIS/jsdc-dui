@@ -1,0 +1,2 @@
+import{__assign as t}from"../../../node_modules/tslib/tslib.es6.js";import e from"../MenuList/MenuItemWithDialog.js";import r from"../../../icon/index.js";import o from"react";import i from"./WeatherDialogContent.js";var a=function(a){return o.createElement(e,t({},a,{title:"氣象預測",startIconSrc:r.activable.weather,startIconSrcActive:r.activable.weatherActive}),o.createElement(i,t({},a)))};export{a as default};
+//# sourceMappingURL=WeatherMenuItem.js.map

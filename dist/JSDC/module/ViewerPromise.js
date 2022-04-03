@@ -1,0 +1,2 @@
+var e=function(){function e(){this.viewer=void 0,this.stack=[]}return Object.defineProperty(e.prototype,"asyncViewer",{get:function(){var e=this;return new Promise((function(t){e.execute((function(e){return t(e)}))}))},enumerable:!1,configurable:!0}),e.prototype.setViewer=function(e){this.viewer=e,this.stack.forEach((function(t){return t(e)})),this.stack=[]},e.prototype.execute=function(e){this.viewer||this.stack.push(e),this.viewer&&e(this.viewer)},e}();export{e as default};
+//# sourceMappingURL=ViewerPromise.js.map

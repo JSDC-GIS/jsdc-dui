@@ -4,12 +4,15 @@
 
 
 ## Installation
-JSDC RUI is **not** available as an npm package.
+Install via git repo.
 ```
-npm install https://github.com/60723005l/jsdc-RUI.git
+npm install https://github.com/60723005l/jsdc-dui.git
 
 // to install a tag version named 0.3.1
-npm install https://github.com/60723005l/jsdc-RUI.git#0.3.1
+npm install https://github.com/60723005l/jsdc-dui.git#0.3.1
+
+Install via npm
+npm i jsdc-dui
 ```
 
 ## Usage
