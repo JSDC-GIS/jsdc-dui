@@ -12,7 +12,11 @@ const extensions = ['.js', '.ts', '.jsx', '.tsx'];
 
 export default {
     input: [
-      ...getFiles('./src', extensions),
+      ...getFiles('./src/components', extensions),
+      ...getFiles('./src/icon', extensions),
+      ...getFiles('./src/JSDC', extensions),
+      ...getFiles('./src/style', extensions),
+      ...getFiles('./src/utils', extensions)
     ],
     output: {
         format: 'esm',

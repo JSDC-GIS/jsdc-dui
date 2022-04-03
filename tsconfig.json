@@ -14,5 +14,14 @@
     "declaration": true,
     "declarationDir": "types",
     "emitDeclarationOnly": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest"
+  ]
 }
