@@ -60,5 +60,8 @@ declare const _default: {
         qrcode: string;
         logo: string;
     };
+    others: {
+        processing: string;
+    };
 };
 export default _default;
