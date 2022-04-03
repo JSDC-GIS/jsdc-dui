@@ -8,6 +8,6 @@ declare class JSDC {
     Controller: Controller;
     constructor(id: string);
     get asyncViewer(): Promise<Leaflet.Map>;
-    createViewer(option?: Leaflet.MapOptions): Leaflet.Map;
+    createViewer(option?: Leaflet.MapOptions): Leaflet.Map | undefined;
 }
 export default JSDC;
