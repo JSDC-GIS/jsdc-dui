@@ -36,12 +36,15 @@ class JSDC
             center: [24.86471, 121.29002],
             zoom: 13
         })
-
-        this.viewer = new Map( this.id, _option)
-        this.viewer.zoomControl.setPosition('topright')
-        this.viewer.addControl(new location({ Jsdc: this } as any))
-        this.Controller.init(this.viewer)
-        this.viewerPromise.setViewer(this.viewer)
+        try {
+            this.viewer = new Map( this.id, _option)
+            this.viewer.zoomControl.setPosition('topright')
+            this.viewer.addControl(new location({ Jsdc: this } as any))
+            this.Controller.init(this.viewer)
+            this.viewerPromise.setViewer(this.viewer)
+        } catch (error) {
+            console.log('ignore Map initialize')
+        }
         return this.viewer
     }
 }

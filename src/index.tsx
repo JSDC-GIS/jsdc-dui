@@ -1,6 +1,5 @@
-import ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-
 import React, { useContext, useEffect, useState } from 'react';
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC';
@@ -118,14 +117,10 @@ const AppWrapper: React.FC = () => {
   )
 }
 
-export default AppWrapper;
 
-
-ReactDOM.render(
-  <React.StrictMode>
+ReactDOMClient.createRoot(document.getElementById('root') as Element)
+  .render(
     <AppWrapper />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  )
 
 reportWebVitals();
