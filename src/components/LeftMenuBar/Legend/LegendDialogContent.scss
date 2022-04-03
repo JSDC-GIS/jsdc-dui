@@ -1,0 +1,18 @@
+.rui-LegendDialogContent{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: inherit;
+
+  .legend-item {
+      padding: 20px;
+
+      .icon{
+          max-width: 50px;
+      }
+  }
+}

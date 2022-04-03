@@ -1,0 +1,40 @@
+@import '../../../style/index.scss';
+
+.rui-CreditDialogContent{
+  padding-right: 35px;
+    padding-left: 35px;
+    padding-bottom: 45px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: inherit;
+    min-width: inherit;
+    overflow: auto;
+    .title{
+        display: flex;
+        flex-direction: column;
+        color: var(--rui-primary);
+        align-items: center;
+        font-weight: bolder;
+        font-size: 15px;
+        margin: 15px 0px;
+    }
+    &-content{
+        text-align: justify;
+        text-justify:inter-ideograph;
+        .qr-code{
+            display: block;
+            margin-top: 20px;
+            width: 71.3px;
+            height: 71.3px;
+        }
+    }
+    .final{
+            flex: 1;
+            display: flex;
+            margin: 10px 0px;
+            white-space: pre-line;
+            align-items: flex-end;
+    }
+}

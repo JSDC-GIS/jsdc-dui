@@ -1,0 +1,52 @@
+@import '../../../style/index.scss';
+
+.rui-MenuItemWithDialog{
+  .list-item{
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    @include mobile{
+          border-bottom: 1px solid rgba(0, 0, 0, 0.151);
+          padding: 5px;
+          margin: 0px;
+    }
+    &:hover{
+        font-weight: bolder;
+    }
+    .icon{
+        height: 30px;
+        margin: 0px 5px;
+        @include mobile{
+            margin: 0px;
+            height: 25px;
+        }
+    }
+    .text{
+        margin-left: 12px;
+        @include mobile{
+            display: none;
+        }
+    }
+  }
+  .dialog-container{
+    pointer-events: none;
+    position: fixed;
+    z-index: 500;
+    height: calc( 100% - 170px );
+    min-width: 320px;
+    max-width: 320px;
+    top: 100px;
+    left: 230px;
+    @media all and (max-width: 480px) {
+        position: fixed;
+        z-index: 600;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90vw;
+        max-height: 90vh;
+    }
+  }
+}

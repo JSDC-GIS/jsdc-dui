@@ -1,0 +1,61 @@
+@import '../../../style/index.scss';
+
+.rui-MenuList{
+  display: flex;
+  flex-direction: column;
+  background: var(--rui-bg-primary);
+  height: 100vh;
+  min-width: 208px;
+  max-height: 100%;
+  @include mobile {
+      position: fixed;
+      height: auto;
+      z-index: 600;
+      box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.384);
+      min-width: auto;
+      max-height: auto;
+      border-radius: 5px;
+      margin: 10px;
+  }
+  .header-img{
+      margin-top: 20px;
+      background: #fff;
+      border-top: 0px solid #4ba549;
+      background-color: #0d7bab;
+      height: 80px;
+      background-image: var(--header-img);
+      background-size: cover;
+      background-position: center;
+      @media all and (max-width: 480px){
+          display: none;
+      }
+  }
+  .title{
+      display: flex;
+      flex-direction: column;
+      color: var(--rui-primary);
+      align-items: center;
+      font-weight: bolder;
+      font-size: 15px;
+      margin: 15px 0px;
+      @include mobile {
+          display: none;
+      }
+  }
+  .content{
+      flex: 1;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      @include mobile {
+          margin: 0px;
+      }
+      .end-content{
+          padding-top: 1rem;
+          @include mobile {
+            padding-top: 0px;
+        }
+      }
+  }
+}

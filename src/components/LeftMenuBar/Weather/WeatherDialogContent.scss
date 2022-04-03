@@ -1,0 +1,70 @@
+.rui-WeatherDialogContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    padding-top: 20px;
+    overflow: hidden;
+    .select{
+        margin: 10px 20px;
+        position: relative;
+        .selected{
+            background: #d86928;
+            color: white;
+            border: 0px;
+            padding: 5px;
+            display: flex;
+            cursor: pointer;
+            .pointer{
+                display: flex;
+                flex: 1;
+                justify-content: flex-end;
+            }
+        }
+        .option{
+            background: #fbe6cb;
+            color: black;
+            max-height: 200px;
+            overflow: auto;
+            position: absolute;
+            width: 100%;
+            transition: 0.3s all;
+            z-index: 2;
+            cursor: pointer;
+            &.hide{
+                max-height: 0px;
+                overflow: hidden;
+            }
+            .item{
+                padding: 10px 8px;
+                border-bottom: 1px solid #eddecb;
+
+            }
+        }
+    }
+    .weather-card-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        overflow: auto;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .scroll-tab{
+        flex-wrap: nowrap !important;
+        white-space: nowrap;
+        overflow-x: auto;
+        padding: 5px 0px;
+        position: absolute;
+        width: -webkit-fill-available;
+        z-index: 10;
+
+    }
+    .loading{
+        left: 50%;
+        position: relative;
+        transform: translate(-50%, 0px);
+    }
+}

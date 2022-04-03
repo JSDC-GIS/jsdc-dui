@@ -1,0 +1,50 @@
+.rui-Dialog{
+  position: fixed;
+  top: 500%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 300px;
+  min-width: 300px;
+  max-height: 90vh;
+  max-width: 90vw;
+  width: 400;
+  
+  flex-direction: column;
+  z-index: 1000;
+  transition: all 0.3s;
+  background: white;
+  border-radius: 8px;
+  border: rgb(221, 221, 221) solid 1px;
+  box-shadow: 3px 3px 14px 1px #0000004a;
+
+  &.open{
+    top: 50%;
+    display: flex;
+  }
+  
+  .rui-Dialog-header{
+    position: relative;
+    border-radius: 8px;
+    display: inline-flex;
+    justify-content: space-between;
+    .rui-Dialog-title{
+      padding: 5px 10px;
+    }
+    .close-btn{
+      padding: 5px;
+      cursor: pointer;
+      font-size: large;
+      margin-right: 10px;
+      &:hover{
+          font-weight: bolder;
+      }
+    }
+    &:after{
+      content: ' ';
+      border-bottom: 1px solid #00000029;
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+    }
+  }
+}

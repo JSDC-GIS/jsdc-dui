@@ -1,0 +1,22 @@
+.rui-LayerItem{
+  margin: 0px 5px;
+  display: inline-flex;
+  align-items: center;
+  &:hover{
+    background: #35495e38 ;
+  }
+
+  &-content{
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  &-opacity-config{
+    max-height: 0px;
+    transition: max-height 0.3s;
+    overflow: hidden;
+      &.open{
+        max-height: 50px;
+      }
+  }
+}

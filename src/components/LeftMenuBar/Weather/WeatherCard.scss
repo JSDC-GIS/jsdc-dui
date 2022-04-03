@@ -1,0 +1,40 @@
+.rui-WeatherCard{
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  box-shadow: 1px 2px 4px 1px rgb(0 0 0 / 40%);
+  border-radius: 3px;
+  transition: 0.3s all;
+  width: 250px;
+  // height: -webkit-fill-available;
+  // min-height: 200px;
+  &:hover{
+      background: #d4e9ffd9;
+      border: 1px solid #ffffff;
+  }
+  .time{
+    color: #00000094;
+    font-size: smaller;
+    padding: 0.5rem;
+  }
+  .description{
+    display: flex;
+    padding: 0.5rem;
+    font-size: xx-large;
+    flex-wrap: wrap;
+    p{
+      margin: 0px 5px;
+    }
+  }
+  .main-info{
+    display: flex;
+    justify-content: space-around;
+    .degree{
+      padding: 0.5rem;
+      font-size: xx-large;
+    }
+    img{
+      height: 100px;
+    }
+  }
+}

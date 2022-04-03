@@ -1,0 +1,42 @@
+@import '../../../style/index.scss';
+
+.rui-MenuDialog{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--rui-bg-primary);
+  border-radius: 10px;
+  padding: 10px;
+  pointer-events: auto;
+  overflow: hidden;
+  .header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .title{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .icon{
+              height: 30px;
+              margin: 0px 10px;
+          }
+          .text{
+              font-size: 20px;
+          }
+      }
+      .action{
+          display: flex;
+          justify-content: flex-end;
+          .close-btn{
+              cursor: pointer;
+              font-size: large;
+              margin-right: 20px;
+              &:hover{
+                  font-weight: bolder;
+              }
+          }
+      }
+  }
+}
