@@ -22,7 +22,7 @@ const MapViewContainer = ({
     "--header-mb-img": `url(${headerImgSrc})`
   })
   return (
-    <div className="rui-MapViewContainer" style={style}>
+    <div className="dui-MapViewContainer" style={style}>
       <div className="header-img-mb"></div>
       <div className="pd-space">
           <p className="credit">{credit}</p>

@@ -1,11 +1,11 @@
 @import '../../../style/index.scss';
 
-.rui-MenuDialog{
+.dui-MenuDialog{
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: var(--rui-bg-primary);
+  background: var(--dui-bg-primary);
   border-radius: 10px;
   padding: 10px;
   pointer-events: auto;

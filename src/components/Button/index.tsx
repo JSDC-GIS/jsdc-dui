@@ -12,7 +12,7 @@ const Button = (props: IButtonProps) => {
     className
   } = props
   return (
-    <button {...props} className={`${className} rui-button`}>{children}</button>
+    <button {...props} className={`${className} dui-button`}>{children}</button>
   )
 }
 

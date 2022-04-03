@@ -29,11 +29,11 @@ const LayerItem: React.FC<ILayerItemProps> = ({
     return openConfig && type === 'image'
   }
   return (
-    <div className="rui-LayerItem">
+    <div className="dui-LayerItem">
       <input type="checkbox" checked={show} onChange={e => onToggleShow(e.currentTarget.checked)}/>
-        <div className="rui-LayerItem-content">
+        <div className="dui-LayerItem-content">
             <span onClick={() => setopenConfig(!openConfig)}>{name}</span>
-            <div className={`rui-LayerItem-opacity-config ${canOpenConfig() && 'open'}`}>
+            <div className={`dui-LayerItem-opacity-config ${canOpenConfig() && 'open'}`}>
                 <span>透明度</span>
                 <input type="range" min="0" max="100" step="1" value={opacity} onInput={e => hangleOpacityChange(Number(e.currentTarget.value))} />
                 <span>{opacity}%</span>

@@ -13,7 +13,7 @@ export interface IWeatherCardProps {
 
 const WeatherCard = (props: IWeatherCardProps) => {
   return (
-    <div className='rui-WeatherCard'>
+    <div className='dui-WeatherCard'>
       <div className='time'>{props.title}</div>
       <div className='description'>
         <p>{props.description}</p>

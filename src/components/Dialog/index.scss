@@ -1,4 +1,4 @@
-.rui-Dialog{
+.dui-Dialog{
   position: fixed;
   top: 500%;
   left: 50%;
@@ -22,12 +22,12 @@
     display: flex;
   }
   
-  .rui-Dialog-header{
+  .dui-Dialog-header{
     position: relative;
     border-radius: 8px;
     display: inline-flex;
     justify-content: space-between;
-    .rui-Dialog-title{
+    .dui-Dialog-title{
       padding: 5px 10px;
     }
     .close-btn{

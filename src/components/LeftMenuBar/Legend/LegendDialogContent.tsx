@@ -11,7 +11,7 @@ const LegendDialogContent = ({
   activeLegends
 }: ILegendDialogContentProps) => {
   return (
-    <div className="rui-LegendDialogContent">
+    <div className="dui-LegendDialogContent">
       {
         map(icon.legend, (value, iconName: keyof typeof icon.legend) => (
           <div key={iconName} className="legend-item">

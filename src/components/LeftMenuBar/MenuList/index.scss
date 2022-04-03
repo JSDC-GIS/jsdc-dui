@@ -1,9 +1,9 @@
 @import '../../../style/index.scss';
 
-.rui-MenuList{
+.dui-MenuList{
   display: flex;
   flex-direction: column;
-  background: var(--rui-bg-primary);
+  background: var(--dui-bg-primary);
   height: 100vh;
   min-width: 208px;
   max-height: 100%;
@@ -33,7 +33,7 @@
   .title{
       display: flex;
       flex-direction: column;
-      color: var(--rui-primary);
+      color: var(--dui-primary);
       align-items: center;
       font-weight: bolder;
       font-size: 15px;

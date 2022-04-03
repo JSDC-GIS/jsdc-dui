@@ -15,7 +15,7 @@ const MenuDialog = ({
   onClose = () => null
 }: IMenuDialogProps) => {
   return (
-    <div className="rui-MenuDialog">
+    <div className="dui-MenuDialog">
         <div className="header">
             <div className="title">
                 <img className="icon" v-if="icon" src={imgSrc} alt='source not found'/>

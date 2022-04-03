@@ -3,14 +3,14 @@
 
 
 export const defaultStyle = {
-  '--rui-primary': 'rgb(0, 102, 255)',
-  '--rui-secondary': 'rgb(42, 125, 250)',
-  '--rui-accent': 'red',
-  '--rui-bg-primary': 'white',
-  '--rui-bg-secondary': 'rgb(42, 125, 250)',
-  '--rui-bg-accent': '#F1C385',
-  '--rui-text-primary': '#1f1f1f',
-  '--rui-text-gray': '#878787'
+  '--dui-primary': 'rgb(0, 102, 255)',
+  '--dui-secondary': 'rgb(42, 125, 250)',
+  '--dui-accent': 'red',
+  '--dui-bg-primary': 'white',
+  '--dui-bg-secondary': 'rgb(42, 125, 250)',
+  '--dui-bg-accent': '#F1C385',
+  '--dui-text-primary': '#1f1f1f',
+  '--dui-text-gray': '#878787'
 }
 
 export type StyleType = Partial<typeof defaultStyle & {

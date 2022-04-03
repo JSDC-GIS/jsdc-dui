@@ -24,7 +24,7 @@ const MenuList = ({
     "--header-mb-img": `url(${headerMBImg})`
   })
   return (
-    <div className="rui-MenuList" style={style}>
+    <div className="dui-MenuList" style={style}>
         <div className="header-img"></div>
         <div className="title">
             <div className="main">{title}</div><div className="sub">{subtitle}</div>

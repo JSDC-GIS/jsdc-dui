@@ -14,12 +14,12 @@ const Dialog: React.FC<IDialogProps> = ({
   children
 }) => {
   return (
-    <div className={`rui-Dialog ${open ? 'open' : ''}`}>
-      <div className="rui-Dialog-header">
-        <div className="rui-Dialog-title">{title}</div>
+    <div className={`dui-Dialog ${open ? 'open' : ''}`}>
+      <div className="dui-Dialog-header">
+        <div className="dui-Dialog-title">{title}</div>
         <div className="close-btn" onClick={() => onClose()}>✕</div>
       </div>
-      <div className="rui-Dialog-content">
+      <div className="dui-Dialog-content">
         {children}
       </div>
     </div>
