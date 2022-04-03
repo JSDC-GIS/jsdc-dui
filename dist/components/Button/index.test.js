@@ -1,0 +1,2 @@
+import{render as t}from"../../node_modules/@testing-library/react/dist/@testing-library/react.esm.js";import"../../node_modules/@testing-library/jest-dom/dist/extend-expect.js";import e from"react";import o from"./index.js";describe("button works fine",(function(){test("button child shows up",(function(){var r=t(e.createElement(o,null,"button")).getByText;expect(r("button")).toBeTruthy()}))}));
+//# sourceMappingURL=index.test.js.map

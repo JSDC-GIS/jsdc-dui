@@ -1,0 +1,2 @@
+import e from"react";var a=function(a){var t=a.open,l=a.title,r=a.onClose,i=a.children;return e.createElement("div",{className:"rui-Dialog ".concat(t?"open":"")},e.createElement("div",{className:"rui-Dialog-header"},e.createElement("div",{className:"rui-Dialog-title"},l),e.createElement("div",{className:"close-btn",onClick:function(){return r()}},"✕")),e.createElement("div",{className:"rui-Dialog-content"},i))};export{a as default};
+//# sourceMappingURL=index.js.map

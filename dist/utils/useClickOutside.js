@@ -1,0 +1,2 @@
+import{useEffect as t}from"react";var e=function(e,n){t((function(){var t=function(t){var o=null==e?void 0:e.current;o&&!o.contains(t.target)&&n(t)};return document.addEventListener("mousedown",t),document.addEventListener("touchstart",t),function(){document.removeEventListener("mousedown",t),document.removeEventListener("touchstart",t)}}),[e,n])};export{e as default};
+//# sourceMappingURL=useClickOutside.js.map

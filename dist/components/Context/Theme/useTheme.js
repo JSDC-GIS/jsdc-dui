@@ -1,0 +1,2 @@
+import{__assign as r}from"../../../node_modules/tslib/tslib.es6.js";var e={"--rui-primary":"rgb(0, 102, 255)","--rui-secondary":"rgb(42, 125, 250)","--rui-accent":"red","--rui-bg-primary":"white","--rui-bg-secondary":"rgb(42, 125, 250)","--rui-bg-accent":"#F1C385","--rui-text-primary":"#1f1f1f","--rui-text-gray":"#878787"},t=function(t){var i=r(r({},e),t);for(var a in i)document.documentElement.style.setProperty(a,i[a])};export{t as default,e as defaultStyle};
+//# sourceMappingURL=useTheme.js.map

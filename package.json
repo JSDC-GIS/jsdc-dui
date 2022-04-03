@@ -2,6 +2,10 @@
   "name": "jsdc-dui",
   "version": "0.1.0",
   "module": "dist",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/60723005l/jsdc-dui.git"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "rollup -c",
