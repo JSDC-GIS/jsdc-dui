@@ -23,7 +23,7 @@ export interface LayerApiRespBasemap extends LayerApiRespBase {
     url: "https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}";
 }
 export interface LayerApiRespItem {
-    Basemap: null | LayerApiRespBasemap;
+    Basemaps: null | LayerApiRespBasemap;
     LineFeatures: LayerApiRespLineFeature[];
     PointFeatures: LayerApiRespPointFeature[];
     PolygonFeatures: LayerApiRespPolygonFeature[];
