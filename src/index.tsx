@@ -101,14 +101,14 @@ function App() {
 }
 
 const AppWrapper: React.FC = () => {
-  const [Jsdc] = useState(new JSDC('s0002'))
+  const [Jsdc] = useState(new JSDC('aaaa'))
   return (
     <JSDCProvider Jsdc={Jsdc}>
       <DguidewalksProvider
         Jsdc={Jsdc}
-        activeBasemaps={['臺灣通用電子地圖(灰階)', '正射影像圖(通用)', '嘉南大圳平圖(1933)', '臺灣經建1版地形圖']}
         layersHiddenFromUI={['浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}
-        layersShowOnMapByDefault={['臺灣通用電子地圖(灰階)', '浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}>
+        layersShowOnMapByDefault={['臺灣通用正射影像', 'a234']}
+        baseApiUrl={'http://localhost:8444/api/'}>
         <DuiContextProvider {...duiConfigProps}>
           <App/>
         </DuiContextProvider>

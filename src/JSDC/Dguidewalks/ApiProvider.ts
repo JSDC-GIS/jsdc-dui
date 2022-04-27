@@ -32,7 +32,7 @@ export interface LayerApiRespBasemap extends LayerApiRespBase {
 }
 
 export interface LayerApiRespItem {
-  Basemap: null | LayerApiRespBasemap
+  Basemaps: null | LayerApiRespBasemap
   LineFeatures: LayerApiRespLineFeature[]
   PointFeatures: LayerApiRespPointFeature[]
   PolygonFeatures: LayerApiRespPolygonFeature[]
