@@ -18,6 +18,8 @@ export declare type LegendConfig = {
 export declare type DuiContextType = {
     sidebarTitle: string;
     sidebarSubtitle: string;
+    aboutWalkImgSrc: string;
+    aboutWalkContent: string;
     credit: string;
     headerMBImgSrc: string;
     headerDImgSrc: string;
@@ -28,8 +30,9 @@ export declare type DuiContextType = {
     };
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
+    onSceneTargetClick: (title: string) => void;
 };
-export declare const initialDuiContext: DuiContextType;
+export declare const initialDuiContext: {};
 declare const DuiContext: React.Context<DuiContextType>;
 declare type MenuItemType = {
     id: string;
@@ -38,6 +41,8 @@ declare type MenuItemType = {
 export interface IDuiContextProviderProps {
     sidebarTitle: string;
     sidebarSubtitle: string;
+    aboutWalkImgSrc: string;
+    aboutWalkContent: string;
     credit: string;
     headerMBImgSrc: string;
     headerDImgSrc: string;
@@ -45,6 +50,7 @@ export interface IDuiContextProviderProps {
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
     themeConfig?: StyleType;
+    onSceneTargetClick?: (title: string) => void;
 }
 declare const DuiContextProvider: React.FC<IDuiContextProviderProps>;
 export { DuiContextProvider, DuiContext };
