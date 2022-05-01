@@ -23,7 +23,7 @@ export interface LayerApiRespBasemap extends LayerApiRespBase {
     url: "https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}";
 }
 export interface LayerApiRespItem {
-    Basemaps: null | LayerApiRespBasemap;
+    Basemap: null | LayerApiRespBasemap;
     LineFeatures: LayerApiRespLineFeature[];
     PointFeatures: LayerApiRespPointFeature[];
     PolygonFeatures: LayerApiRespPolygonFeature[];
@@ -40,10 +40,11 @@ export interface ApiGetLayerResponse {
 export default class ApiProvider {
     readonly baseUrl: string;
     readonly eventId: string;
+    readonly cmsPath: string;
     constructor(configProvider: ConfigProvider);
     get layersApiUrl(): string;
     getLayers(): Promise<LayerApiRespItem[]>;
     get proxyApiUrl(): string;
-    getProxyQuery(targetUrl: string): Promise<string>;
+    getProxyQuery: (targetUrl: string) => Promise<string>;
 }
 export {};

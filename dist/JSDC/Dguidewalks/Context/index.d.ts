@@ -10,6 +10,7 @@ export interface IDguidewalksProviderProps {
     layersHiddenFromUI: Array<string>;
     layersShowOnMapByDefault: Array<string>;
     baseApiUrl?: string;
+    cmsPath?: string;
 }
 declare const DguidewalksProvider: React.FC<IDguidewalksProviderProps>;
 export { DguidewalksContext, DguidewalksProvider };
