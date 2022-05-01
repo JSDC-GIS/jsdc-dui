@@ -4,15 +4,26 @@ import Table, { ILeafletPopupTableProps } from './Table'
 import * as ReactDOMServer from 'react-dom/server';
 import Dguidewalks from '../../JSDC/Dguidewalks';
 
-export type BindPopupWithSceneCardOptions = {
-  dgw: Dguidewalks
-  title: string,
-  actionLabel?: string,
-  onActionClick: () => void
+export type BindPopupWithComponentOptions<P> = {
+  Component: (props: P) => JSX.Element,
+  props: P,
+  onLayerClick?: () => void
 }
 
-export const bindPopupWithSceneCard = (layer: Layer, { dgw, title, actionLabel, onActionClick }: BindPopupWithSceneCardOptions) => {
-  const initialContent = ReactDOMServer.renderToString(SceneCard({ actionLabel }))
+export function bindPopupWithComponent<P> (layer: Layer, { Component, props, onLayerClick }: BindPopupWithComponentOptions<P>) {
+  layer.bindPopup(ReactDOMServer.renderToString(Component(props)))
+  onLayerClick && layer.on('click', async () => {
+    onLayerClick()
+  })
+}
+
+export type BindPopupWithSceneCardOptions = {
+  dgw: Dguidewalks
+  title: string
+}
+
+export const bindPopupWithSceneCard = (layer: Layer, { dgw, title }: BindPopupWithSceneCardOptions) => {
+  const initialContent = ReactDOMServer.renderToString(SceneCard({}))
   layer.bindPopup(initialContent)
   layer.on('click', async () => {
   const sceneData = await dgw.getSceneDetailArticleByTitle(title)
@@ -23,11 +34,7 @@ export const bindPopupWithSceneCard = (layer: Layer, { dgw, title, actionLabel, 
       mainTextContent: sceneData.content,
       credit: sceneData.ref
     }
-    const content = ReactDOMServer.renderToString(SceneCard({ ...props, actionLabel }))
-    layer.bindPopup(content)
-
-    const button = document.getElementById('打卡集章')
-    button?.addEventListener('click', onActionClick)
+    bindPopupWithComponent(layer, { Component: SceneCard, props  })
   })
 }
 

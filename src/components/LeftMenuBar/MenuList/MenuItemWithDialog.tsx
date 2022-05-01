@@ -34,7 +34,7 @@ const MenuItemWithDialog = ({
     <div className='dui-MenuItemWithDialog'>
       <div className="list-item" onClick={() => handleClick()}>
           {/* {Icon && <img className="icon"  alt='source not found' src={active ? startIconSrcActive : startIconSrc} />} */}
-          <Icon active={active}/>
+          <span className="icon"><Icon active={active}/></span>
           <div className="text">{title}</div>
       </div>
       {/* <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><MenuDialog imgSrc={startIconSrcActive} title={title} onClose={handleClose}>{children}</MenuDialog></div> */}

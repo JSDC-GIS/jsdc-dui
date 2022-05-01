@@ -8,8 +8,6 @@ export interface ISceneCardProps {
   imgSrc: string
   mainTextContent: string
   credit: string
-  actionLabel: string
-  onAction?: () => void
 }
 
 const SceneCard = ({
@@ -18,16 +16,12 @@ const SceneCard = ({
   imgSrc = icon.others.processing,
   mainTextContent = '...',
   credit = '　:　',
-  actionLabel
 }: Partial<ISceneCardProps>) => {
   
   return (
     <div className='dui-SceneCard'>
       <div className="dui-SceneCard-Kanban">
         <img src={imgSrc}/>
-      </div>
-      <div className="dui-SceneCard-action">
-        {actionLabel && <button id={actionLabel}>{actionLabel}</button>}
       </div>
       <div className="dui-SceneCard-artical">
         <div className="header">

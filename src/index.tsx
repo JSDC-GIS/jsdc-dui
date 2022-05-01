@@ -9,11 +9,12 @@ import { IDuiContextProviderProps, DuiContext, DuiContextProvider } from './comp
 import DguideWalksApp from './components/DguideWalksApp';
 import Dialog from './components/Dialog';
 import MenuItemWithDialog from './components/LeftMenuBar/MenuList/MenuItemWithDialog';
-import icon, { baseUrl } from './icon';
+import { baseUrl } from './icon';
 import './style/index.css'
 import { DguidewalksContext, DguidewalksProvider } from './JSDC/Dguidewalks/Context';
-import { bindPopupWithSceneCard } from './components/LeafletPopup';
-import Info from './components/Icons/Info';
+import LeafletPopup, { bindPopupWithSceneCard, bindPopupWithComponent } from './components/LeafletPopup';
+import Checkin from './components/Icons/Checkin';
+import * as ReactDOMServer from 'react-dom/server';
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -79,16 +80,36 @@ function App() {
           const handleActionClick = () => {
             console.log(properties.name)
           }
+          const handleFetchArticle = async () => {
+            const actionLabel = '打卡集章'
+            const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name)
+            const props = {
+              title: sceneData.title,
+              subtitle: sceneData.subtitle,
+              imgSrc: sceneData.imgSrc,
+              mainTextContent: sceneData.content,
+              credit: sceneData.ref
+            }
+            const content = ReactDOMServer.renderToString(LeafletPopup.SceneCard({ ...props }))
+            layer.bindPopup(content)
+        
+            const button = document.getElementById(actionLabel)
+            button?.addEventListener('click', handleActionClick)
+          }
           bindPopupWithSceneCard(layer, {
             dgw,
-            title: properties.name,
-            actionLabel: '打卡集章',
-            onActionClick: handleActionClick
+            title: properties.name
           })
 
           // bindPopupWithTable(layer, {
           //   name: properties.name,
           //   value: properties
+          // })
+
+          // bindPopupWithComponent(layer, {
+          //   Component: LeafletPopup.SceneCard,
+          //   props: {},
+          //   onLayerClick: handleFetchArticle
           // })
         })
 
@@ -103,7 +124,7 @@ function App() {
           <DguideWalksApp
             mainMenuChildren={
               <MenuItemWithDialog
-                Icon={Info}
+                Icon={Checkin}
                 title='景點打卡'
                 active={dui.activeMenuId === '景點打卡'} {...dui.menuSwitcherAction('景點打卡')}>
                   <div>打卡</div>
