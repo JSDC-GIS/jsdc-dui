@@ -2,14 +2,15 @@ import MenuItemWithDialog, { IMenuItemWithDialogProps } from '../..//LeftMenuBar
 import icon from '../../../icon'
 import React from 'react'
 import LayerDialogContent, { ILayerDialogContentProps } from './LayerDialogContent'
+import Layer from '../../Icons/Layer'
 
-export interface ILayerMenuItemProps extends Omit<IMenuItemWithDialogProps, 'title' | 'startIconSrc' | 'startIconSrcActive' | 'children'>, ILayerDialogContentProps {
+export interface ILayerMenuItemProps extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>, ILayerDialogContentProps {
 
 }
 
 const LayerMenuItem = (props: ILayerMenuItemProps) => {
   return (
-    <MenuItemWithDialog {...props} title='地圖圖層' startIconSrc={icon.activable.layer} startIconSrcActive={icon.activable.layerActive}>
+    <MenuItemWithDialog {...props} title='地圖圖層' Icon={Layer}>
       <LayerDialogContent {...props}/>
     </MenuItemWithDialog>
   )

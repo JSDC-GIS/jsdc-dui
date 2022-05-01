@@ -87,7 +87,7 @@ const WeatherDialogContent = ({
   }, [])
   return (
     <div className="dui-WeatherDialogContent">
-        <div className="select" ref={selectElem}>
+        <div className="select" ref={selectElem} onMouseLeave={() => setshowOption(false)}>
             <span className="selected" onClick={() => setshowOption(!showOption)}>{activeLocation.fullName}
                 <div className="pointer">▼</div>
             </span>

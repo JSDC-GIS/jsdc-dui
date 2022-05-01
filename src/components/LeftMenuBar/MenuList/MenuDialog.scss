@@ -15,14 +15,21 @@
       align-items: center;
       justify-content: space-between;
       .title{
+          color: black;
+          opacity: 1;
           display: flex;
           flex-direction: row;
           align-items: center;
           .icon{
-              height: 30px;
+              display: flex;
               margin: 0px 10px;
+              & > *{
+                  height: 32px;
+                  width: auto;
+              }
           }
           .text{
+              opacity: 0.7;
               font-size: 20px;
           }
       }

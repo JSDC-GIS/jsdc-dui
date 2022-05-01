@@ -7,12 +7,7 @@ export type DguidewalksContextType = {
   dgw: Dguidewalks
 }
 
-const InitialDguidewalksContext = {
-  // dgw: new Dguidewalks({
-  //   config: new ConfigProvider({ eventId: 'initialId' }),
-  //   basemap: new BasemapProvider([])
-  // })
-}
+const InitialDguidewalksContext = {}
 
 const DguidewalksContext = createContext<DguidewalksContextType>(InitialDguidewalksContext as DguidewalksContextType)
 
@@ -21,6 +16,7 @@ export interface IDguidewalksProviderProps {
   layersHiddenFromUI: Array<string>,
   layersShowOnMapByDefault: Array<string>
   baseApiUrl?: string
+  cmsPath?: string
 }
 
 const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
@@ -28,10 +24,11 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   Jsdc,
   layersHiddenFromUI,
   layersShowOnMapByDefault,
-  baseApiUrl
+  baseApiUrl,
+  cmsPath
 }) => {
   const [dgw] = useState(new Dguidewalks({
-    config: new ConfigProvider({ eventId: Jsdc.id, baseApiUrl })
+    config: new ConfigProvider({ eventId: Jsdc.id, baseApiUrl, cmsPath }),
   }))
   const init = async () => {
     const layerController = Jsdc.Controller.get('Layer')

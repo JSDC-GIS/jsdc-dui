@@ -3,7 +3,7 @@
 
 
 export const defaultStyle = {
-  '--dui-primary': 'rgb(0, 102, 255)',
+  '--dui-primary': '#F1C385',
   '--dui-secondary': 'rgb(42, 125, 250)',
   '--dui-accent': 'red',
   '--dui-bg-primary': 'white',

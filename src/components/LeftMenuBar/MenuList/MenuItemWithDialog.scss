@@ -16,11 +16,16 @@
         font-weight: bolder;
     }
     .icon{
-        height: 30px;
+        // height: 30px;
         margin: 0px 5px;
+        display: flex;
+        & > * {
+          width: 32px;
+          height: auto;
+        }
         @include mobile{
             margin: 0px;
-            height: 25px;
+            // height: 25px;
         }
     }
     .text{

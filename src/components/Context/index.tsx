@@ -12,12 +12,20 @@ export const defaultMenuItems = [
     name: '地圖圖層'
   },
   {
+    id: '景點介紹',
+    name: '景點介紹'
+  },
+  {
     id: '氣象預測',
     name: '氣象預測'
   },
   {
     id: '圖例說明',
     name: '圖例說明'
+  },
+  {
+    id: '路線介紹',
+    name: '路線介紹'
   },
   {
     id: '關於圖台',
@@ -39,6 +47,8 @@ export type LegendConfig = {
 export type DuiContextType = {
   sidebarTitle: string
   sidebarSubtitle: string
+  aboutWalkImgSrc: string
+  aboutWalkContent: string
   credit: string
   headerMBImgSrc: string
   headerDImgSrc: string
@@ -49,24 +59,12 @@ export type DuiContextType = {
   },
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
+  onSceneTargetClick: (title: string) => void
 }
 
-export const initialDuiContext: DuiContextType = {
-  sidebarTitle: '',
-  sidebarSubtitle: '',
-  credit: '本平臺由智紳數位文化事業有限公司建置。若有其他利用或授權需求請洽【智紳數位文化事業】Facebook粉絲專頁。',
-  headerMBImgSrc: '',
-  headerDImgSrc: '',
-  activeMenuId: undefined,
-  menuSwitcherAction: () => ({
-    onClick: () => null,
-    onClose: () => null
-  }),
-  weatherConfig: { token: undefined, locations: [] },
-  legendConfig: { activeLegends: [] }
-}
+export const initialDuiContext = {}
 
-const DuiContext = createContext<DuiContextType>(initialDuiContext)
+const DuiContext = createContext<DuiContextType>(initialDuiContext as DuiContextType)
 
 type MenuItemType = {
   id: string,
@@ -76,6 +74,8 @@ type MenuItemType = {
 export interface IDuiContextProviderProps {
   sidebarTitle: string
   sidebarSubtitle: string
+  aboutWalkImgSrc: string
+  aboutWalkContent: string
   credit: string
   headerMBImgSrc: string
   headerDImgSrc: string
@@ -83,11 +83,14 @@ export interface IDuiContextProviderProps {
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   themeConfig?: StyleType
+  onSceneTargetClick?: (title: string) => void
 }
 
 const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   sidebarTitle,
   sidebarSubtitle,
+  aboutWalkImgSrc,
+  aboutWalkContent,
   credit,
   headerMBImgSrc,
   headerDImgSrc,
@@ -95,7 +98,8 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   weatherConfig,
   legendConfig,
   menuSwitchItems,
-  themeConfig = defaultStyle
+  themeConfig = defaultStyle,
+  onSceneTargetClick = () => null
 }) => {
   useTheme(themeConfig)
   const { switchById, activeId } = useSwitch<MenuItemType>([...defaultMenuItems, ...menuSwitchItems])
@@ -109,13 +113,16 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   const value = {
     sidebarTitle,
     sidebarSubtitle,
+    aboutWalkImgSrc,
+    aboutWalkContent,
     credit,
     headerMBImgSrc,
     headerDImgSrc,
     activeMenuId: activeId,
     menuSwitcherAction,
     weatherConfig,
-    legendConfig
+    legendConfig,
+    onSceneTargetClick
   }
   return (
     <DuiContext.Provider value={value}>

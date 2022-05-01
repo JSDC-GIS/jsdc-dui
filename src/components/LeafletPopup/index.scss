@@ -1,0 +1,101 @@
+.dui-LeafletPopupTable{
+  &-name{
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+  }
+
+  &-body{
+    .row{
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      align-items: center;
+      height: min-content;
+      padding: 0px 5px;
+      border-bottom: 1px solid #80808024;
+      p{
+        margin: 5px 0;
+      }
+    }
+  }
+}
+
+
+.dui-SceneCard{
+  min-width: 200px;
+  min-height: 300px;
+  transition: 0.3s all;
+  &-Kanban{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: -20px;
+    margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    img{
+    }
+  }
+
+  &-action{
+    $height: 20px;
+    min-height: $height;
+    display: flex;
+    justify-content: center;
+    margin-top: calc($height / 2);
+
+    button{
+      cursor: pointer;
+      background-color: var(--dui-primary);
+      border: 0;
+      border-radius: 3px;
+      padding: 5px 10px;
+      color: white;
+    }
+  }
+
+  &-artical{
+    .header{
+      margin: 15px 0px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      .title{
+        font-size: large;
+        font-weight: bold;
+        margin: 0;
+      }
+      .subtitle{
+        opacity: 0.7;
+        font-size: xx-small;
+        margin: 0;
+      }
+    }
+
+    .content{
+      line-height: 25px;
+      font-size: small;
+      max-height: 250px;
+      overflow: auto;
+      min-width: 100px;
+      min-height: 100px;
+      &::first-letter{
+        color: var(--dui-primary);
+        font-size: large;
+      }
+    }
+    .SceneCard-credit{
+      margin-top: 15px;
+      display: flex;
+      justify-content: flex-end;
+      span{
+        border-radius: 500px;
+        padding: 3px 10px;
+        background-color: gray;
+        color: white;
+        font-size: smaller;
+      }
+    }
+  }
+}

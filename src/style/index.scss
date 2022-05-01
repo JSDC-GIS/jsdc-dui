@@ -1,3 +1,23 @@
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dui-bg-accent);
+}
+
+::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+.dui-MapViewContainer .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--dui-bg-primary);
+}
+
+
+.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button{
+  text-shadow: 0 0 1px black;
+}
 
 @mixin mobile {
   @media all and (max-width: 480px) {

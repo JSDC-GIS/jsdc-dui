@@ -8,6 +8,8 @@ import React, { useContext } from 'react'
 import { DuiContext } from '../Context'
 import { JSDCContext } from '../../JSDC/Context'
 import { latLng } from 'leaflet'
+import SceneMenuItem from '../LeftMenuBar/Scene/SceneMenuItem'
+import AboutWalkMenuItem from '../LeftMenuBar/AboutWalk/AboutWalkMenuItem'
 
 export interface IDguideWalksAppProps {
   mainMenuChildren?: React.ReactNode
@@ -31,6 +33,12 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
           headerImg={dui.headerDImgSrc} headerMBImg={dui.headerMBImgSrc}
           endChildren={
             <>
+              <AboutWalkMenuItem
+                imgSrc={dui.aboutWalkImgSrc}
+                title={dui.sidebarTitle}
+                subtitle={dui.sidebarSubtitle}
+                content={dui.aboutWalkContent}
+                active={dui.activeMenuId === '路線介紹'} {...dui.menuSwitcherAction('路線介紹')}/>
               <CreditMenuItem
                 active={dui.activeMenuId === '關於圖台'} {...dui.menuSwitcherAction('關於圖台')}
                 description={dui.credit}/>
@@ -48,6 +56,9 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
               onToggleShow={(id, show) => Jsdc.Controller.get('Layer').getById(id).show = show}
               onOpacityChange={(id, opacity) => Jsdc.Controller.get('Layer').getById(id).setOpacity( Number( 1 - ( opacity/ 100 ) ) )}
               active={dui.activeMenuId === '地圖圖層'} {...dui.menuSwitcherAction('地圖圖層')}/>
+            <SceneMenuItem
+              onTarget={dui.onSceneTargetClick}
+              active={dui.activeMenuId === '景點介紹'} {...dui.menuSwitcherAction('景點介紹')}/>
             {
               dui.weatherConfig.disabled || (
                 <WeatherMenuItem active={dui.activeMenuId === '氣象預測'} {...dui.menuSwitcherAction('氣象預測')}
@@ -57,11 +68,9 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
               )
             }
             {
-              dui.legendConfig.disabled || (
-                <LegendMenuItem
-                  active={dui.activeMenuId === '圖例說明'} {...dui.menuSwitcherAction('圖例說明')}
-                  activeLegends={dui.legendConfig.activeLegends}/>
-              )
+              <LegendMenuItem
+                active={dui.activeMenuId === '圖例說明'} {...dui.menuSwitcherAction('圖例說明')}
+                activeLegends={dui.legendConfig.activeLegends}/>
             }
             {mainMenuChildren}
           </>
