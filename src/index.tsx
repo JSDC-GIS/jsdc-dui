@@ -14,7 +14,7 @@ import './style/index.css'
 import { DguidewalksContext, DguidewalksProvider } from './JSDC/Dguidewalks/Context';
 import LeafletPopup, { bindPopupWithSceneCard, bindPopupWithComponent } from './components/LeafletPopup';
 import Checkin from './components/Icons/Checkin';
-import * as ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -91,13 +91,13 @@ function App() {
               mainTextContent: sceneData.content,
               credit: sceneData.ref
             }
-            const content = ReactDOMServer.renderToString(LeafletPopup.SceneCard({ ...props }))
+            const content = renderToString(LeafletPopup.SceneCard({ ...props }))
             layer.bindPopup(content)
         
             const button = document.getElementById(actionLabel)
             button?.addEventListener('click', handleActionClick)
           }
-          bindPopupWithSceneCard(layer, {
+          bindPopupWithSceneCard(layer, renderToString, {
             dgw,
             title: properties.name
           })

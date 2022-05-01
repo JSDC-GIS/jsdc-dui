@@ -1,7 +1,7 @@
 import { Layer } from 'leaflet'
 import SceneCard from './SceneCard'
 import Table, { ILeafletPopupTableProps } from './Table'
-import * as ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import Dguidewalks from '../../JSDC/Dguidewalks';
 
 export type BindPopupWithComponentOptions<P> = {
@@ -10,8 +10,8 @@ export type BindPopupWithComponentOptions<P> = {
   onLayerClick?: () => void
 }
 
-export function bindPopupWithComponent<P> (layer: Layer, { Component, props, onLayerClick }: BindPopupWithComponentOptions<P>) {
-  layer.bindPopup(ReactDOMServer.renderToString(Component(props)))
+export function bindPopupWithComponent<P> (layer: Layer, stringRenderer: typeof renderToString, { Component, props, onLayerClick }: BindPopupWithComponentOptions<P>) {
+  layer.bindPopup(stringRenderer(Component(props)))
   onLayerClick && layer.on('click', async () => {
     onLayerClick()
   })
@@ -22,8 +22,8 @@ export type BindPopupWithSceneCardOptions = {
   title: string
 }
 
-export const bindPopupWithSceneCard = (layer: Layer, { dgw, title }: BindPopupWithSceneCardOptions) => {
-  const initialContent = ReactDOMServer.renderToString(SceneCard({}))
+export const bindPopupWithSceneCard = (layer: Layer, stringRenderer: typeof renderToString, { dgw, title }: BindPopupWithSceneCardOptions) => {
+  const initialContent = stringRenderer(SceneCard({}))
   layer.bindPopup(initialContent)
   layer.on('click', async () => {
   const sceneData = await dgw.getSceneDetailArticleByTitle(title)
@@ -34,12 +34,12 @@ export const bindPopupWithSceneCard = (layer: Layer, { dgw, title }: BindPopupWi
       mainTextContent: sceneData.content,
       credit: sceneData.ref
     }
-    bindPopupWithComponent(layer, { Component: SceneCard, props  })
+    bindPopupWithComponent(layer, stringRenderer,{ Component: SceneCard, props  })
   })
 }
 
-export const bindPopupWithTable = (layer: Layer, options: ILeafletPopupTableProps) => {
-  layer.bindPopup(ReactDOMServer.renderToString(Table(options)))
+export const bindPopupWithTable = (layer: Layer, stringRenderer: typeof renderToString, options: ILeafletPopupTableProps) => {
+  layer.bindPopup(stringRenderer(Table(options)))
 }
 
 const LeafletPopup= {
