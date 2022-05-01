@@ -32,7 +32,7 @@ export interface LayerApiRespBasemap extends LayerApiRespBase {
 }
 
 export interface LayerApiRespItem {
-  Basemaps: null | LayerApiRespBasemap
+  Basemap: null | LayerApiRespBasemap
   LineFeatures: LayerApiRespLineFeature[]
   PointFeatures: LayerApiRespPointFeature[]
   PolygonFeatures: LayerApiRespPolygonFeature[]
@@ -50,9 +50,11 @@ export interface ApiGetLayerResponse {}
 export default class ApiProvider {
   readonly baseUrl: string
   readonly eventId: string
+  readonly cmsPath: string
   constructor (configProvider: ConfigProvider) {
     this.baseUrl = configProvider.baseApiUrl
     this.eventId = configProvider.eventId
+    this.cmsPath = configProvider.cmsPath || ''
   }
 
   get layersApiUrl () {
@@ -69,7 +71,7 @@ export default class ApiProvider {
     return `${this.baseUrl}jsdc-proxy/`
   }
 
-  async getProxyQuery (targetUrl: string) {
+  getProxyQuery = async (targetUrl: string) => {
     const url = this.proxyApiUrl
     const resp = await fetch(`${url}?proxy=${targetUrl}`)
     return await resp.text() as string
