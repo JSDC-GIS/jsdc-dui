@@ -1,12 +1,9 @@
 import React from 'react'
-import { IActiveableProps } from './types'
-
-const inactiveColor = 'rgb(185, 193, 200)'
-const activeColor = '#474645'
-const activeAccentColor = 'var(--dui-primary)'
+import { IActivableProps } from './types'
+import { inactiveColor, activeColor, activeAccentColor } from './common/ActivableColor'
 
 
-const Hamburger = ({ active }: IActiveableProps) => {
+const Hamburger = ({ active }: IActivableProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 32 32" width="32">
       <rect style={{ fill: active ? activeAccentColor : inactiveColor }}  height="4.676" rx="1" width="6.588" x=".8" y="5.03" />

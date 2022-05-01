@@ -1,5 +1,5 @@
 import React from 'react'
-import { IActiveableProps } from '../../Icons/types'
+import { IActivableProps } from '../../Icons/types'
 import MenuDialog from './MenuDialog'
 import './MenuItemWithDialog.scss'
 
@@ -7,7 +7,7 @@ export interface IMenuItemWithDialogProps {
   onClick?: () => void
   onActiveChange?: (val?: boolean) => void
   onClose?: () => void
-  Icon: ({ active }: IActiveableProps) => JSX.Element
+  Icon: ({ active }: IActivableProps) => JSX.Element
   title: string
   children: React.ReactNode
   active?: boolean

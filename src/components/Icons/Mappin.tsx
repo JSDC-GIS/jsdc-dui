@@ -1,12 +1,9 @@
 import React from 'react'
-import { IActiveableProps } from './types'
-
-const inactiveColor = 'rgb(185, 193, 200)'
-const activeColor = '#474645'
-const activeAccentColor = 'var(--dui-primary)'
+import { IActivableProps } from './types'
+import { inactiveColor, activeColor, activeAccentColor } from './common/ActivableColor'
 
 
-const Mappin = ({ active }: IActiveableProps) => {
+const Mappin = ({ active }: IActivableProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 32 32" width="32">
       <g fillRule="evenodd" transform="translate(122.211 -377.572)">

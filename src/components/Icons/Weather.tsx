@@ -1,11 +1,8 @@
 import React from 'react'
-import { IActiveableProps } from './types'
+import { IActivableProps } from './types'
+import { inactiveColor, activeColor, activeAccentColor } from './common/ActivableColor'
 
-const inactiveColor = 'rgb(185, 193, 200)'
-const activeColor = '#474645'
-const activeAccentColor = 'var(--dui-primary)'
-
-const Weather = ({ active }: IActiveableProps) => {
+const Weather = ({ active }: IActivableProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 0 32 32" width="32">
       <clipPath id="a">

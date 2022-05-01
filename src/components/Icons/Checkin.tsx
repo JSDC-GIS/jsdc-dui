@@ -1,12 +1,9 @@
 import React from 'react'
-import { IActiveableProps } from './types'
-
-const inactiveColor = 'rgb(185, 193, 200)'
-const activeColor = '#474645'
-const activeAccentColor = 'var(--dui-primary)'
+import { IActivableProps } from './types'
+import { inactiveColor, activeColor, activeAccentColor } from './common/ActivableColor'
 
 
-const Checkin = ({ active }: IActiveableProps) => {
+const Checkin = ({ active }: IActivableProps) => {
   return (
     <svg id="event-ok" xmlns="http://www.w3.org/2000/svg" width="66" height="66" viewBox="0 0 66 66">
       <defs>

@@ -1,4 +1,4 @@
 
-export interface IActiveableProps {
+export interface IActivableProps {
   active: boolean
 }

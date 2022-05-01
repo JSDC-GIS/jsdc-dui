@@ -15,7 +15,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      background-color: var(--dui-bg-accent);
+      background-color: var(--dui-secondary);
       opacity: 0.2;
     }
   }
@@ -66,7 +66,7 @@
     justify-content: space-between;
 
     .more{
-      background-color: var(--dui-primary);
+      background-color: var(--dui-secondary);
       border-radius: 10px;
       padding: 1px 7px;
       text-decoration: unset;

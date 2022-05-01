@@ -36,7 +36,8 @@ const duiConfigProps: IDuiContextProviderProps = {
     activeLegends: ['歷史建物', '聚落', '紀念指標']
   },
   themeConfig: {
-    '--dui-primary': '#ab3916'
+    '--dui-primary': '#ab3916',
+    '--dui-secondary': '#F1C385'
   }
 }
 

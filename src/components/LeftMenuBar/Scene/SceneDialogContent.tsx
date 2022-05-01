@@ -37,7 +37,7 @@ const SceneDialogContent = ({
             <div className="dui-SceneDialogContent-content">
               <div className="content-header">
                 <div className="header-title">{article.title}</div>
-                <div className="header-action" onClick={() => onTarget(article.title)}><Target /></div>
+                <div className="header-action" onClick={() => onTarget(article.title)}><Target color={'var(--dui-secondary)'}/></div>
               </div>
               <div className="dui-SceneDialogContent-mainText">{article.content}</div>
               <div className="dui-SceneDialogContent-footer">

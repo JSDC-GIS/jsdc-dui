@@ -1,9 +1,9 @@
 import React from 'react'
-import { IActiveableProps } from '../../Icons/types'
+import { IActivableProps } from '../../Icons/types'
 import './MenuDialog.scss'
 
 export interface IMenuDialogProps {
-  Icon: ({ active }: IActiveableProps) => JSX.Element
+  Icon: ({ active }: IActivableProps) => JSX.Element
   title: string
   children: React.ReactNode
   onClose: () => void
