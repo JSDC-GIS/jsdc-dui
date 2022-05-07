@@ -43,13 +43,15 @@
               cursor: pointer;
               font-size: large;
               margin-right: 20px;
-              border: 1px solid;
-              border-radius: 50%;
-              width: 25px;
-              height: 25px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
+              @include mobile{
+                border: 1px solid;
+                border-radius: 50%;
+                width: 25px;
+                height: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
               &:hover{
                   font-weight: bolder;
               }
