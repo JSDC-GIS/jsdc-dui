@@ -1,11 +1,11 @@
 .dui-LegendDialogContent{
+  overflow: auto;
+  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
   align-items: center;
   padding: 15px;
-  overflow-y: auto;
-  overflow-x: hidden;
   height: inherit;
 
   .legend-item {

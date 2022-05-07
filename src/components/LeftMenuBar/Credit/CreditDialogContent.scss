@@ -1,13 +1,12 @@
 @import '../../../style/index.scss';
 
 .dui-CreditDialogContent{
-  padding-right: 35px;
-    padding-left: 35px;
+    margin: 0px 35px;
     padding-bottom: 45px;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    flex: 1;
     max-width: inherit;
     min-width: inherit;
     overflow: auto;

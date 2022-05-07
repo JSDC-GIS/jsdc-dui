@@ -10,16 +10,19 @@ import ArticleProxyParser from "./proxyParser"
 
 export type DguidewalksOptions = {
   config: ConfigProvider,
+  layerNameOrder?: string[]
 }
 
 export default class Dguidewalks {
   config: ConfigProvider
   api: ApiProvider
+  layerNameOrder: string[]
   gisDataLoadEvent = new Event()
   articleProxyParser : ArticleProxyParser
   constructor (options: DguidewalksOptions) {
     this.config = options.config
     this.api = new ApiProvider(this.config)
+    this.layerNameOrder = options.layerNameOrder || []
     this.articleProxyParser = new ArticleProxyParser({
       proxyFetcher: this.api.getProxyQuery,
       cmsPath: this.api.cmsPath
@@ -67,7 +70,7 @@ export default class Dguidewalks {
     return await this.articleProxyParser.getAll()
   }
 
-  async getSceneDetailArticleByTitle (title: string) {
-    return await this.articleProxyParser.getDetailByTitle(title)
+  async getSceneDetailArticleByTitle (title: string, fallbackUrl?: string | null) {
+    return await this.articleProxyParser.getDetailByTitle(title, fallbackUrl)
   }
 }

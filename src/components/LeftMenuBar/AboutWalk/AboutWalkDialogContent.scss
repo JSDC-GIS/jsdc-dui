@@ -1,9 +1,9 @@
 @import '../../../style/index.scss';
 
 .dui-AboutWalkDialogContent{
-  height: 100%;
+  flex: 1;
   overflow: hidden;
-  padding: 0px 20px;
+  margin: 0px 20px;
   display: flex;
   flex-direction: column;
 

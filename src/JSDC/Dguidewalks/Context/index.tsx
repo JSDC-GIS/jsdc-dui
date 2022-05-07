@@ -15,6 +15,7 @@ export interface IDguidewalksProviderProps {
   Jsdc: JSDC,
   layersHiddenFromUI: Array<string>,
   layersShowOnMapByDefault: Array<string>
+  layerNameOrder?: Array<string>
   baseApiUrl?: string
   cmsPath?: string
 }
@@ -24,12 +25,15 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   Jsdc,
   layersHiddenFromUI,
   layersShowOnMapByDefault,
+  layerNameOrder = [],
   baseApiUrl,
   cmsPath
 }) => {
   const [dgw] = useState(new Dguidewalks({
     config: new ConfigProvider({ eventId: Jsdc.id, baseApiUrl, cmsPath }),
+    layerNameOrder
   }))
+
   const init = async () => {
     const layerController = Jsdc.Controller.get('Layer')
     const jsdcLayers = await dgw.loadGisData()

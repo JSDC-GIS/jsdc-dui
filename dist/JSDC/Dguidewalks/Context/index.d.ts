@@ -9,6 +9,7 @@ export interface IDguidewalksProviderProps {
     Jsdc: JSDC;
     layersHiddenFromUI: Array<string>;
     layersShowOnMapByDefault: Array<string>;
+    layerNameOrder?: Array<string>;
     baseApiUrl?: string;
     cmsPath?: string;
 }

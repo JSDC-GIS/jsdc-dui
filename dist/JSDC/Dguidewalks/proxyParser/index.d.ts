@@ -15,7 +15,7 @@ declare class ArticleProxyParser {
         cmsPath: string;
     });
     get url(): string;
-    getDetailByTitle(title: string): Promise<DetailArticleType>;
+    getDetailByTitle(title: string, fallbackUrl?: string | null): Promise<DetailArticleType>;
     getAll(refresh?: boolean): Promise<DetailArticleInCompleteType[]>;
 }
 export default ArticleProxyParser;

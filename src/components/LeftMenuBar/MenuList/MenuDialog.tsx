@@ -24,7 +24,7 @@ const MenuDialog = ({
                 <div className="text">{title}</div>
             </div>
             <div className="action">
-                <div className="close-btn" onClick={() => onClose()}>✕</div>
+                <div className="close-btn" onClick={() => onClose()}><p>✕</p></div>
             </div>
             
         </div>

@@ -8,6 +8,7 @@
   min-width: 208px;
   max-height: 100%;
   @include mobile {
+      flex-direction: row;
       position: fixed;
       height: auto;
       z-index: 600;
@@ -49,12 +50,24 @@
       flex-direction: column;
       justify-content: space-between;
       @include mobile {
+          max-height: 45px;
+          flex-direction: row;
           margin: 0px;
+          max-width: calc(100vw - 65px);
+          overflow: auto;
+      }
+      .main-content{
+        @include mobile {
+            display: flex;
+            flex-direction: row;
+        }
       }
       .end-content{
           padding-top: 1rem;
           @include mobile {
-            padding-top: 0px;
+              display: flex;
+              flex-direction: row;
+              padding-top: 0px;
         }
       }
   }

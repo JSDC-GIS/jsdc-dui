@@ -3,6 +3,7 @@ import SceneCard from './SceneCard'
 import Table, { ILeafletPopupTableProps } from './Table'
 import { renderToString } from 'react-dom/server';
 import Dguidewalks from '../../JSDC/Dguidewalks';
+import { get } from 'lodash';
 
 export type BindPopupWithComponentOptions<P> = {
   Component: (props: P) => JSX.Element,
@@ -26,7 +27,7 @@ export const bindPopupWithSceneCard = (layer: Layer, stringRenderer: typeof rend
   const initialContent = stringRenderer(SceneCard({}))
   layer.bindPopup(initialContent)
   layer.on('click', async () => {
-  const sceneData = await dgw.getSceneDetailArticleByTitle(title)
+  const sceneData = await dgw.getSceneDetailArticleByTitle(title, get(layer, 'feature.properties.url') as string | undefined)
     const props = {
       title: sceneData.title,
       subtitle: sceneData.subtitle,
