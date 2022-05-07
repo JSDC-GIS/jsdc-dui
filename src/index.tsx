@@ -22,8 +22,8 @@ const duiConfigProps: IDuiContextProviderProps = {
   aboutWalkImgSrc: 'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   aboutWalkContent: '橫越屏東縣春日鄉和臺東縣大武鄉的浸水營古道，始於1885年開鑿，自水底寮進抵大武，全長約64公里，海拔均高1,000公尺，為當時臺灣東、西部往返的重要道路，據傳平埔族人曾經藉此遷移至東部地區。日治時期，浸水營古道因低海拔和距離短的條件，被臺灣總督府用於連接東、西部的電信郵遞，直到1914年發生「南蕃事件」，致使道路中斷數年。最後，整條浸水營古道的復舊工事於1917年完成，同時增設了大樹林駐在所與古里巴保諾駐在所。',
   credit: '本平臺由智紳數位文化事業有限公司建置。若有其他利用或授權需求請洽【智紳數位文化事業】Facebook粉絲專頁。',
-  headerMBImgSrc: '',
-  headerDImgSrc: '',
+  headerMBImgSrc: 'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
+  headerDImgSrc: 'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   menuSwitchItems: [{ id: '景點打卡', name: '景點打卡' }],
   weatherConfig: {
     token: 'CWB-232A270E-12F1-4381-B9F2-DF2D2670A077',
@@ -138,7 +138,7 @@ function App() {
 }
 
 const AppWrapper: React.FC = () => {
-  const [Jsdc] = useState(new JSDC('aaaa'))
+  const [Jsdc] = useState(new JSDC('s0003'))
   const handleSceneTagetClick = (title: string) => {
     const targetFeature = Jsdc.Controller.get('Layer').getByName('a234')?.isGeoJSON()
     if (!targetFeature) return
@@ -158,7 +158,7 @@ const AppWrapper: React.FC = () => {
         Jsdc={Jsdc}
         layersHiddenFromUI={['浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}
         layersShowOnMapByDefault={['臺灣通用正射影像', 'a234']}
-        baseApiUrl={'http://localhost:8444/api/'}
+        // baseApiUrl={'http://localhost:8444/api/'}
         cmsPath='數位走讀地圖/浸水營古道'>
         <DuiContextProvider {...duiConfigProps} onSceneTargetClick={handleSceneTagetClick}>
           <App/>
