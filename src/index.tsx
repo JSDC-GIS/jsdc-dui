@@ -158,6 +158,7 @@ const AppWrapper: React.FC = () => {
         Jsdc={Jsdc}
         layersHiddenFromUI={['浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}
         layersShowOnMapByDefault={['臺灣通用正射影像', 'a234']}
+        layerNameOrder={['牡丹社路線', '測試路線']}
         // baseApiUrl={'http://localhost:8444/api/'}
         cmsPath='數位走讀地圖/浸水營古道'>
         <DuiContextProvider {...duiConfigProps} onSceneTargetClick={handleSceneTagetClick}>
