@@ -75,15 +75,11 @@ function App() {
       ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type)})
       )
-
     layerController
       .getByName<GeoJSON>('牡丹社景點')
       ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer: Marker, properties) => {
           layer.setIcon(getPOIIcon(properties.type)!)
-          const handleActionClick = () => {
-            console.log(properties.name)
-          }
           layer.on('click', async () => {
             setProps({})
             setopen(true)
@@ -129,6 +125,8 @@ function App() {
           //   onLayerClick: handleFetchArticle
           // })
         })
+    
+    dui.menuSwitchEvent.addEventListener(() => setopen(false))
 
   }
   useEffect(() => {

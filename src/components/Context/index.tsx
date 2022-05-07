@@ -1,8 +1,9 @@
 import { IWeatherDialogContentProps } from '../LeftMenuBar/Weather/WeatherDialogContent'
-import React, { createContext } from 'react'
+import React, { createContext, useRef, useState } from 'react'
 import useSwitch from '../../utils/useSwitch'
 import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogContent'
 import useTheme, { defaultStyle, StyleType } from './Theme/useTheme'
+import Event from '../../JSDC/utils/Event'
 
 // make sure they match menuItem components's props
 // these items should be same as DguidewalksApp component content
@@ -53,10 +54,12 @@ export type DuiContextType = {
   headerMBImgSrc: string
   headerDImgSrc: string
   activeMenuId: string | undefined
+  menuSwitch: (id: string | undefined) => void
   menuSwitcherAction: (id: string) => {
     onClick: () => void
     onClose: () => void
   },
+  menuSwitchEvent: Event<string | undefined>
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   onSceneTargetClick: (title: string) => void
@@ -103,10 +106,19 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
 }) => {
   useTheme(themeConfig)
   const { switchById, activeId } = useSwitch<MenuItemType>([...defaultMenuItems, ...menuSwitchItems])
+  const [menuSwitchEvent] = useState(new Event<string | undefined>())
+
+  const menuSwitch = (id: string | undefined) => {
+    switchById(id)
+    menuSwitchEvent.raise(id)
+  } 
   const menuSwitcherAction = (id: string) => {
     return {
-      onClick: () => switchById(id),
-      onClose: () => switchById(undefined)
+      onClick: () => menuSwitch(id),
+      onClose: () => {
+        switchById(undefined)
+        menuSwitchEvent.raise(undefined)
+      }
     }
   }
 
@@ -119,7 +131,9 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     headerMBImgSrc,
     headerDImgSrc,
     activeMenuId: activeId,
+    menuSwitch,
     menuSwitcherAction,
+    menuSwitchEvent,
     weatherConfig,
     legendConfig,
     onSceneTargetClick
