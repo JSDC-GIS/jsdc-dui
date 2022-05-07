@@ -74,7 +74,7 @@ function App() {
       )
 
     layerController
-      .getByName<GeoJSON>('a234')
+      .getByName<GeoJSON>('牡丹社景點')
       ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer: Marker, properties) => {
           layer.setIcon(getPOIIcon(properties.type)!)
@@ -83,9 +83,9 @@ function App() {
           }
           const handleFetchArticle = async () => {
             const actionLabel = '打卡集章'
-            const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name)
+            const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
             const props = {
-              title: sceneData.title,
+              title: properties.name,
               subtitle: sceneData.subtitle,
               imgSrc: sceneData.imgSrc,
               mainTextContent: sceneData.content,
@@ -140,7 +140,7 @@ function App() {
 const AppWrapper: React.FC = () => {
   const [Jsdc] = useState(new JSDC('s0003'))
   const handleSceneTagetClick = (title: string) => {
-    const targetFeature = Jsdc.Controller.get('Layer').getByName('a234')?.isGeoJSON()
+    const targetFeature = Jsdc.Controller.get('Layer').getByName('牡丹社景點')?.isGeoJSON()
     if (!targetFeature) return
     const layers = targetFeature.instance.getLayers() as Marker[]
     for (const layer of layers) {
@@ -156,11 +156,11 @@ const AppWrapper: React.FC = () => {
     <JSDCProvider Jsdc={Jsdc}>
       <DguidewalksProvider
         Jsdc={Jsdc}
-        layersHiddenFromUI={['浸水營古道數位走讀示範景點', '浸水營古道數位走讀示範路線']}
-        layersShowOnMapByDefault={['臺灣通用正射影像', 'a234']}
-        layerNameOrder={['牡丹社路線', '測試路線']}
+        layersHiddenFromUI={['測試路線', '牡丹社景點']}
+        layersShowOnMapByDefault={['臺灣通用正射影像', '牡丹社景點']}
+        layerNameOrder={['牡丹社路線']}
         // baseApiUrl={'http://localhost:8444/api/'}
-        cmsPath='數位走讀地圖/浸水營古道'>
+        cmsPath='數位走讀地圖/南部景點/牡丹社事件'>
         <DuiContextProvider {...duiConfigProps} onSceneTargetClick={handleSceneTagetClick}>
           <App/>
         </DuiContextProvider>

@@ -54,19 +54,24 @@ const getArticlesFromHTML = async (html: Document, refresh = false) => {
 }
 
 const getDetailFromHTML = (html: Document) => {
-    const articleElem = html.getElementsByTagName('article')[0]
-    if (!articleElem) throw new Error('cant find article')
+  const articleElem = html.getElementsByTagName('article')[0]
+  if (!articleElem) throw new Error('cant find article')
 
-    const subtitleElem = articleElem.getElementsByClassName('tags')[0] as HTMLElement
-    const authorElem = articleElem.getElementsByClassName('badge')[0] as HTMLElement
-    const contentElem = articleElem.getElementsByClassName('sppb-addon-content')[0].firstChild as HTMLElement
+  const subtitleElem = articleElem.getElementsByClassName('tags')[0] as HTMLElement
+  const contentContainer = articleElem.getElementsByClassName('sppb-addon-content')[0] as HTMLElement
+  const imgContainer = articleElem.getElementsByClassName('entry-image')[0].getElementsByTagName('img')[0]
 
-    const subtitle = subtitleElem ? subtitleElem.innerText : ''
-    const author = authorElem ? authorElem.innerText : ''
-    const content = contentElem ? contentElem.innerText : ''
-    return { subtitle, ref: author, content}
+  const contentElem = contentContainer.children[contentContainer.childElementCount-2] as HTMLElement
+  const authorElem = contentContainer.children[contentContainer.childElementCount-1] as HTMLElement
+
+  const subtitle = subtitleElem ? subtitleElem.innerText : ''
+  const author = authorElem ? authorElem.innerText : ''
+  const content = contentElem ? contentElem.innerText : ''
+  const imgSrc = imgContainer.src
+  return { subtitle, ref: author, content, fallbackImgSrc: imgSrc }
 }
 
+(window as any)._proxyCache = cache
 class ArticleProxyParser {
   proxyFetcher: (url: string) => Promise<string>
   cmsPath: string
@@ -83,10 +88,25 @@ class ArticleProxyParser {
     return baseCmsUrl + encodeURI(this.cmsPath)
   }
 
-  async getDetailByTitle (title: string) {
+  async getDetailByTitle (title: string, fallbackUrl?: string | null): Promise<DetailArticleType> {
     if (cache.values.length < 1) await this.getAll()
-    const result = cache.map[title]
-    if (!result) throw new Error(`cant find title: ${title}`)
+    const result = cache.map[title] || cache.map[title.slice(2)] // number prefix for not
+    if (!result) {
+      if (fallbackUrl) {
+        console.warn(`title: ${title} not found, fallback url: ${fallbackUrl}`)
+        const htmlString = await this.proxyFetcher(fallbackUrl)
+        const html = parseHTML(htmlString)
+        const uncompleteDetail = getDetailFromHTML(html)
+        return {
+          ...uncompleteDetail,
+          title,
+          imgSrc: uncompleteDetail.fallbackImgSrc,
+          link: fallbackUrl
+        }
+      } else {
+        throw new Error(`cant find title: ${title}`)
+      } 
+    }
     if (isArticleDetailComplete(result)) return result
     else {
         const htmlString = await this.proxyFetcher(result.link)

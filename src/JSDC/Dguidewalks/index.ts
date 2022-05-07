@@ -70,7 +70,7 @@ export default class Dguidewalks {
     return await this.articleProxyParser.getAll()
   }
 
-  async getSceneDetailArticleByTitle (title: string) {
-    return await this.articleProxyParser.getDetailByTitle(title)
+  async getSceneDetailArticleByTitle (title: string, fallbackUrl?: string | null) {
+    return await this.articleProxyParser.getDetailByTitle(title, fallbackUrl)
   }
 }
