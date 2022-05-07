@@ -2,6 +2,7 @@ import { IWeatherDialogContentProps } from '../LeftMenuBar/Weather/WeatherDialog
 import React from 'react';
 import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogContent';
 import { StyleType } from './Theme/useTheme';
+import Event from '../../JSDC/utils/Event';
 export declare const defaultMenuItems: {
     id: string;
     name: string;
@@ -24,10 +25,12 @@ export declare type DuiContextType = {
     headerMBImgSrc: string;
     headerDImgSrc: string;
     activeMenuId: string | undefined;
+    menuSwitch: (id: string | undefined) => void;
     menuSwitcherAction: (id: string) => {
         onClick: () => void;
         onClose: () => void;
     };
+    menuSwitchEvent: Event<string | undefined>;
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
     onSceneTargetClick: (title: string) => void;
