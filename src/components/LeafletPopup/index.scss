@@ -26,6 +26,10 @@
   min-width: 200px;
   min-height: 300px;
   transition: 0.3s all;
+  margin: 15px 25px;
+  max-width: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
   &-Kanban{
     display: flex;
     justify-content: center;
@@ -77,8 +81,8 @@
     .content{
       line-height: 25px;
       font-size: small;
-      max-height: 250px;
-      overflow: auto;
+      // max-height: 250px;
+      // overflow: auto;
       min-width: 100px;
       min-height: 100px;
       &::first-letter{

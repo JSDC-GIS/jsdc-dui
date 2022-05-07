@@ -15,6 +15,8 @@ import { DguidewalksContext, DguidewalksProvider } from './JSDC/Dguidewalks/Cont
 import LeafletPopup, { bindPopupWithSceneCard, bindPopupWithComponent } from './components/LeafletPopup';
 import Checkin from './components/Icons/Checkin';
 import { renderToString } from 'react-dom/server';
+import ResponsiveDialog from './components/ResponsiveDialog';
+import SceneCard, { ISceneCardProps } from './components/LeafletPopup/SceneCard';
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -62,6 +64,7 @@ function App() {
   const { dgw } = useContext(DguidewalksContext)
   const [open, setopen] = useState(false)
   const [title, settitle] = useState<string>()
+  const [props, setProps] = useState<Partial<ISceneCardProps>>()
 
   const init = async () => {
     await Jsdc.asyncViewer
@@ -81,8 +84,9 @@ function App() {
           const handleActionClick = () => {
             console.log(properties.name)
           }
-          const handleFetchArticle = async () => {
-            const actionLabel = '打卡集章'
+          layer.on('click', async () => {
+            setProps({})
+            setopen(true)
             const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
             const props = {
               title: properties.name,
@@ -91,16 +95,28 @@ function App() {
               mainTextContent: sceneData.content,
               credit: sceneData.ref
             }
-            const content = renderToString(LeafletPopup.SceneCard({ ...props }))
-            layer.bindPopup(content)
-        
-            const button = document.getElementById(actionLabel)
-            button?.addEventListener('click', handleActionClick)
-          }
-          bindPopupWithSceneCard(layer, renderToString, {
-            dgw,
-            title: properties.name
+            setProps(props)
           })
+          // const handleFetchArticle = async () => {
+          //   const actionLabel = '打卡集章'
+          //   const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
+          //   const props = {
+          //     title: properties.name,
+          //     subtitle: sceneData.subtitle,
+          //     imgSrc: sceneData.imgSrc,
+          //     mainTextContent: sceneData.content,
+          //     credit: sceneData.ref
+          //   }
+          //   const content = renderToString(LeafletPopup.SceneCard({ ...props }))
+          //   layer.bindPopup(content)
+        
+          //   const button = document.getElementById(actionLabel)
+          //   button?.addEventListener('click', handleActionClick)
+          // }
+          // bindPopupWithSceneCard(layer, renderToString, {
+          //   dgw,
+          //   title: properties.name
+          // })
 
           // bindPopupWithTable(layer, {
           //   name: properties.name,
@@ -131,7 +147,7 @@ function App() {
                   <div>打卡</div>
               </MenuItemWithDialog>
             }/>
-          <Dialog title={title} open={open} onClose={() => setopen(false)}/>
+          <ResponsiveDialog open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
         </>
       
   );

@@ -1,5 +1,6 @@
 import React from 'react'
 import { IActivableProps } from '../../Icons/types'
+import ResponsiveDialog from '../../ResponsiveDialog'
 import MenuDialog from './MenuDialog'
 import './MenuItemWithDialog.scss'
 
@@ -33,12 +34,11 @@ const MenuItemWithDialog = ({
   return (
     <div className='dui-MenuItemWithDialog'>
       <div className="list-item" onClick={() => handleClick()}>
-          {/* {Icon && <img className="icon"  alt='source not found' src={active ? startIconSrcActive : startIconSrc} />} */}
           <span className="icon"><Icon active={active}/></span>
           <div className="text">{title}</div>
       </div>
-      {/* <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><MenuDialog imgSrc={startIconSrcActive} title={title} onClose={handleClose}>{children}</MenuDialog></div> */}
-      <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><MenuDialog Icon={Icon} title={title} onClose={handleClose}>{children}</MenuDialog></div>
+      {/* <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><MenuDialog Icon={Icon} title={title} onClose={handleClose}>{children}</MenuDialog></div> */}
+      <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><ResponsiveDialog open={true} disabledFixedPosition Icon={<Icon active={active}/>} title={title} onClose={handleClose}>{children}</ResponsiveDialog></div>
     </div>
   )
 }
