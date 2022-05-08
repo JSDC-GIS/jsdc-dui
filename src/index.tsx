@@ -145,7 +145,7 @@ function App() {
                   <div>打卡</div>
               </MenuItemWithDialog>
             }/>
-          <ResponsiveDialog open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
+          <ResponsiveDialog kanbanImgSrc='https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png' open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
         </>
       
   );
