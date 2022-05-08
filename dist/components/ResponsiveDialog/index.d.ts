@@ -5,9 +5,10 @@ export interface IResponsiveDialogProps {
     title?: string;
     open: boolean;
     children: React.ReactNode;
+    kanbanImgSrc?: string;
     onClose: () => void;
     disabledFixedPosition?: boolean;
     keepAlive?: boolean;
 }
-declare const ResponsiveDialog: ({ Icon, title, open, children, disabledFixedPosition, keepAlive, onClose }: IResponsiveDialogProps) => JSX.Element | null;
+declare const ResponsiveDialog: ({ Icon, title, open, children, kanbanImgSrc, disabledFixedPosition, keepAlive, onClose }: IResponsiveDialogProps) => JSX.Element | null;
 export default ResponsiveDialog;

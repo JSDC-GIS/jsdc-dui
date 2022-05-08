@@ -7,6 +7,7 @@ export interface IResponsiveDialogProps {
   title?: string
   open: boolean
   children: React.ReactNode
+  kanbanImgSrc?: string
   onClose: () => void
   disabledFixedPosition?: boolean
   keepAlive?: boolean
@@ -17,6 +18,7 @@ const ResponsiveDialog = ({
   title,
   open,
   children,
+  kanbanImgSrc,
   disabledFixedPosition = false,
   keepAlive = false,
   onClose = () => null
@@ -30,6 +32,7 @@ const ResponsiveDialog = ({
   if (!keepAlive && !open) return null
   return (
     <div style={{ display: displayStyle }} className={classNames('dui-ResponsiveDialog', { 'dui-ResponsiveDialog-disableFixed': disabledFixedPosition })}>
+      {kanbanImgSrc && <div className='dui-ResponsiveDialog-kanban'><img src={kanbanImgSrc} alt={title} /></div>}
       <div className="header">
           <div className="title">
               {Icon && <div className="icon">{Icon}</div>}
