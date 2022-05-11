@@ -17,15 +17,19 @@
   }
 
   &-title{
+    font-size: 20px;
+    font-weight: 700;
     margin: 15px 0px;
     text-align: center;
     display: grid;
-    font-size: large;
     gap: 3px;
     color: var(--dui-primary);
   }
 
   &-content{
+    font-size: 18px;
+    padding: 0 20px;
+    text-align: justify;
     flex: 1;
     font-size: smaller;
     overflow: auto;
