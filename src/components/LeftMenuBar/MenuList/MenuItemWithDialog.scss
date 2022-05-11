@@ -45,10 +45,10 @@
     pointer-events: none;
     position: fixed;
     z-index: 500;
-    max-height: calc(100% - 170px);
+    max-height: calc(100% - 104px);
     min-width: 320px;
     height: 100%;
-    max-width: 320px;
+    max-width: 420px;
     left: 245px;
     bottom: 20px;
     @include mobile {

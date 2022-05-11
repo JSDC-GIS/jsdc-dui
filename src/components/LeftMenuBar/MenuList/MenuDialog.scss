@@ -6,7 +6,7 @@
   height: 100%;
   width: 100%;
   background: var(--dui-bg-primary);
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px;
   pointer-events: auto;
   overflow: hidden;
   @include mobile{
