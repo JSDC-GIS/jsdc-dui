@@ -45,12 +45,14 @@
     pointer-events: none;
     position: fixed;
     z-index: 500;
-    max-height: calc(100% - 104px);
-    min-width: 320px;
-    height: 100%;
     max-width: 420px;
     left: 245px;
-    bottom: 20px;
+    bottom: 45px;
+    top: 140px;
+    .dui-ResponsiveDialog{
+      max-height: unset;
+      min-height: unset;
+    }
     @include mobile {
       $marginSpace: 5px;
       position: fixed;

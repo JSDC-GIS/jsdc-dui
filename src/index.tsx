@@ -23,7 +23,11 @@ const duiConfigProps: IDuiContextProviderProps = {
   sidebarSubtitle: '標題2',
   aboutWalkImgSrc: 'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   aboutWalkContent: '橫越屏東縣春日鄉和臺東縣大武鄉的浸水營古道，始於1885年開鑿，自水底寮進抵大武，全長約64公里，海拔均高1,000公尺，為當時臺灣東、西部往返的重要道路，據傳平埔族人曾經藉此遷移至東部地區。日治時期，浸水營古道因低海拔和距離短的條件，被臺灣總督府用於連接東、西部的電信郵遞，直到1914年發生「南蕃事件」，致使道路中斷數年。最後，整條浸水營古道的復舊工事於1917年完成，同時增設了大樹林駐在所與古里巴保諾駐在所。',
-  credit: '本平臺由智紳數位文化事業有限公司建置。若有其他利用或授權需求請洽【智紳數位文化事業】Facebook粉絲專頁。',
+  credit: `一、本圖台由屏東縣牡丹鄉公所及智紳數位文化事業有限公司共同協力建置：
+  1.圖台內容：屏東縣牡丹鄉公所及鄉民提供。
+  2.圖台系統開發：智紳數位文化事業有限公司。
+  二、本圖台內容其內容著作財產權由上述單位及個人保有並授權予牡丹鄉公所各項非商業行為使用。若有其他利用或授權需求請洽【<a href="https://www.facebook.com/JRSHENDigitalCulture/">智紳數位文化事業</a>】Facebook粉絲專頁。`,
+  creditHref: 'https://www.facebook.com/JRSHENDigitalCulture/',
   headerMBImgSrc: 'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   headerDImgSrc: 'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   menuSwitchItems: [{ id: '景點打卡', name: '景點打卡' }],
