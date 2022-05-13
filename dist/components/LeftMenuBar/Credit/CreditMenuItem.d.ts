@@ -3,5 +3,5 @@ import { IMenuItemWithDialogProps } from '../..//LeftMenuBar/MenuList/MenuItemWi
 import { ICreditDialogContentProps } from './CreditDialogContent';
 export interface ICreditMenuItemProps extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>, ICreditDialogContentProps {
 }
-declare const CreditMenuItem: (props: ICreditMenuItemProps) => JSX.Element;
+declare const CreditMenuItem: ({ herf, description, ...props }: ICreditMenuItemProps) => JSX.Element;
 export default CreditMenuItem;

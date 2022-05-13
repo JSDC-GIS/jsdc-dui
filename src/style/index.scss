@@ -11,6 +11,12 @@
   background: #ddd;
 }
 
+.dui-MapViewContainer{
+  .leaflet-touch .leaflet-bar, .leaflet-touch .leaflet-control-attribution, .leaflet-touch .leaflet-control-layers {
+    border-radius: 3px;
+  }
+}
+
 .dui-MapViewContainer .leaflet-popup-content-wrapper, .leaflet-popup-tip {
   background: var(--dui-bg-primary);
 }

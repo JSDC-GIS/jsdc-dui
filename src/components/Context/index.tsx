@@ -51,6 +51,7 @@ export type DuiContextType = {
   aboutWalkImgSrc: string
   aboutWalkContent: string
   credit: string
+  creditHref?: string
   headerMBImgSrc: string
   headerDImgSrc: string
   activeMenuId: string | undefined
@@ -80,6 +81,7 @@ export interface IDuiContextProviderProps {
   aboutWalkImgSrc: string
   aboutWalkContent: string
   credit: string
+  creditHref?: string
   headerMBImgSrc: string
   headerDImgSrc: string
   menuSwitchItems: Array<MenuItemType>,
@@ -95,6 +97,7 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   aboutWalkImgSrc,
   aboutWalkContent,
   credit,
+  creditHref,
   headerMBImgSrc,
   headerDImgSrc,
   children,
@@ -128,6 +131,7 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     aboutWalkImgSrc,
     aboutWalkContent,
     credit,
+    creditHref,
     headerMBImgSrc,
     headerDImgSrc,
     activeMenuId: activeId,

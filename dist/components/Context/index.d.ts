@@ -22,6 +22,7 @@ export declare type DuiContextType = {
     aboutWalkImgSrc: string;
     aboutWalkContent: string;
     credit: string;
+    creditHref?: string;
     headerMBImgSrc: string;
     headerDImgSrc: string;
     activeMenuId: string | undefined;
@@ -47,6 +48,7 @@ export interface IDuiContextProviderProps {
     aboutWalkImgSrc: string;
     aboutWalkContent: string;
     credit: string;
+    creditHref?: string;
     headerMBImgSrc: string;
     headerDImgSrc: string;
     menuSwitchItems: Array<MenuItemType>;

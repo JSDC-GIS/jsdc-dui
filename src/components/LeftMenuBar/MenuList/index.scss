@@ -6,6 +6,7 @@
   background: var(--dui-bg-primary);
   height: 100vh;
   min-width: 208px;
+  overflow: hidden;
   max-height: 100%;
   @include mobile {
       flex-direction: row;
@@ -49,6 +50,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      overflow: auto;
       @include mobile {
           max-height: 45px;
           flex-direction: row;
