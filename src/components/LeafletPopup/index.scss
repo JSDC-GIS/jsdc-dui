@@ -26,7 +26,8 @@
   min-width: 200px;
   min-height: 300px;
   transition: 0.3s all;
-  margin: 15px 25px;
+  margin: 15px 5px;
+  padding: 0px 25px;
   max-width: 400px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -35,11 +36,11 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    margin: -20px;
-    margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
+    // margin: -20px;
+    // margin-bottom: 0px;
+    // border-radius: 10px 10px 0px 0px;
     img{
-      width: 400px;
+      width: 100%;
     }
   }
 

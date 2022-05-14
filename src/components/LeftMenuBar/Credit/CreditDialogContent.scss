@@ -1,13 +1,15 @@
 @import '../../../style/index.scss';
 
 .dui-CreditDialogContent{
-    margin: 0px 35px;
+    margin: 0px 5px;
+    padding: 0px 20px;
     padding-bottom: 45px;
     padding-top: 20px;
     display: flex;
     flex-direction: column;
     flex: 1;
     overflow: auto;
+    gap: 15px;
     .title{
         display: flex;
         flex-direction: column;
@@ -29,10 +31,11 @@
         }
     }
     .final{
-            flex: 1;
-            display: flex;
-            margin: 10px 0px;
-            white-space: pre-line;
-            align-items: flex-end;
+        flex: 1;
+        display: flex;
+        margin: 10px 0px;
+        white-space: pre-line;
+        align-items: flex-end;
+        min-height: 70px;
     }
 }
