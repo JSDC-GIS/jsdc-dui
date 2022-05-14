@@ -5,6 +5,7 @@
     position: relative;
     flex-direction: column;
     overflow: hidden;
+    
     .select{
         margin: 10px 20px;
         position: relative;
@@ -48,6 +49,8 @@
         align-items: center;
         height: 100%;
         overflow: auto;
+        margin: 0px 5px;
+        padding: 0px 25px;
         padding-top: 30px;
         padding-bottom: 30px;
     }

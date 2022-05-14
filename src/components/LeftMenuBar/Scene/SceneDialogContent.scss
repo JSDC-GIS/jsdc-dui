@@ -3,6 +3,9 @@
 .dui-SceneDialogContent{
   overflow: auto;
   flex: 1;
+  margin-right: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
   &-row{
     display: flex;
     max-height: 250px;
