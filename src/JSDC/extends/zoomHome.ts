@@ -19,7 +19,16 @@ export default Control.extend<{
   },
   onAdd: function(map: Map) {
     const container = DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom')
-    container.innerHTML = `<img style="width: -webkit-fill-available;padding: 5px;" src="${iconBase64}"/>`
+    container.innerHTML = `
+    <img
+      style="
+        padding: 5px;
+        max-height: calc(100% - 10px);
+        max-width: 100%;
+        display: block;
+        margin: 0 auto;
+        "
+      src="${iconBase64}"/>`
 
     container.style.backgroundColor = 'white'
     container.style.width = '30px'
