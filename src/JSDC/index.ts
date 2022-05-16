@@ -1,8 +1,9 @@
 import ViewerPromise from "./module/ViewerPromise";
-import Leaflet, { Map } from 'leaflet'
+import Leaflet, { LatLngBounds, Map } from 'leaflet'
 import { defaults } from "lodash";
 import Controller from "./Controller";
 import location from "./extends/location";
+import zoomHome from "./extends/zoomHome";
 import { iconUrl, iconRetinaUrl, shadowUrl } from "./utils/markerImages";
 
 const iconDefault = Leaflet.icon({
@@ -23,23 +24,26 @@ class JSDC
     viewer: Map | undefined
     viewerPromise = new ViewerPromise()
     Controller = new Controller('JSDCController')
-    constructor (id: string) {
+    mapOption: Leaflet.MapOptions & { bound?: LatLngBounds }
+    constructor (id: string, mapOption: Leaflet.MapOptions & { bound?: LatLngBounds } = {}) {
         this.id = id
         this.viewer = undefined
+        this.mapOption = mapOption
     }
     get asyncViewer () {
         return this.viewerPromise.asyncViewer
     }
-    createViewer( option: Leaflet.MapOptions = {})
-    {
+    createViewer(option = this.mapOption) {
         const _option = defaults(option, {
             center: [24.86471, 121.29002],
             zoom: 13
         })
         try {
             this.viewer = new Map( this.id, _option)
+            option.bound && this.viewer.flyToBounds(option.bound)
             this.viewer.zoomControl.setPosition('topright')
             this.viewer.addControl(new location({ Jsdc: this } as any))
+            this.viewer.addControl(new zoomHome({ Jsdc: this } as any))
             this.Controller.init(this.viewer)
             this.viewerPromise.setViewer(this.viewer)
         } catch (error) {

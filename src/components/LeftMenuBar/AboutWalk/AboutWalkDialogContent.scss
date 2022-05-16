@@ -4,11 +4,14 @@
   overflow: auto;
   margin: 0px 5px;
   padding: 0px 25px;
+  flex: unset;
+  display: unset;
 
   &-img{
     display: flex;
     justify-content: center;
     img{
+      max-height: 400px;
       max-height: 400px;
       min-height: 200px;
       object-fit: contain;

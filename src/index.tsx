@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC';
 import { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider';
-import Leaflet, { GeoJSON, Marker } from 'leaflet'
+import Leaflet, { GeoJSON, latLng, latLngBounds, Marker } from 'leaflet'
 import { IDuiContextProviderProps, DuiContext, DuiContextProvider } from './components/Context';
 import DguideWalksApp from './components/DguideWalksApp';
 import Dialog from './components/Dialog';
@@ -156,7 +156,7 @@ function App() {
 }
 
 const AppWrapper: React.FC = () => {
-  const [Jsdc] = useState(new JSDC('s0003'))
+  const [Jsdc] = useState(new JSDC('s0003', { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)) }))
   const handleSceneTagetClick = (title: string) => {
     const targetFeature = Jsdc.Controller.get('Layer').getByName('牡丹社景點')?.isGeoJSON()
     if (!targetFeature) return
