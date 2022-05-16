@@ -8,7 +8,12 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #ddd;
+  background: fff0
+}
+
+:root *{
+  scrollbar-color: #b9c1c7 #fff0;
+  scrollbar-width: thin !important;
 }
 
 .dui-MapViewContainer{
