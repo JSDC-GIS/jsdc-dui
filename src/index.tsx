@@ -43,7 +43,7 @@ const duiConfigProps: IDuiContextProviderProps = {
   },
   themeConfig: {
     '--dui-primary': '#ab3916',
-    '--dui-secondary': '#F1C385'
+    '--dui-secondary': '#EFA020'
   }
 }
 
@@ -59,7 +59,7 @@ const getRouteColorByType = (type: string) => {
 }
 
 const getPOIIcon = (type: string) => {
-  return Leaflet.icon({ iconUrl: `${baseUrl}map_icons/type${type}.png`, iconSize: [30, 40] })
+  return Leaflet.icon({ iconUrl: `${baseUrl}map_icons/type${type}.svg`, iconSize: [30, 40] })
 }
 
 function App() {

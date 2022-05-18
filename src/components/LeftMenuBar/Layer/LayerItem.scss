@@ -2,6 +2,7 @@
   margin: 0px 5px;
   display: inline-flex;
   align-items: center;
+  min-height: fit-content;
   &:hover{
     background: #9797971f;
   }
@@ -9,6 +10,12 @@
   &-content{
     cursor: pointer;
     padding: 5px;
+    flex: 1;
+    & > span{
+      text-align: justify;
+      display: inline-flex;
+      text-justify: auto;
+    }
   }
 
   &-opacity-config{
