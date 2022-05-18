@@ -61,7 +61,7 @@
     line-height: 18px;
     margin-top: 3px;
     max-width: 230px;
-    opacity: .6;
+    opacity: .8;
     text-align: justify;
   }
 
@@ -69,7 +69,9 @@
     margin-top: 2px;
     display: flex;
     justify-content: space-between;
-
+    .count{
+      color: var(--dui-text-gray)
+    }
     .more{
       background-color: var(--dui-secondary);
       border-radius: 10px;
