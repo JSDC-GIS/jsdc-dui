@@ -17,6 +17,9 @@ import Checkin from './components/Icons/Checkin';
 import { renderToString } from 'react-dom/server';
 import ResponsiveDialog from './components/ResponsiveDialog';
 import SceneCard, { ISceneCardProps } from './components/LeafletPopup/SceneCard';
+import useHeatMap from './JSDC/hooks/layerVisualization/useHeatMap';
+import JSDCGeoJSONLayer from './JSDC/Layer/JSDCGeoJSONLayer';
+import useCluster from './JSDC/hooks/layerVisualization/useCluster';
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -69,19 +72,26 @@ function App() {
   const [open, setopen] = useState(false)
   const [title, settitle] = useState<string>()
   const [props, setProps] = useState<Partial<ISceneCardProps>>()
+  const { addLayer: addLayerToHeatMap, toggleShowHeatMap, show: showHeatMap } = useHeatMap(Jsdc.asyncViewer)
+  const { addLayer: addLayerToCluster, toggleShowCluster, show: showCluster } = useCluster(Jsdc.asyncViewer)
+
+  const handleToggleHeatmap = () => {
+    toggleShowHeatMap()
+  }
+  const handleToggleCluster = () => {
+    toggleShowCluster()
+  }
 
   const init = async () => {
     await Jsdc.asyncViewer
     const layerController = Jsdc.Controller.get('Layer')
+    const layer1 = layerController.getByName<GeoJSON>('浸水營古道數位走讀示範路線') as JSDCGeoJSONLayer
+    const layer2 = layerController.getByName<GeoJSON>('牡丹社景點') as JSDCGeoJSONLayer
 
-    layerController
-      .getByName<GeoJSON>('浸水營古道數位走讀示範路線')
-      ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
+    layer1?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type)})
       )
-    layerController
-      .getByName<GeoJSON>('牡丹社景點')
-      ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
+    layer2?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer: Marker, properties) => {
           layer.setIcon(getPOIIcon(properties.type)!)
           layer.on('click', async () => {
@@ -129,7 +139,8 @@ function App() {
           //   onLayerClick: handleFetchArticle
           // })
         })
-    
+    layer2 && addLayerToHeatMap(layer2)
+    layer2 && addLayerToCluster(layer2)
     dui.menuSwitchEvent.addEventListener(() => setopen(false))
 
   }
@@ -146,7 +157,8 @@ function App() {
                 Icon={Checkin}
                 title='景點打卡'
                 active={dui.activeMenuId === '景點打卡'} {...dui.menuSwitcherAction('景點打卡')}>
-                  <div>打卡</div>
+                  <button style={{ background: showHeatMap ? 'yellow': 'white' }} onClick={handleToggleHeatmap}>hopspot</button>
+                  <button style={{ background: showCluster ? 'yellow': 'white' }} onClick={handleToggleCluster}>cluster</button>
               </MenuItemWithDialog>
             }/>
           <ResponsiveDialog kanbanImgSrc='https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png' open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
@@ -156,7 +168,7 @@ function App() {
 }
 
 const AppWrapper: React.FC = () => {
-  const [Jsdc] = useState(new JSDC('s0003', { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)) }))
+  const [Jsdc] = useState(new JSDC('s0003', { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 18 }))
   const handleSceneTagetClick = (title: string) => {
     const targetFeature = Jsdc.Controller.get('Layer').getByName('牡丹社景點')?.isGeoJSON()
     if (!targetFeature) return
