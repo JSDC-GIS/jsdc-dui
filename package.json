@@ -62,6 +62,7 @@
     "jest": "^27.5.1",
     "jest-snapshot": "^27.5.1",
     "leaflet": "^1.7.1",
+    "leaflet-heatmap": "^1.0.0",
     "leaflet.markercluster": "^1.5.3",
     "lodash": "^4.17.21",
     "postcss": "^8.4.7",
@@ -90,6 +91,7 @@
     "leaflet": "^1.7.1",
     "leaflet.markercluster": "^1.5.3",
     "lodash": "^4.17.21",
-    "chroma-js": "^2.4.2"
+    "chroma-js": "^2.4.2",
+    "leaflet-heatmap": "^1.0.0"
   }
 }
