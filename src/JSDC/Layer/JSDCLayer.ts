@@ -1,7 +1,7 @@
 import { Feature, GeoJsonProperties } from 'geojson'
 import Event from '../utils/Event'
 import { Layer, Map, TileLayer, GeoJSON } from 'leaflet'
-import JSDCLayerBehavior, { JSDCLayerDescription } from './JSDCLayerBehavior'
+import JSDCLayerBehavior, { JSDCLayerDescription } from './@types'
 
 export interface JSDCLayerConstructorOptions extends Pick<JSDCLayerBehavior, 'id' | 'description'> {
 
