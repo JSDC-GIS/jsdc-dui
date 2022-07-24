@@ -20,6 +20,7 @@ import SceneCard, { ISceneCardProps } from './components/LeafletPopup/SceneCard'
 import useHeatMap from './JSDC/hooks/layerVisualization/useHeatMap';
 import JSDCGeoJSONLayer from './JSDC/Layer/JSDCGeoJSONLayer';
 import useCluster from './JSDC/hooks/layerVisualization/useCluster';
+import GeoNavigator, { Navigation } from './components/GeoNavigator';
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -72,14 +73,24 @@ function App() {
   const [open, setopen] = useState(false)
   const [title, settitle] = useState<string>()
   const [props, setProps] = useState<Partial<ISceneCardProps>>()
+  const [naviOD, setNaviOD] = useState<{ origin: [number, number], destination: [number, number], type: Navigation }>()
   const { addLayer: addLayerToHeatMap, toggleShowHeatMap, show: showHeatMap } = useHeatMap(Jsdc.asyncViewer)
   const { addLayer: addLayerToCluster, toggleShowCluster, show: showCluster } = useCluster(Jsdc.asyncViewer)
+  const [data, setData] = useState<string>()
 
   const handleToggleHeatmap = () => {
     toggleShowHeatMap()
   }
   const handleToggleCluster = () => {
     toggleShowCluster()
+  }
+
+  const handleOpenNavigate = (type: Navigation) => {
+    setNaviOD({
+      origin: [24.980077143207907,121.53545142928155],
+      destination: [24.998748116199845, 121.51991607604738],
+      type
+    })
   }
 
   const init = async () => {
@@ -147,6 +158,11 @@ function App() {
   useEffect(() => {
     (window as any).JSDC = Jsdc
     dgw.gisDataLoadEvent.addEventListener(init)
+    window.addEventListener('message', e => {
+      if (e.data.source === 'child') {
+        setData(JSON.stringify(e.data))
+      }
+    })
   }, [])
   return (
     
@@ -159,9 +175,16 @@ function App() {
                 active={dui.activeMenuId === '景點打卡'} {...dui.menuSwitcherAction('景點打卡')}>
                   <button style={{ background: showHeatMap ? 'yellow': 'white' }} onClick={handleToggleHeatmap}>hopspot</button>
                   <button style={{ background: showCluster ? 'yellow': 'white' }} onClick={handleToggleCluster}>cluster</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.Walk)}>navigator walk</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.MassTransit)}>navigator MassTransit</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.Car)}>navigator Car</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.Bike)}>navigator Bike</button>
+                  <iframe src="./child.html"></iframe>
+                  <span>render from parent: {data}</span>
               </MenuItemWithDialog>
             }/>
           <ResponsiveDialog kanbanImgSrc='https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png' open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
+            {naviOD && <GeoNavigator {...naviOD}/>}
         </>
       
   );

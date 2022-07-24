@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="'en">
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div>
+    <span>I'm child</span>
+    <input id="inp" type="text" />
+    <button id="btn">post message</button>
+  </div>
+  <script>
+    const btn = document.getElementById('btn')
+    const input = document.getElementById('inp')
+    btn.onclick = () => {
+      parent.postMessage({
+        source: 'child',
+        payload: {
+          value: input.value
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>
