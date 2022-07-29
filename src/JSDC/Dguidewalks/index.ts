@@ -7,10 +7,12 @@ import createGeoJSONLayer from "./createLayer/createGeoJSONLayer"
 import { CommonProps } from "./createLayer/types"
 import Event from "../utils/Event"
 import ArticleProxyParser from "./proxyParser"
+import { IArticleProxyParser } from "./proxyParser/@types"
 
 export type DguidewalksOptions = {
   config: ConfigProvider,
   layerNameOrder?: string[]
+  articleParser: IArticleProxyParser
 }
 
 export default class Dguidewalks {
@@ -18,15 +20,12 @@ export default class Dguidewalks {
   api: ApiProvider
   layerNameOrder: string[]
   gisDataLoadEvent = new Event()
-  articleProxyParser : ArticleProxyParser
+  articleProxyParser: IArticleProxyParser
   constructor (options: DguidewalksOptions) {
     this.config = options.config
     this.api = new ApiProvider(this.config)
     this.layerNameOrder = options.layerNameOrder || []
-    this.articleProxyParser = new ArticleProxyParser({
-      proxyFetcher: this.api.getProxyQuery,
-      cmsPath: this.api.cmsPath
-    })
+    this.articleProxyParser = options.articleParser
   }
 
   get eventId () {

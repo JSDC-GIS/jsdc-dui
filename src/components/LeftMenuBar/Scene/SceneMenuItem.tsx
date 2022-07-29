@@ -10,11 +10,12 @@ export interface ISceneMenuItemProps extends Omit<IMenuItemWithDialogProps, 'tit
 
 const SceneMenuItem = ({
   onTarget,
+  cardsReducer,
   ...props
 }: ISceneMenuItemProps) => {
   return (
     <MenuItemWithDialog {...props} title='景點介紹' Icon={Mappin}>
-      <SceneDialogContent onTarget={onTarget}/>
+      <SceneDialogContent onTarget={onTarget} cardsReducer={cardsReducer}/>
     </MenuItemWithDialog>
   )
 }

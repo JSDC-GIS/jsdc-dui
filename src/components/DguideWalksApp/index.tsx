@@ -69,6 +69,7 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
               active={dui.activeMenuId === '地圖圖層'} {...dui.menuSwitcherAction('地圖圖層')}/>
             <SceneMenuItem
               onTarget={dui.onSceneTargetClick}
+              cardsReducer={dui.sceneCardsReducer}
               active={dui.activeMenuId === '景點介紹'} {...dui.menuSwitcherAction('景點介紹')}/>
             {
               dui.weatherConfig.disabled || (

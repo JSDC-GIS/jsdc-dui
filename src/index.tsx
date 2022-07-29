@@ -3,7 +3,7 @@ import reportWebVitals from './reportWebVitals';
 import React, { useContext, useEffect, useState } from 'react';
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC';
-import { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider';
+import ApiProvider, { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider';
 import Leaflet, { GeoJSON, latLng, latLngBounds, Marker } from 'leaflet'
 import { IDuiContextProviderProps, DuiContext, DuiContextProvider } from './components/Context';
 import DguideWalksApp from './components/DguideWalksApp';
@@ -21,6 +21,13 @@ import useHeatMap from './JSDC/hooks/layerVisualization/useHeatMap';
 import JSDCGeoJSONLayer from './JSDC/Layer/JSDCGeoJSONLayer';
 import useCluster from './JSDC/hooks/layerVisualization/useCluster';
 import GeoNavigator, { Navigation } from './components/GeoNavigator';
+import { Article, SummaryArticleType } from './JSDC/Dguidewalks/proxyParser/@types';
+import ArticleProxyParser from './JSDC/Dguidewalks/proxyParser';
+import DaKeKanRiver2022Parser from './JSDC/Dguidewalks/proxyParser/DaKeKanRiver2022Parser'
+import { AbsctractArticleProxyParserContructor } from './JSDC/Dguidewalks/proxyParser/AbsctractArticleProxyParser';
+import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider';
+
+
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -97,7 +104,7 @@ function App() {
     await Jsdc.asyncViewer
     const layerController = Jsdc.Controller.get('Layer')
     const layer1 = layerController.getByName<GeoJSON>('浸水營古道數位走讀示範路線') as JSDCGeoJSONLayer
-    const layer2 = layerController.getByName<GeoJSON>('牡丹社景點') as JSDCGeoJSONLayer
+    const layer2 = layerController.getByName<GeoJSON>('n0003-point') as JSDCGeoJSONLayer
 
     layer1?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type)})
@@ -190,10 +197,26 @@ function App() {
   );
 }
 
+const cmsPath = '數位走讀地圖/北部景點/大嵙崁溪河階/2022三層·內柵·三坑情' // '數位走讀地圖/南部景點/牡丹社事件'
+const eventId = 'n0003'
+
+const config = new ConfigProvider({
+  eventId,
+  cmsPath,
+  // baseApiUrl: 'http://localhost:8444/api/'
+})
+
+const defaultParser = new DaKeKanRiver2022Parser(eventId, {
+  cmsPath,
+  proxyFetcher: new ApiProvider(config).getProxyQuery
+})
+
+console.log(defaultParser)
+
 const AppWrapper: React.FC = () => {
-  const [Jsdc] = useState(new JSDC('s0003', { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 18 }))
+  const [Jsdc] = useState(new JSDC(eventId, { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 18 }))
   const handleSceneTagetClick = (title: string) => {
-    const targetFeature = Jsdc.Controller.get('Layer').getByName('牡丹社景點')?.isGeoJSON()
+    const targetFeature = Jsdc.Controller.get('Layer').getByName('n0003-point')?.isGeoJSON()
     if (!targetFeature) return
     const layers = targetFeature.instance.getLayers() as Marker[]
     for (const layer of layers) {
@@ -205,16 +228,23 @@ const AppWrapper: React.FC = () => {
       }
     }
   }
+  const reduceSceneCards = (data: Article[]) => {
+    return data
+  }
   return (
     <JSDCProvider Jsdc={Jsdc}>
       <DguidewalksProvider
         Jsdc={Jsdc}
-        layersHiddenFromUI={['測試路線', '牡丹社景點']}
-        layersShowOnMapByDefault={['臺灣通用正射影像', '牡丹社景點']}
+        articleParser={defaultParser}
+        layersHiddenFromUI={['測試路線']}
+        layersShowOnMapByDefault={['臺灣通用正射影像', 'n0003-point', 'n0003-line']}
         layerNameOrder={['牡丹社路線']}
-        // baseApiUrl={'http://localhost:8444/api/'}
-        cmsPath='數位走讀地圖/南部景點/牡丹社事件'>
-        <DuiContextProvider {...duiConfigProps} onSceneTargetClick={handleSceneTagetClick}>
+        config={config}>
+        <DuiContextProvider
+          {...duiConfigProps}
+          onSceneTargetClick={handleSceneTagetClick}
+          sceneCardsReducer={reduceSceneCards}
+        >
           <App/>
         </DuiContextProvider>
       </DguidewalksProvider>

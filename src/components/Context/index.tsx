@@ -4,6 +4,7 @@ import useSwitch from '../../utils/useSwitch'
 import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogContent'
 import useTheme, { defaultStyle, StyleType } from './Theme/useTheme'
 import Event from '../../JSDC/utils/Event'
+import { ISceneMenuItemProps } from '../LeftMenuBar/Scene/SceneMenuItem'
 
 // make sure they match menuItem components's props
 // these items should be same as DguidewalksApp component content
@@ -64,6 +65,7 @@ export type DuiContextType = {
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   onSceneTargetClick: (title: string) => void
+  sceneCardsReducer: ISceneMenuItemProps['cardsReducer']
 }
 
 export const initialDuiContext = {}
@@ -89,6 +91,7 @@ export interface IDuiContextProviderProps {
   legendConfig: LegendConfig
   themeConfig?: StyleType
   onSceneTargetClick?: (title: string) => void
+  sceneCardsReducer?: ISceneMenuItemProps['cardsReducer']
 }
 
 const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
@@ -105,7 +108,8 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   legendConfig,
   menuSwitchItems,
   themeConfig = defaultStyle,
-  onSceneTargetClick = () => null
+  onSceneTargetClick = () => null,
+  sceneCardsReducer
 }) => {
   useTheme(themeConfig)
   const { switchById, activeId } = useSwitch<MenuItemType>([...defaultMenuItems, ...menuSwitchItems])
@@ -140,7 +144,8 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     menuSwitchEvent,
     weatherConfig,
     legendConfig,
-    onSceneTargetClick
+    onSceneTargetClick,
+    sceneCardsReducer
   }
   return (
     <DuiContext.Provider value={value}>

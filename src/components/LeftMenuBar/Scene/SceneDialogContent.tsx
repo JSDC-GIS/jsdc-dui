@@ -1,19 +1,22 @@
-import icon from '../../../icon'
 import React, { useContext, useEffect, useState } from 'react'
 import './SceneDialogContent.scss'
 import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
-import { DetailArticleInCompleteType } from '../../../JSDC/Dguidewalks/proxyParser'
+import { Article } from '../../../JSDC/Dguidewalks/proxyParser/@types'
 import Target from '../../Icons/Target'
 
 export interface ISceneDialogContentProps {
   onTarget: (title: string) => void
+  cardsReducer?: (data: Article[]) => Article[]
 }
 
 const SceneDialogContent = ({
-  onTarget
+  onTarget,
+  cardsReducer = (data: Article[]) => data
 }: ISceneDialogContentProps) => {
   const { dgw } = useContext(DguidewalksContext)
-  const [articles, setArticles] = useState<DetailArticleInCompleteType[]>([])
+  const [_articles, setArticles] = useState<Article[]>([])
+
+  const articles = cardsReducer(_articles)
 
   const fetchArticles = async () => {
     setArticles(await dgw.getSceneArticles())

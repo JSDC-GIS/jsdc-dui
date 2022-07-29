@@ -2,6 +2,7 @@ import JSDC from "../../";
 import React, { createContext, useEffect, useState } from "react";
 import Dguidewalks from "..";
 import ConfigProvider from "../ConfigProvider";
+import { IArticleProxyParser } from "../proxyParser/@types";
 
 export type DguidewalksContextType = {
   dgw: Dguidewalks
@@ -16,8 +17,10 @@ export interface IDguidewalksProviderProps {
   layersHiddenFromUI: Array<string>,
   layersShowOnMapByDefault: Array<string>
   layerNameOrder?: Array<string>
-  baseApiUrl?: string
-  cmsPath?: string
+  // baseApiUrl?: string
+  // cmsPath?: string
+  articleParser: IArticleProxyParser
+  config: ConfigProvider
 }
 
 const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
@@ -26,12 +29,15 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   layersHiddenFromUI,
   layersShowOnMapByDefault,
   layerNameOrder = [],
-  baseApiUrl,
-  cmsPath
+  // baseApiUrl,
+  // cmsPath,
+  articleParser,
+  config
 }) => {
   const [dgw] = useState(new Dguidewalks({
-    config: new ConfigProvider({ eventId: Jsdc.id, baseApiUrl, cmsPath }),
-    layerNameOrder
+    config,
+    layerNameOrder,
+    articleParser
   }))
 
   const init = async () => {
