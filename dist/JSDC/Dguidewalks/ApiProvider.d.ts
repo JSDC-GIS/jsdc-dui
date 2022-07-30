@@ -22,6 +22,15 @@ export declare type LayerApiRespPolygonFeature = LayerApiRespVectorType<Polygon 
 export interface LayerApiRespBasemap extends LayerApiRespBase {
     url: "https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}";
 }
+export interface BasemapApiRespItem {
+    createdAt: string;
+    id: number;
+    name: string;
+    options: null | {};
+    type: "xyz" | string;
+    updatedAt: string;
+    url: string;
+}
 export interface LayerApiRespItem {
     Basemap: null | LayerApiRespBasemap;
     LineFeatures: LayerApiRespLineFeature[];
@@ -43,7 +52,9 @@ export default class ApiProvider {
     readonly cmsPath: string;
     constructor(configProvider: ConfigProvider);
     get layersApiUrl(): string;
+    get basemapsUrl(): string;
     getLayers(): Promise<LayerApiRespItem[]>;
+    getBasemaps(): Promise<BasemapApiRespItem[]>;
     get proxyApiUrl(): string;
     getProxyQuery: (targetUrl: string) => Promise<string>;
 }

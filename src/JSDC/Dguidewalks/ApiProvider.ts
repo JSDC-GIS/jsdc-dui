@@ -31,6 +31,16 @@ export interface LayerApiRespBasemap extends LayerApiRespBase {
   url: "https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}"
 }
 
+
+export interface BasemapApiRespItem {
+  createdAt: string
+  id: number
+  name: string
+  options: null | {}
+  type: "xyz" | string
+  updatedAt: string
+  url: string
+}
 export interface LayerApiRespItem {
   Basemap: null | LayerApiRespBasemap
   LineFeatures: LayerApiRespLineFeature[]
@@ -61,10 +71,20 @@ export default class ApiProvider {
     return `${this.baseUrl}event/${this.eventId}/layers`
   }
 
+  get basemapsUrl () {
+    return `${this.baseUrl}event/${this.eventId}/basemaps`
+  }
+
   async getLayers () {
     const url =  this.layersApiUrl
     const resp = await fetch(url)
     return await resp.json() as LayerApiRespItem[]
+  }
+
+  async getBasemaps () {
+    const url = this.basemapsUrl
+    const resp = await fetch(url)
+    return await resp.json() as BasemapApiRespItem[]
   }
 
   get proxyApiUrl () {

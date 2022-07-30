@@ -47,6 +47,7 @@ export default class Dguidewalks {
   async loadGisData () {
     const api = this.apiProvider
     const respJson = await api.getLayers()
+    const basemapsJson = await api.getBasemaps()
     const results: Array<JSDCLayer> = []
 
     respJson.forEach(layerJson => {
@@ -55,13 +56,12 @@ export default class Dguidewalks {
       const isLineFeatures = LineFeatures.length > 0 && type === 'line'
       const isPointFeatures = PointFeatures.length > 0 && type === 'point'
       const isPolygonFeatures = PolygonFeatures.length > 0 && type === 'polygon'
-      const isBasemap = Basemap && type === 'image'
 
       isLineFeatures && results.push(createGeoJSONLayer(LineFeatures, commonProps))
       isPointFeatures && results.push(createGeoJSONLayer(PointFeatures, commonProps))
       isPolygonFeatures && results.push(createGeoJSONLayer(PolygonFeatures, commonProps))
-      isBasemap && results.push(createTileLayer(layerJson.name, Basemap?.url || 'url_not_fount'))
     })
+    basemapsJson.forEach(basemap => results.push(createTileLayer(basemap.name, basemap.url)))
     return [...results]
   }
 
