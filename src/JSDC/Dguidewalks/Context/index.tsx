@@ -2,9 +2,12 @@ import JSDC from "../../";
 import React, { createContext, useEffect, useState } from "react";
 import Dguidewalks from "..";
 import ConfigProvider from "../ConfigProvider";
+import { IArticleProxyParser } from "../proxyParser/@types";
+import useGeolocation from "../../../hooks/useGeolocation";
 
 export type DguidewalksContextType = {
   dgw: Dguidewalks
+  geolocation: ReturnType<typeof useGeolocation>
 }
 
 const InitialDguidewalksContext = {}
@@ -16,8 +19,8 @@ export interface IDguidewalksProviderProps {
   layersHiddenFromUI: Array<string>,
   layersShowOnMapByDefault: Array<string>
   layerNameOrder?: Array<string>
-  baseApiUrl?: string
-  cmsPath?: string
+  articleParser: IArticleProxyParser
+  config: ConfigProvider
 }
 
 const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
@@ -26,13 +29,15 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   layersHiddenFromUI,
   layersShowOnMapByDefault,
   layerNameOrder = [],
-  baseApiUrl,
-  cmsPath
+  articleParser,
+  config
 }) => {
   const [dgw] = useState(new Dguidewalks({
-    config: new ConfigProvider({ eventId: Jsdc.id, baseApiUrl, cmsPath }),
-    layerNameOrder
+    config,
+    layerNameOrder,
+    articleParser
   }))
+  const geolocation = useGeolocation()
 
   const init = async () => {
     const layerController = Jsdc.Controller.get('Layer')
@@ -49,7 +54,8 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   }, [])
 
   const value = {
-    dgw
+    dgw,
+    geolocation
   }
   return (
     <DguidewalksContext.Provider value={value}>

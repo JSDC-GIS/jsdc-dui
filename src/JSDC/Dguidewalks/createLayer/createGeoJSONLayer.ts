@@ -1,9 +1,8 @@
 import { FeatureCollection } from "geojson";
-import JSDCLayer from "../../Layer/JSDCLayer";
-import { geoJSON } from "leaflet";
 import { omit } from "lodash";
 import { LayerApiRespVectorType } from "../ApiProvider";
 import { CommonProps } from "./types";
+import JSDCGeoJSONLayer from "../../Layer/JSDCGeoJSONLayer";
 
 const createGeoJSONLayer = (options: LayerApiRespVectorType[], commonOptions: CommonProps) => {
   type GeoJSONTyoe = FeatureCollection<any, Omit<LayerApiRespVectorType, 'geometry'>>
@@ -15,17 +14,14 @@ const createGeoJSONLayer = (options: LayerApiRespVectorType[], commonOptions: Co
       properties: omit(item, ['geometry'])
     }))
   }
-  const instance = geoJSON<GeoJSONTyoe>(geojson)
-  const layer = new JSDCLayer(
-    {
-      id: commonOptions.id,
-      description: {
-        ...commonOptions,
-        name: commonOptions.name,
-      }
+  const layer = new JSDCGeoJSONLayer({
+    id: commonOptions.id,
+    description: {
+      ...commonOptions,
+      name: commonOptions.name,
     }
-  )
-  layer.setInstance(instance)
+  })
+  layer.addFeature(geojson)
   return layer
 }
 
