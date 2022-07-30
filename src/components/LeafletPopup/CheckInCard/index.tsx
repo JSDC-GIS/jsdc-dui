@@ -4,6 +4,8 @@ import './index.scss'
 import { LatLng } from 'leaflet'
 import useGeolocation from '../../../hooks/useGeolocation'
 import { JSDCContext } from '../../../JSDC/Context'
+import NavigatorArrow from '../../Icons/NavigatorArrow'
+import { DuiContext } from '../../Context'
 
 export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   title: string
@@ -34,6 +36,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   onCheckin = () => null
 }) => {
   const { Jsdc } = useContext(JSDCContext)
+  const dui = useContext(DuiContext)
   const distance = latLng && sceneLatLng ? sceneLatLng.distanceTo(latLng) : Infinity
   const readableDistance = distance === Infinity ? '----' : toCurrency(Math.floor(distance))
   const validDistance = Infinity
@@ -76,6 +79,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
           <button className="action-btn" id='checkinBtn' disabled={!isCheckinValid} onClick={() => handleCheckin()}>打卡集章</button>
         </div>
       </div>
+      <p className="dui-CheckInPopup-geonavigator" onClick={() => dui.onSceneNavigate(title)}><NavigatorArrow /></p>
       <div className="dui-CheckInPopup-artical">
         <div className="header">
           <p className="title">{title}</p>
