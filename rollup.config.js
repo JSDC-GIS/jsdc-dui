@@ -18,7 +18,8 @@ export default {
         ...getFiles('./src/icon', extensions),
         ...getFiles('./src/JSDC', extensions),
         ...getFiles('./src/style', extensions),
-        ...getFiles('./src/utils', extensions)
+        ...getFiles('./src/utils', extensions),
+        ...getFiles('./src/hooks', extensions),
     ],
     output: {
         format: 'esm',
