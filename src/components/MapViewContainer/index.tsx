@@ -12,7 +12,7 @@ export interface IMapViewContainerProps {
 
 const credit = `版權所有 Ⓒ ${new Date().getFullYear()}\n 平台內容維護｜智紳數位文化事業有限公司/Design by SomeDesige.`
 
-const MapViewContainer = ({
+const MapViewContainer: React.FC<IMapViewContainerProps> = ({
   headerImgSrc,
   menuChildren,
   mapChildren,
@@ -35,5 +35,5 @@ const MapViewContainer = ({
   </div>
   )
 }
-
+MapViewContainer.displayName = 'MapViewContainer'
 export default MapViewContainer

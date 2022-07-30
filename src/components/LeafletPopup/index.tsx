@@ -24,6 +24,7 @@ export type BindPopupWithSceneCardOptions = {
 }
 
 export const bindPopupWithSceneCard = (layer: Layer, stringRenderer: typeof renderToString, { dgw, title }: BindPopupWithSceneCardOptions) => {
+  // @ts-ignore
   const initialContent = stringRenderer(SceneCard({}))
   layer.bindPopup(initialContent)
   layer.on('click', async () => {
@@ -35,11 +36,13 @@ export const bindPopupWithSceneCard = (layer: Layer, stringRenderer: typeof rend
       mainTextContent: sceneData.content,
       credit: sceneData.ref
     }
+    // @ts-ignore
     bindPopupWithComponent(layer, stringRenderer,{ Component: SceneCard, props  })
   })
 }
 
 export const bindPopupWithTable = (layer: Layer, stringRenderer: typeof renderToString, options: ILeafletPopupTableProps) => {
+  // @ts-ignore
   layer.bindPopup(stringRenderer(Table(options)))
 }
 

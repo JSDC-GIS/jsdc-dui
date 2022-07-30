@@ -1,0 +1,2 @@
+import{__extends as t}from"../../node_modules/tslib/tslib.es6.js";import{LayerGroup as r}from"leaflet";import e from"./JSDCLayer.js";var n=function(e){function n(t){var n=e.call(this,t)||this;return n.instance=new r,n}return t(n,e),n.prototype.addPolyline=function(t){var r;null===(r=this.instance)||void 0===r||r.addLayer(t)},n}(e);export{n as default};
+//# sourceMappingURL=JSDCPolylinesLayer.js.map

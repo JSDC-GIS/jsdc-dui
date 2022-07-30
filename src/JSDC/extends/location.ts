@@ -32,16 +32,28 @@ export default Control.extend<{
 
     let marker: Marker | undefined
 
-    navigator.geolocation.watchPosition(({ coords }) => {
+    const handlePositionChange: PositionCallback = ({ coords }) => {
       const { latitude, longitude } = coords
       const position = latLng(latitude, longitude)
+      this.options.Jsdc?.userGeolocationUpdateEvent.raise(position)
       if (marker) {
         marker.setLatLng(position)
         return
       }
       marker = new Marker(position, { icon: new Icon({ iconUrl: markerBase64, iconSize: [35, 35] }) })
       marker.addTo(map)
-    })
+    }
+    const handlePositionError: PositionErrorCallback = () => console.warn('failed to get geolocation')
+
+    navigator.geolocation.watchPosition(
+      handlePositionChange,
+      handlePositionError,
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 3000
+      }
+    )
 
     container.onclick = () => {
       marker && map.flyTo(marker?.getLatLng()!, 17, { duration: 2 })

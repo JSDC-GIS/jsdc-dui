@@ -1,19 +1,25 @@
-import icon from '../../../icon'
 import React, { useContext, useEffect, useState } from 'react'
 import './SceneDialogContent.scss'
 import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
-import { DetailArticleInCompleteType } from '../../../JSDC/Dguidewalks/proxyParser'
+import { Article } from '../../../JSDC/Dguidewalks/proxyParser/@types'
 import Target from '../../Icons/Target'
+import NavigatorArrow from '../../Icons/NavigatorArrow'
 
 export interface ISceneDialogContentProps {
   onTarget: (title: string) => void
+  onNavigate: (title: string) => void
+  cardsReducer?: (data: Article[]) => Article[]
 }
 
-const SceneDialogContent = ({
-  onTarget
+const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
+  onTarget,
+  onNavigate,
+  cardsReducer = (data: Article[]) => data
 }: ISceneDialogContentProps) => {
   const { dgw } = useContext(DguidewalksContext)
-  const [articles, setArticles] = useState<DetailArticleInCompleteType[]>([])
+  const [_articles, setArticles] = useState<Article[]>([])
+
+  const articles = cardsReducer(_articles)
 
   const fetchArticles = async () => {
     setArticles(await dgw.getSceneArticles())
@@ -33,6 +39,7 @@ const SceneDialogContent = ({
           <div key={index} className="dui-SceneDialogContent-row">
             <div className="dui-SceneDialogContent-picture">
               <img src={article.imgSrc} />
+              <p className="geonavigator" onClick={() => onNavigate(article.title)}><NavigatorArrow /></p>
             </div>
             <div className="dui-SceneDialogContent-content">
               <div className="content-header">
@@ -51,5 +58,5 @@ const SceneDialogContent = ({
     </div>
   )
 }
-
+SceneDialogContent.displayName = 'SceneDialogContent'
 export default SceneDialogContent

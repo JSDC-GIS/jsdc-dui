@@ -3,6 +3,7 @@ import React from 'react';
 import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogContent';
 import { StyleType } from './Theme/useTheme';
 import Event from '../../JSDC/utils/Event';
+import { ISceneMenuItemProps } from '../LeftMenuBar/Scene/SceneMenuItem';
 export declare const defaultMenuItems: {
     id: string;
     name: string;
@@ -35,6 +36,8 @@ export declare type DuiContextType = {
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
     onSceneTargetClick: (title: string) => void;
+    onSceneNavigate: (title: string) => void;
+    sceneCardsReducer: ISceneMenuItemProps['cardsReducer'];
 };
 export declare const initialDuiContext: {};
 declare const DuiContext: React.Context<DuiContextType>;
@@ -56,6 +59,8 @@ export interface IDuiContextProviderProps {
     legendConfig: LegendConfig;
     themeConfig?: StyleType;
     onSceneTargetClick?: (title: string) => void;
+    onSceneNavigate?: (title: string) => void;
+    sceneCardsReducer?: ISceneMenuItemProps['cardsReducer'];
 }
 declare const DuiContextProvider: React.FC<IDuiContextProviderProps>;
 export { DuiContextProvider, DuiContext };

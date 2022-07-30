@@ -42,5 +42,5 @@ const LayerItem: React.FC<ILayerItemProps> = ({
     </div>
   )
 }
-
+LayerItem.displayName = 'LayerItem'
 export default LayerItem

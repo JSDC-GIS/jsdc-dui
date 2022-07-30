@@ -10,5 +10,5 @@ export interface IResponsiveDialogProps {
     disabledFixedPosition?: boolean;
     keepAlive?: boolean;
 }
-declare const ResponsiveDialog: ({ Icon, title, open, children, kanbanImgSrc, disabledFixedPosition, keepAlive, onClose }: IResponsiveDialogProps) => JSX.Element | null;
+declare const ResponsiveDialog: React.FC<IResponsiveDialogProps>;
 export default ResponsiveDialog;

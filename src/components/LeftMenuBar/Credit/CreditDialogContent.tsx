@@ -7,7 +7,7 @@ export interface ICreditDialogContentProps {
   herf?: string
 }
 
-const CreditDialogContent = ({
+const CreditDialogContent: React.FC<ICreditDialogContentProps> = ({
   description,
   herf
 }: ICreditDialogContentProps) => {
@@ -23,5 +23,5 @@ const CreditDialogContent = ({
     </div>
   )
 }
-
+CreditDialogContent.displayName = 'CreditDialogContent'
 export default CreditDialogContent

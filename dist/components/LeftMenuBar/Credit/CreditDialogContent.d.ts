@@ -1,8 +1,8 @@
-/// <reference types="react" />
+import React from 'react';
 import './CreditDialogContent.scss';
 export interface ICreditDialogContentProps {
     description: string;
     herf?: string;
 }
-declare const CreditDialogContent: ({ description, herf }: ICreditDialogContentProps) => JSX.Element;
+declare const CreditDialogContent: React.FC<ICreditDialogContentProps>;
 export default CreditDialogContent;

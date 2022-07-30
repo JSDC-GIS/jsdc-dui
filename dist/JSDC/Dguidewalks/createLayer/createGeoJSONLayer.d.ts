@@ -1,5 +1,5 @@
-import JSDCLayer from "../../Layer/JSDCLayer";
 import { LayerApiRespVectorType } from "../ApiProvider";
 import { CommonProps } from "./types";
-declare const createGeoJSONLayer: (options: LayerApiRespVectorType[], commonOptions: CommonProps) => JSDCLayer<import("leaflet").Layer>;
+import JSDCGeoJSONLayer from "../../Layer/JSDCGeoJSONLayer";
+declare const createGeoJSONLayer: (options: LayerApiRespVectorType[], commonOptions: CommonProps) => JSDCGeoJSONLayer;
 export default createGeoJSONLayer;

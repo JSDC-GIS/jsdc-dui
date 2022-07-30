@@ -7,7 +7,7 @@ export interface ILegendDialogContentProps {
   activeLegends: Array<keyof typeof icon.legend>
 }
 
-const LegendDialogContent = ({
+const LegendDialogContent: React.FC<ILegendDialogContentProps> = ({
   activeLegends
 }: ILegendDialogContentProps) => {
   return (
@@ -22,5 +22,5 @@ const LegendDialogContent = ({
     </div>
   )
 }
-
+LegendDialogContent.displayName = 'LegendDialogContent'
 export default LegendDialogContent

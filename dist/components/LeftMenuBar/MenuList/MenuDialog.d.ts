@@ -7,5 +7,5 @@ export interface IMenuDialogProps {
     children: React.ReactNode;
     onClose: () => void;
 }
-declare const MenuDialog: ({ Icon, title, children, onClose }: IMenuDialogProps) => JSX.Element;
+declare const MenuDialog: React.FC<IMenuDialogProps>;
 export default MenuDialog;

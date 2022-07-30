@@ -9,7 +9,7 @@ export interface IMenuDialogProps {
   onClose: () => void
 }
 
-const MenuDialog = ({
+const MenuDialog: React.FC<IMenuDialogProps> = ({
   Icon,
   title,
   children,
@@ -32,5 +32,5 @@ const MenuDialog = ({
     </div>
   )
 }
-
+MenuDialog.displayName = 'MenuDialog'
 export default MenuDialog

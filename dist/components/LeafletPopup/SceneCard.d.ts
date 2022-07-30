@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import './index.scss';
 export interface ISceneCardProps {
     title: string;
@@ -7,5 +7,5 @@ export interface ISceneCardProps {
     mainTextContent: string;
     credit: string;
 }
-declare const SceneCard: ({ title, subtitle, imgSrc, mainTextContent, credit, }: Partial<ISceneCardProps>) => JSX.Element;
+declare const SceneCard: React.FC<Partial<ISceneCardProps>>;
 export default SceneCard;

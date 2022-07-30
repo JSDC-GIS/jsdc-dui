@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import 'leaflet.markercluster/dist/leaflet.markercluster';
@@ -7,5 +7,5 @@ import JSDC from '../../JSDC';
 export interface IMapViewProps {
     Jsdc: JSDC;
 }
-declare const MapView: ({ Jsdc }: IMapViewProps) => JSX.Element;
+declare const MapView: React.FC<IMapViewProps>;
 export default MapView;

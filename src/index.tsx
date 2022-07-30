@@ -3,7 +3,7 @@ import reportWebVitals from './reportWebVitals';
 import React, { useContext, useEffect, useState } from 'react';
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC';
-import { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider';
+import ApiProvider, { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider';
 import Leaflet, { GeoJSON, latLng, latLngBounds, Marker } from 'leaflet'
 import { IDuiContextProviderProps, DuiContext, DuiContextProvider } from './components/Context';
 import DguideWalksApp from './components/DguideWalksApp';
@@ -17,6 +17,20 @@ import Checkin from './components/Icons/Checkin';
 import { renderToString } from 'react-dom/server';
 import ResponsiveDialog from './components/ResponsiveDialog';
 import SceneCard, { ISceneCardProps } from './components/LeafletPopup/SceneCard';
+import useHeatMap from './JSDC/hooks/layerVisualization/useHeatMap';
+import JSDCGeoJSONLayer from './JSDC/Layer/JSDCGeoJSONLayer';
+import useCluster from './JSDC/hooks/layerVisualization/useCluster';
+import GeoNavigator, { IGeoNavigatorProps, Navigation } from './components/GeoNavigator';
+import { Article, SummaryArticleType } from './JSDC/Dguidewalks/proxyParser/@types';
+import ArticleProxyParser from './JSDC/Dguidewalks/proxyParser';
+import DaKeKanRiver2022Parser from './JSDC/Dguidewalks/proxyParser/DaKeKanRiver2022Parser'
+import { AbsctractArticleProxyParserContructor } from './JSDC/Dguidewalks/proxyParser/AbsctractArticleProxyParser';
+import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider';
+import CheckInCard from './components/LeafletPopup/CheckInCard';
+import useGeolocation from './hooks/useGeolocation';
+import useGoogleNavigator, { GoogleNavigationType } from './hooks/useGoogleNavigator'
+
+
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -42,8 +56,11 @@ const duiConfigProps: IDuiContextProviderProps = {
     activeLegends: ['歷史建物', '聚落', '紀念指標']
   },
   themeConfig: {
-    '--dui-primary': '#ab3916',
-    '--dui-secondary': '#EFA020'
+    '--dui-primary': '#EB9D1D',
+    '--dui-accent': '#C95843',
+    '--dui-secondary': '#EB9D1D',
+    '--dui-bg-secondary': '#EB9D1D',
+    '--dui-bg-accent': '#EB9D1D',
   }
 }
 
@@ -65,23 +82,40 @@ const getPOIIcon = (type: string) => {
 function App() {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
-  const { dgw } = useContext(DguidewalksContext)
+  const { dgw, geolocation } = useContext(DguidewalksContext)
   const [open, setopen] = useState(false)
   const [title, settitle] = useState<string>()
   const [props, setProps] = useState<Partial<ISceneCardProps>>()
+  const [naviOD, setNaviOD] = useState<{ origin: [number, number], destination: [number, number], type: Navigation }>()
+  const { addLayer: addLayerToHeatMap, toggleShowHeatMap, show: showHeatMap } = useHeatMap(Jsdc.asyncViewer)
+  const { addLayer: addLayerToCluster, toggleShowCluster, show: showCluster } = useCluster(Jsdc.asyncViewer)
+  const [data, setData] = useState<string>()
+
+  const handleToggleHeatmap = () => {
+    toggleShowHeatMap()
+  }
+  const handleToggleCluster = () => {
+    toggleShowCluster()
+  }
+
+  const handleOpenNavigate = (type: Navigation) => {
+    setNaviOD({
+      origin: [24.980077143207907,121.53545142928155],
+      destination: [24.998748116199845, 121.51991607604738],
+      type
+    })
+  }
 
   const init = async () => {
     await Jsdc.asyncViewer
     const layerController = Jsdc.Controller.get('Layer')
+    const layer1 = layerController.getByName<GeoJSON>('浸水營古道數位走讀示範路線') as JSDCGeoJSONLayer
+    const layer2 = layerController.getByName<GeoJSON>('n0003-point') as JSDCGeoJSONLayer
 
-    layerController
-      .getByName<GeoJSON>('浸水營古道數位走讀示範路線')
-      ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
+    layer1?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type)})
       )
-    layerController
-      .getByName<GeoJSON>('牡丹社景點')
-      ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
+    layer2?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer: Marker, properties) => {
           layer.setIcon(getPOIIcon(properties.type)!)
           layer.on('click', async () => {
@@ -89,6 +123,7 @@ function App() {
             setopen(true)
             const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
             const props = {
+              sceneLatLng: layer.getLatLng(),
               title: properties.name,
               subtitle: sceneData.subtitle,
               imgSrc: sceneData.imgSrc,
@@ -129,13 +164,19 @@ function App() {
           //   onLayerClick: handleFetchArticle
           // })
         })
-    
+    layer2 && addLayerToHeatMap(layer2)
+    layer2 && addLayerToCluster(layer2)
     dui.menuSwitchEvent.addEventListener(() => setopen(false))
 
   }
   useEffect(() => {
     (window as any).JSDC = Jsdc
     dgw.gisDataLoadEvent.addEventListener(init)
+    window.addEventListener('message', e => {
+      if (e.data.source === 'child') {
+        setData(JSON.stringify(e.data))
+      }
+    })
   }, [])
   return (
     
@@ -146,44 +187,97 @@ function App() {
                 Icon={Checkin}
                 title='景點打卡'
                 active={dui.activeMenuId === '景點打卡'} {...dui.menuSwitcherAction('景點打卡')}>
-                  <div>打卡</div>
+                  <button style={{ background: showHeatMap ? 'yellow': 'white' }} onClick={handleToggleHeatmap}>hopspot</button>
+                  <button style={{ background: showCluster ? 'yellow': 'white' }} onClick={handleToggleCluster}>cluster</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.Walk)}>navigator walk</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.MassTransit)}>navigator MassTransit</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.Car)}>navigator Car</button>
+                  <button onClick={() => handleOpenNavigate(Navigation.Bike)}>navigator Bike</button>
+                  <iframe src="./child.html"></iframe>
+                  <span>render from parent: {data}</span>
               </MenuItemWithDialog>
             }/>
-          <ResponsiveDialog kanbanImgSrc='https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png' open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
+          <ResponsiveDialog open={open} onClose={() => setopen(false)}><CheckInCard {...props} userLatLng={geolocation.latLng}/></ResponsiveDialog>
+            {naviOD && <GeoNavigator {...naviOD}/>}
         </>
       
   );
 }
 
+const cmsPath = '數位走讀地圖/北部景點/大嵙崁溪河階/2022三層·內柵·三坑情' // '數位走讀地圖/南部景點/牡丹社事件'
+const eventId = 'n0003'
+
+const config = new ConfigProvider({
+  eventId,
+  cmsPath,
+  // baseApiUrl: 'http://localhost:8444/api/'
+})
+
+const defaultParser = new DaKeKanRiver2022Parser(eventId, {
+  cmsPath,
+  proxyFetcher: new ApiProvider(config).getProxyQuery
+})
+
+console.log(defaultParser)
+
 const AppWrapper: React.FC = () => {
-  const [Jsdc] = useState(new JSDC('s0003', { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)) }))
-  const handleSceneTagetClick = (title: string) => {
-    const targetFeature = Jsdc.Controller.get('Layer').getByName('牡丹社景點')?.isGeoJSON()
+  const { openNavigator } = useGoogleNavigator()
+  const [Jsdc] = useState(new JSDC(eventId, { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 18 }))
+  const forExactLayerName = (layerName: string, title: string, cb: (layer: Marker) => void) => {
+    const targetFeature = Jsdc.Controller.get('Layer').getByName(layerName)?.isGeoJSON()
     if (!targetFeature) return
     const layers = targetFeature.instance.getLayers() as Marker[]
     for (const layer of layers) {
       const layerName = layer.feature?.properties.name
       if (!layerName) continue
       if (title.includes(String(layerName))) {
-        Jsdc.viewer?.flyTo(layer.getLatLng(), 17)
+        cb(layer)
         break
       }
     }
   }
+  
+  const handleSceneTagetClick = (title: string) => {
+    forExactLayerName('n0003-point', title, (layer) => Jsdc.viewer?.flyTo(layer.getLatLng(), 17))
+  }
+
+  const handleSceneNavigate = (title: string) => {
+    forExactLayerName('n0003-point', title, (layer) => {
+      const { lat: destLat, lng: destLng } = layer.getLatLng()
+      // const origin = location.latLng
+      // if (!origin) return
+
+      openNavigator({
+        origin: [24.906019424067743, 121.30963485844617],
+        destination: [destLat, destLng],
+        type: GoogleNavigationType.Walk
+      })
+    })
+  }
+  const reduceSceneCards = (data: Article[]) => {
+    return data
+  }
   return (
-    <JSDCProvider Jsdc={Jsdc}>
-      <DguidewalksProvider
-        Jsdc={Jsdc}
-        layersHiddenFromUI={['測試路線', '牡丹社景點']}
-        layersShowOnMapByDefault={['臺灣通用正射影像', '牡丹社景點']}
-        layerNameOrder={['牡丹社路線']}
-        // baseApiUrl={'http://localhost:8444/api/'}
-        cmsPath='數位走讀地圖/南部景點/牡丹社事件'>
-        <DuiContextProvider {...duiConfigProps} onSceneTargetClick={handleSceneTagetClick}>
-          <App/>
-        </DuiContextProvider>
-      </DguidewalksProvider>
-    </JSDCProvider>
+    <>
+      <JSDCProvider Jsdc={Jsdc}>
+        <DguidewalksProvider
+          Jsdc={Jsdc}
+          articleParser={defaultParser}
+          layersHiddenFromUI={['測試路線']}
+          layersShowOnMapByDefault={['臺灣通用正射影像', 'n0003-point', 'n0003-line']}
+          layerNameOrder={['牡丹社路線']}
+          config={config}>
+          <DuiContextProvider
+            {...duiConfigProps}
+            onSceneTargetClick={handleSceneTagetClick}
+            sceneCardsReducer={reduceSceneCards}
+            onSceneNavigate={handleSceneNavigate}
+          >
+            <App/>
+          </DuiContextProvider>
+        </DguidewalksProvider>
+      </JSDCProvider>
+    </>
   )
 }
 

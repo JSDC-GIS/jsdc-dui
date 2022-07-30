@@ -10,13 +10,13 @@ export interface ISceneCardProps {
   credit: string
 }
 
-const SceneCard = ({
+const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
   title = '...',
   subtitle = '...',
   imgSrc = icon.others.processing,
   mainTextContent = '...',
   credit = '　:　',
-}: Partial<ISceneCardProps>) => {
+}) => {
   
   return (
     <div className='dui-SceneCard'>
@@ -34,5 +34,5 @@ const SceneCard = ({
     </div>
   )
 }
-
+SceneCard.displayName = 'SceneCard'
 export default SceneCard

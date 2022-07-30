@@ -1,10 +1,11 @@
 import ViewerPromise from "./module/ViewerPromise";
-import Leaflet, { LatLngBounds, Map } from 'leaflet'
+import Leaflet, { LatLng, LatLngBounds, Map } from 'leaflet'
 import { defaults } from "lodash";
 import Controller from "./Controller";
 import location from "./extends/location";
 import zoomHome from "./extends/zoomHome";
 import { iconUrl, iconRetinaUrl, shadowUrl } from "./utils/markerImages";
+import Event from "./utils/Event";
 
 const iconDefault = Leaflet.icon({
     iconRetinaUrl,
@@ -25,6 +26,7 @@ class JSDC
     viewerPromise = new ViewerPromise()
     Controller = new Controller('JSDCController')
     mapOption: Leaflet.MapOptions & { bound?: LatLngBounds }
+    userGeolocationUpdateEvent = new Event<LatLng>()
     constructor (id: string, mapOption: Leaflet.MapOptions & { bound?: LatLngBounds } = {}) {
         this.id = id
         this.viewer = undefined

@@ -8,15 +8,17 @@ export interface ISceneMenuItemProps extends Omit<IMenuItemWithDialogProps, 'tit
 
 }
 
-const SceneMenuItem = ({
+const SceneMenuItem: React.FC<ISceneMenuItemProps> = ({
   onTarget,
+  onNavigate,
+  cardsReducer,
   ...props
 }: ISceneMenuItemProps) => {
   return (
     <MenuItemWithDialog {...props} title='景點介紹' Icon={Mappin}>
-      <SceneDialogContent onTarget={onTarget}/>
+      <SceneDialogContent onTarget={onTarget} onNavigate={onNavigate} cardsReducer={cardsReducer}/>
     </MenuItemWithDialog>
   )
 }
-
+SceneMenuItem.displayName = 'SceneMenuItem'
 export default SceneMenuItem

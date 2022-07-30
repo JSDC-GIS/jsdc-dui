@@ -10,7 +10,7 @@ export interface IMapViewProps {
   Jsdc: JSDC
 }
 
-const MapView = ({
+const MapView: React.FC<IMapViewProps> = ({
   Jsdc
 }: IMapViewProps) => {
   useEffect(() => {
@@ -20,5 +20,5 @@ const MapView = ({
     <div id={Jsdc.id} style={{ width: '100%', height: '100%' }}></div>
   )
 }
-
+MapView.displayName = 'MapView'
 export default MapView

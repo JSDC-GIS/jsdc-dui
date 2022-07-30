@@ -25,5 +25,5 @@ const Dialog: React.FC<IDialogProps> = ({
     </div>
   )
 }
-
+Dialog.displayName = 'Dialog'
 export default Dialog

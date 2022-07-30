@@ -1,2 +1,2 @@
-import{__assign as t}from"../../../node_modules/tslib/tslib.es6.js";import e from"../MenuList/MenuItemWithDialog.js";import o from"react";import r from"./LayerDialogContent.js";import m from"../../Icons/Layer.js";var i=function(i){return o.createElement(e,t({},i,{title:"地圖圖層",Icon:m}),o.createElement(r,t({},i)))};export{i as default};
+import{__assign as e}from"../../../node_modules/tslib/tslib.es6.js";import t from"../MenuList/MenuItemWithDialog.js";import r from"react";import o from"./LayerDialogContent.js";import m from"../../Icons/Layer.js";var i=function(i){return r.createElement(t,e({},i,{title:"地圖圖層",Icon:m}),r.createElement(o,e({},i)))};i.displayName="LayerMenuItem";export{i as default};
 //# sourceMappingURL=LayerMenuItem.js.map
