@@ -7,10 +7,10 @@ export interface ILeafletPopupTableProps {
   value: { [k: string]: string | number }
 }
 
-const LeafletPopupTable = ({
+const LeafletPopupTable: React.FC<ILeafletPopupTableProps> = ({
   name,
   value
-}: ILeafletPopupTableProps) => {
+}) => {
 
   const isUrl = (value: string) => {
     const expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
@@ -37,5 +37,5 @@ const LeafletPopupTable = ({
     </div>
   )
 }
-
+LeafletPopupTable.displayName = 'LeafletPopupTable'
 export default LeafletPopupTable

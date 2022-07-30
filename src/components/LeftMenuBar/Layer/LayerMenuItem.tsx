@@ -8,12 +8,12 @@ export interface ILayerMenuItemProps extends Omit<IMenuItemWithDialogProps, 'tit
 
 }
 
-const LayerMenuItem = (props: ILayerMenuItemProps) => {
+const LayerMenuItem: React.FC<ILayerMenuItemProps> = (props: ILayerMenuItemProps) => {
   return (
     <MenuItemWithDialog {...props} title='地圖圖層' Icon={Layer}>
       <LayerDialogContent {...props}/>
     </MenuItemWithDialog>
   )
 }
-
+LayerMenuItem.displayName = 'LayerMenuItem'
 export default LayerMenuItem

@@ -11,7 +11,7 @@ export interface IMenuListProps {
   endChildren?: React.ReactNode
 }
 
-const MenuList = ({
+const MenuList: React.FC<IMenuListProps> = ({
   title,
   subtitle,
   headerImg,
@@ -40,5 +40,5 @@ const MenuList = ({
     </div>
   )
 }
-
+MenuList.displayName = 'MenuList'
 export default MenuList

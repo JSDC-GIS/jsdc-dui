@@ -7,12 +7,12 @@ export interface IAboutWalkMenuItemProps extends Omit<IMenuItemWithDialogProps, 
 
 }
 
-const AboutWalkMenuItem = (props: IAboutWalkMenuItemProps) => {
+const AboutWalkMenuItem: React.FC<IAboutWalkMenuItemProps> = (props: IAboutWalkMenuItemProps) => {
   return (
     <MenuItemWithDialog {...props} title='路線介紹' Icon={About}>
       <AboutWalkDialogContent {...props}/>
     </MenuItemWithDialog>
   )
 }
-
+AboutWalkMenuItem.displayName = 'AboutWalkMenuItem'
 export default AboutWalkMenuItem

@@ -8,12 +8,12 @@ export interface IWeatherMenuItemProps extends Omit<IMenuItemWithDialogProps, 't
 
 }
 
-const WeatherMenuItem = (props: IWeatherMenuItemProps) => {
+const WeatherMenuItem: React.FC<IWeatherMenuItemProps> = (props: IWeatherMenuItemProps) => {
   return (
     <MenuItemWithDialog {...props} title='氣象預測' Icon={Weather}>
       <WeatherDialogContent {...props}/>
     </MenuItemWithDialog>
   )
 }
-
+WeatherMenuItem.displayName = 'WeatherMenuItem'
 export default WeatherMenuItem

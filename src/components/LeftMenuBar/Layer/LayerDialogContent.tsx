@@ -23,5 +23,5 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
     </div>
   )
 }
-
+LayerDialogContent.displayName = 'LayerDialogContent'
 export default LayerDialogContent

@@ -35,7 +35,7 @@ export interface IWeatherDialogContentProps {
   onSelectLocation?: (latlng: [number, number]) => void
 }
 
-const WeatherDialogContent = ({
+const WeatherDialogContent: React.FC<IWeatherDialogContentProps> = ({
   locations,
   token,
   onSelectLocation = () => null
@@ -117,5 +117,5 @@ const WeatherDialogContent = ({
     </div>
   )
 }
-
+WeatherDialogContent.displayName = 'WeatherDialogContent'
 export default WeatherDialogContent

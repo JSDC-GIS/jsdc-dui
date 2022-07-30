@@ -7,5 +7,5 @@ export interface IMapViewContainerProps {
     mapChildren?: React.ReactNode;
     Jsdc: IMapViewProps['Jsdc'];
 }
-declare const MapViewContainer: ({ headerImgSrc, menuChildren, mapChildren, Jsdc }: IMapViewContainerProps) => JSX.Element;
+declare const MapViewContainer: React.FC<IMapViewContainerProps>;
 export default MapViewContainer;

@@ -10,5 +10,5 @@ export interface IMenuItemWithDialogProps {
     children: React.ReactNode;
     active?: boolean;
 }
-declare const MenuItemWithDialog: ({ onClick, onActiveChange, onClose, Icon, title, children, active }: IMenuItemWithDialogProps) => JSX.Element;
+declare const MenuItemWithDialog: React.FC<IMenuItemWithDialogProps>;
 export default MenuItemWithDialog;

@@ -8,12 +8,12 @@ export interface IAboutWalkDialogContentProps {
   content: string
 }
 
-const AboutWalkDialogContent = ({
+const AboutWalkDialogContent: React.FC<IAboutWalkDialogContentProps> = ({
   imgSrc,
   title,
   subtitle,
   content
-}: IAboutWalkDialogContentProps) => {
+}) => {
   
   return (
     <div className="dui-AboutWalkDialogContent">
@@ -28,5 +28,5 @@ const AboutWalkDialogContent = ({
     </div>
   )
 }
-
+AboutWalkDialogContent.displayName = 'AboutWalkDialogContent'
 export default AboutWalkDialogContent

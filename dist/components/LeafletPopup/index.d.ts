@@ -16,7 +16,7 @@ export declare type BindPopupWithSceneCardOptions = {
 export declare const bindPopupWithSceneCard: (layer: Layer, stringRenderer: typeof renderToString, { dgw, title }: BindPopupWithSceneCardOptions) => void;
 export declare const bindPopupWithTable: (layer: Layer, stringRenderer: typeof renderToString, options: ILeafletPopupTableProps) => void;
 declare const LeafletPopup: {
-    SceneCard: ({ title, subtitle, imgSrc, mainTextContent, credit, }: Partial<import("./SceneCard").ISceneCardProps>) => JSX.Element;
-    Table: ({ name, value }: ILeafletPopupTableProps) => JSX.Element;
+    SceneCard: import("react").FC<Partial<import("./SceneCard").ISceneCardProps>>;
+    Table: import("react").FC<ILeafletPopupTableProps>;
 };
 export default LeafletPopup;

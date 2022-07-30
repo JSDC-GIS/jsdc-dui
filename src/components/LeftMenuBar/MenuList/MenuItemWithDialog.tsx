@@ -14,7 +14,7 @@ export interface IMenuItemWithDialogProps {
   active?: boolean
 }
 
-const MenuItemWithDialog = ({
+const MenuItemWithDialog: React.FC<IMenuItemWithDialogProps> = ({
   onClick = () => null,
   onActiveChange = () => null,
   onClose = () => null,
@@ -42,5 +42,5 @@ const MenuItemWithDialog = ({
     </div>
   )
 }
-
+MenuItemWithDialog.displayName = 'MenuItemWithDialog'
 export default MenuItemWithDialog

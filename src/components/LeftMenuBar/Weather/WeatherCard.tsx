@@ -11,7 +11,7 @@ export interface IWeatherCardProps {
   imgNum: string
 }
 
-const WeatherCard = (props: IWeatherCardProps) => {
+const WeatherCard: React.FC<IWeatherCardProps> = (props: IWeatherCardProps) => {
   return (
     <div className='dui-WeatherCard'>
       <div className='time'>{props.title}</div>
@@ -30,5 +30,5 @@ const WeatherCard = (props: IWeatherCardProps) => {
     </div>
   )
 }
-
+WeatherCard.displayName = 'WeatherCard'
 export default WeatherCard

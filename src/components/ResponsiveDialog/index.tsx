@@ -13,7 +13,7 @@ export interface IResponsiveDialogProps {
   keepAlive?: boolean
 }
 
-const ResponsiveDialog = ({
+const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
   Icon,
   title,
   open,
@@ -46,5 +46,5 @@ const ResponsiveDialog = ({
     </div>
   )
 }
-
+ResponsiveDialog.displayName = 'ResponsiveDialog'
 export default ResponsiveDialog

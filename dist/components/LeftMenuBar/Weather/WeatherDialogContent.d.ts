@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import { CountyName } from './src/api';
 import "./WeatherDialogContent.scss";
 export interface IWeatherDialogContentProps {
@@ -9,5 +9,5 @@ export interface IWeatherDialogContentProps {
     token: string;
     onSelectLocation?: (latlng: [number, number]) => void;
 }
-declare const WeatherDialogContent: ({ locations, token, onSelectLocation }: IWeatherDialogContentProps) => JSX.Element;
+declare const WeatherDialogContent: React.FC<IWeatherDialogContentProps>;
 export default WeatherDialogContent;

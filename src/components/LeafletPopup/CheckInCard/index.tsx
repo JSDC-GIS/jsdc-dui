@@ -22,7 +22,7 @@ function toCurrency(num: number){
   return parts.join('.');
 }
 
-const CheckInCard = ({
+const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   title = '...',
   subtitle = '...',
   imgSrc = icon.others.processing,
@@ -32,7 +32,7 @@ const CheckInCard = ({
   sceneLatLng,
   userLatLng: latLng,
   onCheckin = () => null
-}: Partial<ICheckInCardProps>) => {
+}) => {
   const { Jsdc } = useContext(JSDCContext)
   const distance = latLng && sceneLatLng ? sceneLatLng.distanceTo(latLng) : Infinity
   const readableDistance = distance === Infinity ? '----' : toCurrency(Math.floor(distance))
@@ -87,5 +87,5 @@ const CheckInCard = ({
     </div>
   )
 }
-
+CheckInCard.displayName = 'CheckInCard'
 export default CheckInCard
