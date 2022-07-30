@@ -157,7 +157,7 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     </DuiContext.Provider>
   )
 }
-
+DuiContextProvider.displayName = 'DuiContextProvider'
 export {
   DuiContextProvider,
   DuiContext

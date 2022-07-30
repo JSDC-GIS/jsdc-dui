@@ -35,7 +35,7 @@ const JSDCProvider: React.FC<IJSDCProviderProps> = ({
     </JSDCContext.Provider>
   )
 }
-
+JSDCProvider.displayName = 'JSDCProvider'
 export {
   JSDCContext,
   JSDCProvider

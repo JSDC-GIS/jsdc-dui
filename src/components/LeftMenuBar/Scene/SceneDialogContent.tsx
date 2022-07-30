@@ -11,7 +11,7 @@ export interface ISceneDialogContentProps {
   cardsReducer?: (data: Article[]) => Article[]
 }
 
-const SceneDialogContent = ({
+const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
   onTarget,
   onNavigate,
   cardsReducer = (data: Article[]) => data
@@ -58,5 +58,5 @@ const SceneDialogContent = ({
     </div>
   )
 }
-
+SceneDialogContent.displayName = 'SceneDialogContent'
 export default SceneDialogContent

@@ -1,0 +1,2 @@
+import{__extends as t}from"../../node_modules/tslib/tslib.es6.js";import{LayerGroup as n}from"leaflet";import r from"./JSDCLayer.js";var e=function(r){function e(t){var e=r.call(this,t)||this;return e.instance=new n,e}return t(e,r),e.prototype.addMarker=function(t){var n;null===(n=this.instance)||void 0===n||n.addLayer(t)},e.prototype.getLatLngs=function(){var t;return(null===(t=this.instance)||void 0===t?void 0:t.getLayers()).map((function(t){return t.getLatLng()}))},e}(r);export{e as default};
+//# sourceMappingURL=JSDCMarkersLayer.js.map

@@ -8,5 +8,5 @@ export interface IMenuListProps {
     children?: React.ReactNode;
     endChildren?: React.ReactNode;
 }
-declare const MenuList: ({ title, subtitle, headerImg, headerMBImg, children, endChildren }: IMenuListProps) => JSX.Element;
+declare const MenuList: React.FC<IMenuListProps>;
 export default MenuList;

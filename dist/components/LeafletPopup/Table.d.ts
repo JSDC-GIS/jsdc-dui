@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import './index.scss';
 export interface ILeafletPopupTableProps {
     name: string;
@@ -6,5 +6,5 @@ export interface ILeafletPopupTableProps {
         [k: string]: string | number;
     };
 }
-declare const LeafletPopupTable: ({ name, value }: ILeafletPopupTableProps) => JSX.Element;
+declare const LeafletPopupTable: React.FC<ILeafletPopupTableProps>;
 export default LeafletPopupTable;

@@ -63,7 +63,7 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
     </DguidewalksContext.Provider>
   )
 }
-
+DguidewalksProvider.displayName = 'DguidewalksProvider'
 export {
   DguidewalksContext,
   DguidewalksProvider

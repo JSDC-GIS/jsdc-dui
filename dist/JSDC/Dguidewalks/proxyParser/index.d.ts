@@ -1,21 +1,21 @@
-export declare type DetailArticleType = {
-    title: string;
-    subtitle?: string;
-    content: string;
-    imgSrc: string;
-    ref?: string;
-    link: string;
-};
-export declare type DetailArticleInCompleteType = Omit<DetailArticleType, "ref" | "subtitle">;
-declare class ArticleProxyParser {
-    proxyFetcher: (url: string) => Promise<string>;
-    cmsPath: string;
-    constructor(options: {
-        proxyFetcher: (url: string) => Promise<string>;
-        cmsPath: string;
-    });
-    get url(): string;
-    getDetailByTitle(title: string, fallbackUrl?: string | null): Promise<DetailArticleType>;
-    getAll(refresh?: boolean): Promise<DetailArticleInCompleteType[]>;
+import { SummaryArticleType, IArticleProxyParser } from './@types';
+import AbsctractArticleProxyParser, { AbsctractArticleProxyParserContructor } from './AbsctractArticleProxyParser';
+declare class ArticleProxyParser extends AbsctractArticleProxyParser implements IArticleProxyParser {
+    constructor(options: AbsctractArticleProxyParserContructor);
+    getAll(refresh?: boolean | undefined): Promise<SummaryArticleType[]>;
+    getDetailByTitle(title: string, fallbackUrl?: string | null | undefined): Promise<{
+        content: string;
+        subtitle: string;
+        ref: string;
+        title: string;
+        imgSrc: string;
+        link: string;
+    }>;
+    getArticlesFromHTML(dom: Document): SummaryArticleType[];
+    getExternalDetailFromHTML(dom: Document): {
+        subtitle: string;
+        ref: string;
+        content: string;
+    };
 }
 export default ArticleProxyParser;

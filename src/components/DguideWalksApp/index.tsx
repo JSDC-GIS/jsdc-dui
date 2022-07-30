@@ -91,5 +91,5 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
       )}/>
   )
 }
-
+DguideWalksApp.displayName = 'DguideWalksApp'
 export default DguideWalksApp

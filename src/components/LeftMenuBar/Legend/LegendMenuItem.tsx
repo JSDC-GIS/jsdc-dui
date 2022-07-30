@@ -8,12 +8,12 @@ export interface ILegendMenuItemProps extends Omit<IMenuItemWithDialogProps, 'ti
 
 }
 
-const LegendMenuItem = (props: ILegendMenuItemProps) => {
+const LegendMenuItem: React.FC<ILegendMenuItemProps> = (props: ILegendMenuItemProps) => {
   return (
     <MenuItemWithDialog {...props} title='圖例說明' Icon={Hamburger}>
       <LegendDialogContent activeLegends={props.activeLegends}/>
     </MenuItemWithDialog>
   )
 }
-
+LegendMenuItem.displayName = 'LegendMenuItem'
 export default LegendMenuItem

@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 import './WeatherCard.scss';
 export interface IWeatherCardProps {
     title: string;
@@ -8,5 +8,5 @@ export interface IWeatherCardProps {
     infoList: any[];
     imgNum: string;
 }
-declare const WeatherCard: (props: IWeatherCardProps) => JSX.Element;
+declare const WeatherCard: React.FC<IWeatherCardProps>;
 export default WeatherCard;

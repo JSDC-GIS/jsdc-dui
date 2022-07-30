@@ -8,7 +8,7 @@ export interface ISceneMenuItemProps extends Omit<IMenuItemWithDialogProps, 'tit
 
 }
 
-const SceneMenuItem = ({
+const SceneMenuItem: React.FC<ISceneMenuItemProps> = ({
   onTarget,
   onNavigate,
   cardsReducer,
@@ -20,5 +20,5 @@ const SceneMenuItem = ({
     </MenuItemWithDialog>
   )
 }
-
+SceneMenuItem.displayName = 'SceneMenuItem'
 export default SceneMenuItem
