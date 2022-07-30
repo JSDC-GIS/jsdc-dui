@@ -65,6 +65,7 @@ export type DuiContextType = {
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   onSceneTargetClick: (title: string) => void
+  onSceneNavigate: (title: string) => void
   sceneCardsReducer: ISceneMenuItemProps['cardsReducer']
 }
 
@@ -91,6 +92,7 @@ export interface IDuiContextProviderProps {
   legendConfig: LegendConfig
   themeConfig?: StyleType
   onSceneTargetClick?: (title: string) => void
+  onSceneNavigate?: (title: string) => void
   sceneCardsReducer?: ISceneMenuItemProps['cardsReducer']
 }
 
@@ -109,6 +111,7 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   menuSwitchItems,
   themeConfig = defaultStyle,
   onSceneTargetClick = () => null,
+  onSceneNavigate = () => null,
   sceneCardsReducer
 }) => {
   useTheme(themeConfig)
@@ -145,7 +148,8 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     weatherConfig,
     legendConfig,
     onSceneTargetClick,
-    sceneCardsReducer
+    sceneCardsReducer,
+    onSceneNavigate
   }
   return (
     <DuiContext.Provider value={value}>

@@ -3,14 +3,17 @@ import './SceneDialogContent.scss'
 import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
 import { Article } from '../../../JSDC/Dguidewalks/proxyParser/@types'
 import Target from '../../Icons/Target'
+import NavigatorArrow from '../../Icons/NavigatorArrow'
 
 export interface ISceneDialogContentProps {
   onTarget: (title: string) => void
+  onNavigate: (title: string) => void
   cardsReducer?: (data: Article[]) => Article[]
 }
 
 const SceneDialogContent = ({
   onTarget,
+  onNavigate,
   cardsReducer = (data: Article[]) => data
 }: ISceneDialogContentProps) => {
   const { dgw } = useContext(DguidewalksContext)
@@ -36,6 +39,7 @@ const SceneDialogContent = ({
           <div key={index} className="dui-SceneDialogContent-row">
             <div className="dui-SceneDialogContent-picture">
               <img src={article.imgSrc} />
+              <p className="geonavigator" onClick={() => onNavigate(article.title)}><NavigatorArrow /></p>
             </div>
             <div className="dui-SceneDialogContent-content">
               <div className="content-header">

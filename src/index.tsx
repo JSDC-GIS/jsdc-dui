@@ -20,12 +20,15 @@ import SceneCard, { ISceneCardProps } from './components/LeafletPopup/SceneCard'
 import useHeatMap from './JSDC/hooks/layerVisualization/useHeatMap';
 import JSDCGeoJSONLayer from './JSDC/Layer/JSDCGeoJSONLayer';
 import useCluster from './JSDC/hooks/layerVisualization/useCluster';
-import GeoNavigator, { Navigation } from './components/GeoNavigator';
+import GeoNavigator, { IGeoNavigatorProps, Navigation } from './components/GeoNavigator';
 import { Article, SummaryArticleType } from './JSDC/Dguidewalks/proxyParser/@types';
 import ArticleProxyParser from './JSDC/Dguidewalks/proxyParser';
 import DaKeKanRiver2022Parser from './JSDC/Dguidewalks/proxyParser/DaKeKanRiver2022Parser'
 import { AbsctractArticleProxyParserContructor } from './JSDC/Dguidewalks/proxyParser/AbsctractArticleProxyParser';
 import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider';
+import CheckInCard from './components/LeafletPopup/CheckInCard';
+import useGeolocation from './hooks/useGeolocation';
+import useGoogleNavigator, { GoogleNavigationType } from './hooks/useGoogleNavigator'
 
 
 
@@ -53,8 +56,11 @@ const duiConfigProps: IDuiContextProviderProps = {
     activeLegends: ['歷史建物', '聚落', '紀念指標']
   },
   themeConfig: {
-    '--dui-primary': '#ab3916',
-    '--dui-secondary': '#EFA020'
+    '--dui-primary': '#EB9D1D',
+    '--dui-accent': '#C95843',
+    '--dui-secondary': '#EB9D1D',
+    '--dui-bg-secondary': '#EB9D1D',
+    '--dui-bg-accent': '#EB9D1D',
   }
 }
 
@@ -76,7 +82,7 @@ const getPOIIcon = (type: string) => {
 function App() {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
-  const { dgw } = useContext(DguidewalksContext)
+  const { dgw, geolocation } = useContext(DguidewalksContext)
   const [open, setopen] = useState(false)
   const [title, settitle] = useState<string>()
   const [props, setProps] = useState<Partial<ISceneCardProps>>()
@@ -117,6 +123,7 @@ function App() {
             setopen(true)
             const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
             const props = {
+              sceneLatLng: layer.getLatLng(),
               title: properties.name,
               subtitle: sceneData.subtitle,
               imgSrc: sceneData.imgSrc,
@@ -190,7 +197,7 @@ function App() {
                   <span>render from parent: {data}</span>
               </MenuItemWithDialog>
             }/>
-          <ResponsiveDialog kanbanImgSrc='https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png' open={open} onClose={() => setopen(false)}><SceneCard {...props}/></ResponsiveDialog>
+          <ResponsiveDialog open={open} onClose={() => setopen(false)}><CheckInCard {...props} userLatLng={geolocation.latLng}/></ResponsiveDialog>
             {naviOD && <GeoNavigator {...naviOD}/>}
         </>
       
@@ -214,41 +221,63 @@ const defaultParser = new DaKeKanRiver2022Parser(eventId, {
 console.log(defaultParser)
 
 const AppWrapper: React.FC = () => {
+  const { openNavigator } = useGoogleNavigator()
   const [Jsdc] = useState(new JSDC(eventId, { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 18 }))
-  const handleSceneTagetClick = (title: string) => {
-    const targetFeature = Jsdc.Controller.get('Layer').getByName('n0003-point')?.isGeoJSON()
+  const forExactLayerName = (layerName: string, title: string, cb: (layer: Marker) => void) => {
+    const targetFeature = Jsdc.Controller.get('Layer').getByName(layerName)?.isGeoJSON()
     if (!targetFeature) return
     const layers = targetFeature.instance.getLayers() as Marker[]
     for (const layer of layers) {
       const layerName = layer.feature?.properties.name
       if (!layerName) continue
       if (title.includes(String(layerName))) {
-        Jsdc.viewer?.flyTo(layer.getLatLng(), 17)
+        cb(layer)
         break
       }
     }
+  }
+  
+  const handleSceneTagetClick = (title: string) => {
+    forExactLayerName('n0003-point', title, (layer) => Jsdc.viewer?.flyTo(layer.getLatLng(), 17))
+  }
+
+  const handleSceneNavigate = (title: string) => {
+    forExactLayerName('n0003-point', title, (layer) => {
+      const { lat: destLat, lng: destLng } = layer.getLatLng()
+      // const origin = location.latLng
+      // if (!origin) return
+
+      openNavigator({
+        origin: [24.906019424067743, 121.30963485844617],
+        destination: [destLat, destLng],
+        type: GoogleNavigationType.Walk
+      })
+    })
   }
   const reduceSceneCards = (data: Article[]) => {
     return data
   }
   return (
-    <JSDCProvider Jsdc={Jsdc}>
-      <DguidewalksProvider
-        Jsdc={Jsdc}
-        articleParser={defaultParser}
-        layersHiddenFromUI={['測試路線']}
-        layersShowOnMapByDefault={['臺灣通用正射影像', 'n0003-point', 'n0003-line']}
-        layerNameOrder={['牡丹社路線']}
-        config={config}>
-        <DuiContextProvider
-          {...duiConfigProps}
-          onSceneTargetClick={handleSceneTagetClick}
-          sceneCardsReducer={reduceSceneCards}
-        >
-          <App/>
-        </DuiContextProvider>
-      </DguidewalksProvider>
-    </JSDCProvider>
+    <>
+      <JSDCProvider Jsdc={Jsdc}>
+        <DguidewalksProvider
+          Jsdc={Jsdc}
+          articleParser={defaultParser}
+          layersHiddenFromUI={['測試路線']}
+          layersShowOnMapByDefault={['臺灣通用正射影像', 'n0003-point', 'n0003-line']}
+          layerNameOrder={['牡丹社路線']}
+          config={config}>
+          <DuiContextProvider
+            {...duiConfigProps}
+            onSceneTargetClick={handleSceneTagetClick}
+            sceneCardsReducer={reduceSceneCards}
+            onSceneNavigate={handleSceneNavigate}
+          >
+            <App/>
+          </DuiContextProvider>
+        </DguidewalksProvider>
+      </JSDCProvider>
+    </>
   )
 }
 
