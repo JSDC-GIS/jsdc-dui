@@ -110,7 +110,7 @@ function App() {
     await Jsdc.asyncViewer
     const layerController = Jsdc.Controller.get('Layer')
     const layer1 = layerController.getByName<GeoJSON>('浸水營古道數位走讀示範路線') as JSDCGeoJSONLayer
-    const layer2 = layerController.getByName<GeoJSON>('n0003-point') as JSDCGeoJSONLayer
+    const layer2 = layerController.getByName<GeoJSON>('n0004-point') as JSDCGeoJSONLayer
 
     layer1?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
         (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type)})
@@ -205,7 +205,7 @@ function App() {
 }
 
 const cmsPath = '數位走讀地圖/北部景點/大嵙崁溪河階/2022三層·內柵·三坑情' // '數位走讀地圖/南部景點/牡丹社事件'
-const eventId = 'n0003'
+const eventId = 'n0004'
 
 const config = new ConfigProvider({
   eventId,
@@ -238,11 +238,11 @@ const AppWrapper: React.FC = () => {
   }
   
   const handleSceneTagetClick = (title: string) => {
-    forExactLayerName('n0003-point', title, (layer) => Jsdc.viewer?.flyTo(layer.getLatLng(), 17))
+    forExactLayerName('n0004-point', title, (layer) => Jsdc.viewer?.flyTo(layer.getLatLng(), 17))
   }
 
   const handleSceneNavigate = (title: string) => {
-    forExactLayerName('n0003-point', title, (layer) => {
+    forExactLayerName('n0004-point', title, (layer) => {
       const { lat: destLat, lng: destLng } = layer.getLatLng()
       // const origin = location.latLng
       // if (!origin) return
@@ -264,7 +264,7 @@ const AppWrapper: React.FC = () => {
           Jsdc={Jsdc}
           articleParser={defaultParser}
           layersHiddenFromUI={['測試路線']}
-          layersShowOnMapByDefault={['臺灣通用正射影像', 'n0003-point', 'n0003-line']}
+          layersShowOnMapByDefault={['臺灣通用正射影像', 'n0004-point', 'n0004-line']}
           layerNameOrder={['牡丹社路線']}
           config={config}>
           <DuiContextProvider
