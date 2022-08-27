@@ -4,13 +4,14 @@ import LegendMenuItem from '../LeftMenuBar/Legend/LegendMenuItem'
 import MenuList from '../LeftMenuBar/MenuList'
 import WeatherMenuItem from '../LeftMenuBar/Weather/WeatherMenuItem'
 import MapViewContainer from '../MapViewContainer'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { DuiContext } from '../Context'
 import { JSDCContext } from '../../JSDC/Context'
 import { latLng } from 'leaflet'
 import SceneMenuItem from '../LeftMenuBar/Scene/SceneMenuItem'
 import AboutWalkMenuItem from '../LeftMenuBar/AboutWalk/AboutWalkMenuItem'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
+import VisitorCount from '../VisitorCount'
 import { mapKeys, omit, pick } from 'lodash'
 
 export interface IDguideWalksAppProps {
@@ -22,9 +23,10 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
   mainMenuChildren,
   endMenuChildren
 }) => {
-  const { dgw: { layerNameOrder } } = useContext(DguidewalksContext)
+  const { dgw: { layerNameOrder, apiProvider } } = useContext(DguidewalksContext)
   const dui = useContext(DuiContext)
   const { Jsdc, layerInfos } = useContext(JSDCContext)
+  const [visitors, setVisitors] = useState(0)
 
   const orderedLayerInfos = useMemo(() => {
     const layerInfoMap = mapKeys(layerInfos, info => info.description.name)
@@ -32,11 +34,23 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
     const restInfos = Object.values(omit(layerInfoMap, layerNameOrder))
     return [...matchedInfos, ...restInfos]
   }, [layerInfos, layerNameOrder])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { counter } = await apiProvider.getVisitorCount()
+        setVisitors(counter)
+      } catch (err) {
+        setVisitors(0)
+      }
+    })()
+  }, [])
   
   return (
     <MapViewContainer
       Jsdc={Jsdc}
       headerImgSrc={dui.headerMBImgSrc}
+      mapChildren={<VisitorCount value={visitors}/>}
       menuChildren={(
         <MenuList
           title={dui.sidebarTitle} subtitle={dui.sidebarSubtitle}
