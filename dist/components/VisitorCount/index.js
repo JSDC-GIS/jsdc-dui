@@ -1,0 +1,2 @@
+import t from"react";import{counter as e}from"../../icon/index.js";var i=function(i){var r=i.value,a=String(r).padStart(10,"0");return t.createElement("div",{className:"dui-VisitorCount"},t.createElement("div",{className:"dui-VisitorCount-title"},"瀏覽人次"),t.createElement("div",{className:"dui-VisitorCount-display"},a.split("").map((function(i,r){return t.createElement("img",{key:r,src:e[i],alt:String(r)})}))))};export{i as default};
+//# sourceMappingURL=index.js.map
