@@ -1,3 +1,5 @@
+import { range } from "lodash"
+
 export const baseUrl = 'https://map.jsdc.com.tw/webgis/dguidewalks/assets/'
 
 export const legend = {
@@ -40,8 +42,22 @@ export const legend = {
   '工作站': {
       default: `${baseUrl}legends/icon-l-10-g.svg`,
       active: `${baseUrl}legends/icon-l-10.svg`
+  },
+  '裝置藝術': {
+      default: `${baseUrl}legends/icon-l-11-g.svg`,
+      active: `${baseUrl}legends/icon-l-11.svg`
+  },
+  '商店': {
+      default: `${baseUrl}legends/icon-l-12-g.svg`,
+      active: `${baseUrl}legends/icon-l-12.svg`
   }
 }
+
+export const counter = range(0, 10).reduce((obj, value) => {
+    const key = String(value)
+    obj[key] = `${baseUrl}counter/${value}.svg`
+    return obj
+}, {} as { [k: string]: string })
 
 export const activable = {
   layer: `${baseUrl}menu_icons/layer.svg`,

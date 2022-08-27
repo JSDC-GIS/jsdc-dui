@@ -264,7 +264,7 @@ const AppWrapper: React.FC = () => {
           Jsdc={Jsdc}
           articleParser={defaultParser}
           layersHiddenFromUI={['測試路線']}
-          layersShowOnMapByDefault={['臺灣通用正射影像', 'n0004-point', 'n0004-line']}
+          layersShowOnMapByDefault={['臺灣通用電子地圖(灰階)', 'n0004-point', 'n0004-line']}
           layerNameOrder={['牡丹社路線']}
           config={config}>
           <DuiContextProvider

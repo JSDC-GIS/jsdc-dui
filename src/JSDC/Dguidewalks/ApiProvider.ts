@@ -57,6 +57,11 @@ export interface LayerApiRespItem {
 
 export interface ApiGetLayerResponse {}
 
+export interface ApiGetVisitorCountResponse {
+  project: string,
+  counter: number
+}
+
 export default class ApiProvider {
   readonly baseUrl: string
   readonly eventId: string
@@ -73,6 +78,16 @@ export default class ApiProvider {
 
   get basemapsUrl () {
     return `${this.baseUrl}event/${this.eventId}/basemaps`
+  }
+
+  get counterUrl () {
+    return `https://map.jsdc.com.tw/tools/counter/${this.eventId}`
+  }
+
+  async getVisitorCount () {
+    const url = this.counterUrl
+    const resp = await fetch(url)
+    return await resp.json() as ApiGetVisitorCountResponse
   }
 
   async getLayers () {

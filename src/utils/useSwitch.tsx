@@ -6,7 +6,7 @@ type SwitchData = {
 
 const useSwitch = <T extends SwitchData>(switchDatas: Array<T>) => {
   const [activeData, setactiveData] = useState(switchDatas[0])
-  const [activeId, setactiveId] = useState<string | undefined>(switchDatas[0].id)
+  const [activeId, setactiveId] = useState<string | undefined>(undefined)
 
   const switchById = (id: string | undefined) => {
     if (id === undefined) {

@@ -10,7 +10,7 @@ export interface IMapViewContainerProps {
   Jsdc: IMapViewProps['Jsdc']
 }
 
-const credit = `版權所有 Ⓒ ${new Date().getFullYear()}\n 平台內容維護｜智紳數位文化事業有限公司/Design by SomeDesige.`
+const credit = `版權所有 Ⓒ ${new Date().getFullYear()}\n 平台內容維護｜智紳數位文化事業有限公司/<a href="https://somedesign.com.tw" target='_blank'>Design by SomeDesign</a>.`
 
 const MapViewContainer: React.FC<IMapViewContainerProps> = ({
   headerImgSrc,
@@ -25,7 +25,7 @@ const MapViewContainer: React.FC<IMapViewContainerProps> = ({
     <div className="dui-MapViewContainer" style={style}>
       <div className="header-img-mb"></div>
       <div className="pd-space">
-          <p className="credit">{credit}</p>
+          <p className="credit" dangerouslySetInnerHTML={{ __html: credit }}></p>
           {menuChildren}
           <div className="map">
             <MapView Jsdc={Jsdc}/>

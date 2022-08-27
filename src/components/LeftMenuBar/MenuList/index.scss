@@ -28,7 +28,7 @@
       background-image: var(--header-img);
       background-size: cover;
       background-position: center;
-      @media all and (max-width: 480px){
+      @media all and (max-width: 720px){
           display: none;
       }
   }
