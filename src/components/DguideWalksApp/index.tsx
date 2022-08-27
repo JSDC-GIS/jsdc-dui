@@ -64,7 +64,7 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                 content={dui.aboutWalkContent}
                 active={dui.activeMenuId === '路線介紹'} {...dui.menuSwitcherAction('路線介紹')}/>
               <CreditMenuItem
-                active={dui.activeMenuId === '關於圖台'} {...dui.menuSwitcherAction('關於圖台')}
+                active={dui.activeMenuId === '關於圖臺'} {...dui.menuSwitcherAction('關於圖臺')}
                 herf={dui.creditHref}
                 description={dui.credit}/>
               {endMenuChildren}

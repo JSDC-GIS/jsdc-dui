@@ -52,6 +52,10 @@
           white-space: pre-line;
           margin: 3px 15px;
           line-height: 1.3;
+          a{
+              color: currentColor;
+              text-decoration: none;
+          }
       }
       .map{
           z-index: 0;

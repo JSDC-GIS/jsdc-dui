@@ -30,8 +30,8 @@ export const defaultMenuItems = [
     name: '路線介紹'
   },
   {
-    id: '關於圖台',
-    name: '關於圖台'
+    id: '關於圖臺',
+    name: '關於圖臺'
   }
 ]
 

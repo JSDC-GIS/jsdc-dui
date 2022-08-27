@@ -10,7 +10,7 @@ export interface ICreditMenuItemProps extends Omit<IMenuItemWithDialogProps, 'ti
 
 const CreditMenuItem: React.FC<ICreditMenuItemProps> = ({herf, description, ...props}: ICreditMenuItemProps) => {
   return (
-    <MenuItemWithDialog {...props} title='關於圖台' Icon={Info}>
+    <MenuItemWithDialog {...props} title='關於圖臺' Icon={Info}>
       <CreditDialogContent description={description} herf={herf}/>
     </MenuItemWithDialog>
   )
