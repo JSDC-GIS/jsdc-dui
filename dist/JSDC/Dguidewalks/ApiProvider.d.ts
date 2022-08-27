@@ -46,6 +46,10 @@ export interface LayerApiRespItem {
 }
 export interface ApiGetLayerResponse {
 }
+export interface ApiGetVisitorCountResponse {
+    project: string;
+    counter: number;
+}
 export default class ApiProvider {
     readonly baseUrl: string;
     readonly eventId: string;
@@ -53,6 +57,8 @@ export default class ApiProvider {
     constructor(configProvider: ConfigProvider);
     get layersApiUrl(): string;
     get basemapsUrl(): string;
+    get counterUrl(): string;
+    getVisitorCount(): Promise<ApiGetVisitorCountResponse>;
     getLayers(): Promise<LayerApiRespItem[]>;
     getBasemaps(): Promise<BasemapApiRespItem[]>;
     get proxyApiUrl(): string;

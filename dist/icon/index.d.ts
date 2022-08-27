@@ -40,6 +40,17 @@ export declare const legend: {
         default: string;
         active: string;
     };
+    裝置藝術: {
+        default: string;
+        active: string;
+    };
+    商店: {
+        default: string;
+        active: string;
+    };
+};
+export declare const counter: {
+    [k: string]: string;
 };
 export declare const activable: {
     layer: string;
@@ -115,6 +126,14 @@ declare const _default: {
             active: string;
         };
         工作站: {
+            default: string;
+            active: string;
+        };
+        裝置藝術: {
+            default: string;
+            active: string;
+        };
+        商店: {
             default: string;
             active: string;
         };
