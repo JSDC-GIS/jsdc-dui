@@ -3,7 +3,9 @@ import { TileLayer } from "leaflet";
 import { uniqueId } from "lodash";
 
 const createTileLayer =  (name: string, url: string) => {
-  const instance = new TileLayer(url)
+  const instance = new TileLayer(url, {
+    maxZoom: 20
+  })
   const layer = new JSDCLayer(
     {
       id: `${name}_${uniqueId('basemap')}`,

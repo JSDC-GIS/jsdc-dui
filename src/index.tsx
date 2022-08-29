@@ -222,7 +222,7 @@ console.log(defaultParser)
 
 const AppWrapper: React.FC = () => {
   const { openNavigator } = useGoogleNavigator()
-  const [Jsdc] = useState(new JSDC(eventId, { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 18 }))
+  const [Jsdc] = useState(new JSDC(eventId, { bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)), maxZoom: 19 }))
   const forExactLayerName = (layerName: string, title: string, cb: (layer: Marker) => void) => {
     const targetFeature = Jsdc.Controller.get('Layer').getByName(layerName)?.isGeoJSON()
     if (!targetFeature) return
