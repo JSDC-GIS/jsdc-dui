@@ -76,7 +76,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
                 )
           }
           
-          <button className="action-btn" id='checkinBtn' disabled={!isCheckinValid} onClick={() => handleCheckin()}>數位及集章</button>
+          <button className="action-btn" id='checkinBtn' disabled={!isCheckinValid} onClick={() => handleCheckin()}>數位集章</button>
         </div>
       </div>
       <p className="dui-CheckInPopup-geonavigator" onClick={() => dui.onSceneNavigate(title)}><NavigatorArrow /></p>
