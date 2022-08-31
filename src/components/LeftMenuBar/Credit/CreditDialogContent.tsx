@@ -14,7 +14,7 @@ const CreditDialogContent: React.FC<ICreditDialogContentProps> = ({
   return (
     <div className="dui-CreditDialogContent">
       <div className="dui-CreditDialogContent-content">
-          <span style={{ whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: description }}></span>
+          <span dangerouslySetInnerHTML={{ __html: description }}></span>
           <img className="qr-code" src={icon.credit.qrcode} alt='qrcode' />
       </div>
       <div className="final">
