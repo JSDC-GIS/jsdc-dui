@@ -31,6 +31,24 @@
   text-shadow: 0 0 1px black;
 }
 
+.dui-MapViewContainer {
+  /* 右上工具位置 */
+  .leaflet-right .leaflet-control {
+    margin-right: 0px;
+  }
+  .leaflet-top .leaflet-control {
+    margin-top: 8px;
+  }
+  /* 右下角leaflet位置 */
+  .leaflet-bottom {
+    bottom: 8px;
+  }
+  .leaflet-right {
+    right: 8px;
+  }
+}
+
+
 @mixin mobile {
   @media all and (max-width: 480px) {
     @content;
