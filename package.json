@@ -1,6 +1,6 @@
 {
   "name": "jsdc-dui",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "module": "dist",
   "repository": {
     "type": "git",
