@@ -16,4 +16,5 @@ npm i jsdc-dui
 ```
 
 ## publish procedure
-npm run build -> package.json小版號+1
+npm run build -> package.json小版號+1 -> commit -> start release branch(tag要跟package版號相同)
+-> finish release -> push -> npm publish
