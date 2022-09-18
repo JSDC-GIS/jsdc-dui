@@ -81,11 +81,12 @@ export default class ApiProvider {
   }
 
   get counterUrl () {
-    return `https://map.jsdc.com.tw/tools/counter/${this.eventId}`
+    return `https://map.jsdc.com.tw/tools/counter/${this.eventId}/`
   }
 
   async getVisitorCount () {
     const url = this.counterUrl
+    console.log(`[visit count]: ${url}`)
     const resp = await fetch(url)
     return await resp.json() as ApiGetVisitorCountResponse
   }
