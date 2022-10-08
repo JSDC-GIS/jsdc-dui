@@ -12,6 +12,7 @@ export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
     innerRef?: React.ForwardedRef<HTMLDivElement>;
     onCheckin?: (src: string) => void;
     userLatLng?: ReturnType<typeof useGeolocation>['latLng'];
+    checkinSrc?: string;
 }
 declare const CheckInCard: React.FC<Partial<ICheckInCardProps>>;
 export default CheckInCard;

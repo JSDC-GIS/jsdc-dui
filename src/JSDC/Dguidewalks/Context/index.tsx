@@ -15,6 +15,7 @@ const InitialDguidewalksContext = {}
 const DguidewalksContext = createContext<DguidewalksContextType>(InitialDguidewalksContext as DguidewalksContextType)
 
 export interface IDguidewalksProviderProps {
+  children: React.ReactNode
   Jsdc: JSDC,
   layersHiddenFromUI: Array<string>,
   layersShowOnMapByDefault: Array<string>

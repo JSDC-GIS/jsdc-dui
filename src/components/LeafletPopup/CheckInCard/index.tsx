@@ -17,6 +17,7 @@ export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   innerRef?: React.ForwardedRef<HTMLDivElement>
   onCheckin?: (src: string) => void
   userLatLng?: ReturnType<typeof useGeolocation>['latLng']
+  checkinSrc?: string
 }
 function toCurrency (num: number) {
   var parts = num.toString().split('.');
@@ -33,6 +34,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   innerRef,
   sceneLatLng,
   userLatLng: latLng,
+  checkinSrc,
   onCheckin = () => null
 }) => {
   const { Jsdc } = useContext(JSDCContext)
@@ -45,7 +47,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
 
   const handleCheckin = () => {
     if (!isCheckinValid) return
-    const checkinIframeSrc = `https://map.jsdc.com.tw/tools/checkin/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
+    const checkinIframeSrc = checkinSrc || `https://map.jsdc.com.tw/tools/checkin/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
     onCheckin(checkinIframeSrc)
   }
 
