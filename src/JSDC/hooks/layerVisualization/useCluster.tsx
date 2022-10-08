@@ -11,9 +11,9 @@ export type UseClusterParams = {
 }
 
 const useCluster = (
-    asyncMap: Promise<Map>,
-    options: UseClusterParams = {}
-  ) => {
+  asyncMap: Promise<Map>,
+  options: UseClusterParams = {}
+) => {
   const {
     layers = [],
     config = {

@@ -51,7 +51,8 @@ const duiConfigProps: IDuiContextProviderProps = {
       { county: '屏東縣', town: '牡丹鄉' },
       { county: '屏東縣', town: '車城鄉' },
       { county: '屏東縣', town: '滿州鄉' }
-    ]},
+    ]
+  },
   legendConfig: {
     activeLegends: ['歷史建物', '聚落', '紀念指標']
   },
@@ -79,7 +80,7 @@ const getPOIIcon = (type: string) => {
   return Leaflet.icon({ iconUrl: `${baseUrl}map_icons/type${type}.svg`, iconSize: [30, 40] })
 }
 
-function App() {
+function App () {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
   const { dgw, geolocation } = useContext(DguidewalksContext)
@@ -100,7 +101,7 @@ function App() {
 
   const handleOpenNavigate = (type: Navigation) => {
     setNaviOD({
-      origin: [24.980077143207907,121.53545142928155],
+      origin: [24.980077143207907, 121.53545142928155],
       destination: [24.998748116199845, 121.51991607604738],
       type
     })
@@ -113,57 +114,57 @@ function App() {
     const layer2 = layerController.getByName<GeoJSON>('n0004-point') as JSDCGeoJSONLayer
 
     layer1?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
-        (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type)})
-      )
+      (layer, properties) => layer.setStyle({ color: getRouteColorByType(properties.type) })
+    )
     layer2?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
-        (layer: Marker, properties) => {
-          layer.setIcon(getPOIIcon(properties.type)!)
-          layer.on('click', async () => {
-            setProps({})
-            setopen(true)
-            const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
-            const props = {
-              sceneLatLng: layer.getLatLng(),
-              title: properties.name,
-              subtitle: sceneData.subtitle,
-              imgSrc: sceneData.imgSrc,
-              mainTextContent: sceneData.content,
-              credit: sceneData.ref
-            }
-            setProps(props)
-          })
-          // const handleFetchArticle = async () => {
-          //   const actionLabel = '打卡集章'
-          //   const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
-          //   const props = {
-          //     title: properties.name,
-          //     subtitle: sceneData.subtitle,
-          //     imgSrc: sceneData.imgSrc,
-          //     mainTextContent: sceneData.content,
-          //     credit: sceneData.ref
-          //   }
-          //   const content = renderToString(LeafletPopup.SceneCard({ ...props }))
-          //   layer.bindPopup(content)
-        
-          //   const button = document.getElementById(actionLabel)
-          //   button?.addEventListener('click', handleActionClick)
-          // }
-          // bindPopupWithSceneCard(layer, renderToString, {
-          //   dgw,
-          //   title: properties.name
-          // })
-
-          // bindPopupWithTable(layer, {
-          //   name: properties.name,
-          //   value: properties
-          // })
-
-          // bindPopupWithComponent(layer, {
-          //   Component: LeafletPopup.SceneCard,
-          //   props: {},
-          //   onLayerClick: handleFetchArticle
-          // })
+      (layer: Marker, properties) => {
+        layer.setIcon(getPOIIcon(properties.type)!)
+        layer.on('click', async () => {
+          setProps({})
+          setopen(true)
+          const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
+          const props = {
+            sceneLatLng: layer.getLatLng(),
+            title: properties.name,
+            subtitle: sceneData.subtitle,
+            imgSrc: sceneData.imgSrc,
+            mainTextContent: sceneData.content,
+            credit: sceneData.ref
+          }
+          setProps(props)
         })
+        // const handleFetchArticle = async () => {
+        //   const actionLabel = '打卡集章'
+        //   const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
+        //   const props = {
+        //     title: properties.name,
+        //     subtitle: sceneData.subtitle,
+        //     imgSrc: sceneData.imgSrc,
+        //     mainTextContent: sceneData.content,
+        //     credit: sceneData.ref
+        //   }
+        //   const content = renderToString(LeafletPopup.SceneCard({ ...props }))
+        //   layer.bindPopup(content)
+
+        //   const button = document.getElementById(actionLabel)
+        //   button?.addEventListener('click', handleActionClick)
+        // }
+        // bindPopupWithSceneCard(layer, renderToString, {
+        //   dgw,
+        //   title: properties.name
+        // })
+
+        // bindPopupWithTable(layer, {
+        //   name: properties.name,
+        //   value: properties
+        // })
+
+        // bindPopupWithComponent(layer, {
+        //   Component: LeafletPopup.SceneCard,
+        //   props: {},
+        //   onLayerClick: handleFetchArticle
+        // })
+      })
     layer2 && addLayerToHeatMap(layer2)
     layer2 && addLayerToCluster(layer2)
     dui.menuSwitchEvent.addEventListener(() => setopen(false))
@@ -179,28 +180,29 @@ function App() {
     })
   }, [])
   return (
-    
-        <>
-          <DguideWalksApp
-            mainMenuChildren={
-              <MenuItemWithDialog
-                Icon={Checkin}
-                title='景點打卡'
-                active={dui.activeMenuId === '景點打卡'} {...dui.menuSwitcherAction('景點打卡')}>
-                  <button style={{ background: showHeatMap ? 'yellow': 'white' }} onClick={handleToggleHeatmap}>hopspot</button>
-                  <button style={{ background: showCluster ? 'yellow': 'white' }} onClick={handleToggleCluster}>cluster</button>
-                  <button onClick={() => handleOpenNavigate(Navigation.Walk)}>navigator walk</button>
-                  <button onClick={() => handleOpenNavigate(Navigation.MassTransit)}>navigator MassTransit</button>
-                  <button onClick={() => handleOpenNavigate(Navigation.Car)}>navigator Car</button>
-                  <button onClick={() => handleOpenNavigate(Navigation.Bike)}>navigator Bike</button>
-                  <iframe src="./child.html"></iframe>
-                  <span>render from parent: {data}</span>
-              </MenuItemWithDialog>
-            }/>
-          <ResponsiveDialog open={open} onClose={() => setopen(false)}><CheckInCard {...props} userLatLng={geolocation.latLng}/></ResponsiveDialog>
-            {naviOD && <GeoNavigator {...naviOD}/>}
-        </>
-      
+    <>
+      <DguideWalksApp
+        mainMenuChildren={
+          <MenuItemWithDialog
+            Icon={Checkin}
+            title='景點打卡'
+            active={dui.activeMenuId === '景點打卡'} {...dui.menuSwitcherAction('景點打卡')}>
+            <button style={{ background: showHeatMap ? 'yellow' : 'white' }} onClick={handleToggleHeatmap}>hopspot</button>
+            <button style={{ background: showCluster ? 'yellow' : 'white' }} onClick={handleToggleCluster}>cluster</button>
+            <button onClick={() => handleOpenNavigate(Navigation.Walk)}>navigator walk</button>
+            <button onClick={() => handleOpenNavigate(Navigation.MassTransit)}>navigator MassTransit</button>
+            <button onClick={() => handleOpenNavigate(Navigation.Car)}>navigator Car</button>
+            <button onClick={() => handleOpenNavigate(Navigation.Bike)}>navigator Bike</button>
+            <iframe src="./child.html"></iframe>
+            <span>render from parent: {data}</span>
+          </MenuItemWithDialog>
+        } />
+      <ResponsiveDialog open={open} onClose={() => setopen(false)}>
+        <CheckInCard {...props} userLatLng={geolocation.latLng} />
+      </ResponsiveDialog>
+      {naviOD && <GeoNavigator {...naviOD} />}
+    </>
+
   );
 }
 
@@ -236,7 +238,7 @@ const AppWrapper = () => {
       }
     }
   }
-  
+
   const handleSceneTagetClick = (title: string) => {
     forExactLayerName('n0004-point', title, (layer) => Jsdc.viewer?.flyTo(layer.getLatLng(), 17))
   }
@@ -273,7 +275,7 @@ const AppWrapper = () => {
             sceneCardsReducer={reduceSceneCards}
             onSceneNavigate={handleSceneNavigate}
           >
-            <App/>
+            <App />
           </DuiContextProvider>
         </DguidewalksProvider>
       </JSDCProvider>

@@ -19,7 +19,7 @@ export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   userLatLng?: ReturnType<typeof useGeolocation>['latLng']
   checkinSrc?: string
 }
-function toCurrency(num: number){
+function toCurrency (num: number) {
   var parts = num.toString().split('.');
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return parts.join('.');
@@ -50,34 +50,34 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
     const checkinIframeSrc = checkinSrc || `https://map.jsdc.com.tw/tools/checkin/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
     onCheckin(checkinIframeSrc)
   }
-  
+
   return (
     <div className='dui-CheckInPopup' ref={innerRef}>
       <div className="dui-CheckInPopup-Kanban">
-        <img src={imgSrc}/>
+        <img src={imgSrc} />
         <div className="dui-CheckInPopup-action">
           {
             latLng
               ? (
                 isCheckinValid
                   ? (
-                      <>
-                        <span>距離景點<span id='distance'>{readableDistance}</span>公尺</span>
-                        <span>請打卡！</span>
-                      </>
-                    )
+                    <>
+                      <span>距離景點<span id='distance'>{readableDistance}</span>公尺</span>
+                      <span>請集章！</span>
+                    </>
+                  )
                   : (
-                      <>
-                        <span>距離景點還有<span>{readableDistance}</span>公尺</span>
-                        <span>距離太遠囉!</span>
-                      </>
-                    )
-                )
+                    <>
+                      <span>距離景點還有<span>{readableDistance}</span>公尺</span>
+                      <span>距離太遠囉!</span>
+                    </>
+                  )
+              )
               : (
-                  <span>尚未取得定位</span>
-                )
+                <span>尚未取得定位</span>
+              )
           }
-          
+
           <button className="action-btn" id='checkinBtn' disabled={!isCheckinValid} onClick={() => handleCheckin()}>數位集章</button>
         </div>
       </div>
