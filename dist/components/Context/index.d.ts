@@ -46,6 +46,7 @@ declare type MenuItemType = {
     name: string;
 };
 export interface IDuiContextProviderProps {
+    children?: React.ReactNode;
     sidebarTitle: string;
     sidebarSubtitle: string;
     aboutWalkImgSrc: string;
