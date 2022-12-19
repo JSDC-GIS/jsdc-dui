@@ -18,6 +18,7 @@ export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   onCheckin?: (src: string) => void
   userLatLng?: ReturnType<typeof useGeolocation>['latLng']
   checkinSrc?: string
+  validDistance?: number
 }
 function toCurrency (num: number) {
   var parts = num.toString().split('.');
@@ -35,13 +36,13 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   sceneLatLng,
   userLatLng: latLng,
   checkinSrc,
+  validDistance = Infinity,
   onCheckin = () => null
 }) => {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
   const distance = latLng && sceneLatLng ? sceneLatLng.distanceTo(latLng) : Infinity
   const readableDistance = distance === Infinity ? '----' : toCurrency(Math.floor(distance))
-  const validDistance = Infinity
 
   const isCheckinValid = distance < validDistance
 
