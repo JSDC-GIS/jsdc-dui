@@ -48,6 +48,8 @@ class JSDC
             this.viewer.addControl(new zoomHome({ Jsdc: this } as any))
             this.Controller.init(this.viewer)
             this.viewerPromise.setViewer(this.viewer)
+            const leafletLogo = document.getElementsByClassName( 'leaflet-control-attribution' )[0] as HTMLDivElement
+            leafletLogo.style.display = 'none'
         } catch (error) {
             console.log('ignore Map initialize')
         }

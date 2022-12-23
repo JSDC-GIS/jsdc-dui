@@ -3,7 +3,7 @@
   flex-direction: column;
   position: absolute;
   right: 0;
-  margin-right: 75px;
+  margin-right: 12px;
   bottom: 8px;
   z-index: 400;
   pointer-events: none;
@@ -16,8 +16,4 @@
     display: flex;
     gap: 1px;
   }
-}
-.dui-VisitorCount {
-  margin-right: 75px;
-  bottom: 8px;
 }
