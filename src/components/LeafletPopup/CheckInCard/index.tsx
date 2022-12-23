@@ -48,7 +48,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
 
   const handleCheckin = () => {
     if (!isCheckinValid) return
-    const checkinIframeSrc = checkinSrc || `https://map.jsdc.com.tw/tools/checkin/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
+    const checkinIframeSrc = checkinSrc || `https://map.jsdc.com.tw/tools/checkin/${Jsdc.id}/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
     onCheckin(checkinIframeSrc)
   }
 
