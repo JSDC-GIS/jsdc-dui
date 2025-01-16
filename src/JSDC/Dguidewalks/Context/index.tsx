@@ -1,9 +1,9 @@
-import JSDC from "../../";
-import React, { createContext, useEffect, useState } from "react";
-import Dguidewalks from "..";
-import ConfigProvider from "../ConfigProvider";
-import { IArticleProxyParser } from "../proxyParser/@types";
-import useGeolocation from "../../../hooks/useGeolocation";
+import JSDC from '../../'
+import React, { createContext, useEffect, useState } from 'react'
+import Dguidewalks from '..'
+import ConfigProvider from '../ConfigProvider'
+import { IArticleProxyParser } from '../proxyParser/@types'
+import useGeolocation from '../../../hooks/useGeolocation'
 
 export type DguidewalksContextType = {
   dgw: Dguidewalks
@@ -12,12 +12,14 @@ export type DguidewalksContextType = {
 
 const InitialDguidewalksContext = {}
 
-const DguidewalksContext = createContext<DguidewalksContextType>(InitialDguidewalksContext as DguidewalksContextType)
+const DguidewalksContext = createContext<DguidewalksContextType>(
+  InitialDguidewalksContext as DguidewalksContextType,
+)
 
 export interface IDguidewalksProviderProps {
   children: React.ReactNode
-  Jsdc: JSDC,
-  layersHiddenFromUI: Array<string>,
+  Jsdc: JSDC
+  layersHiddenFromUI: Array<string>
   layersShowOnMapByDefault: Array<string>
   layerNameOrder?: Array<string>
   articleParser: IArticleProxyParser
@@ -31,21 +33,25 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   layersShowOnMapByDefault,
   layerNameOrder = [],
   articleParser,
-  config
+  config,
 }) => {
-  const [dgw] = useState(new Dguidewalks({
-    config,
-    layerNameOrder,
-    articleParser
-  }))
+  const [dgw] = useState(
+    new Dguidewalks({
+      config,
+      layerNameOrder,
+      articleParser,
+    }),
+  )
   const geolocation = useGeolocation()
 
   const init = async () => {
     const layerController = Jsdc.Controller.get('Layer')
     const jsdcLayers = await dgw.loadGisData()
-    jsdcLayers.forEach(jsdcLayer => layerController.add(jsdcLayer, {
-      hidden: layersHiddenFromUI.includes(jsdcLayer.description.name)
-    }))
+    jsdcLayers.forEach((jsdcLayer) =>
+      layerController.add(jsdcLayer, {
+        hidden: layersHiddenFromUI.includes(jsdcLayer.description.name),
+      }),
+    )
     layerController.showByNames(layersShowOnMapByDefault, true)
     dgw.gisDataLoadEvent.raise()
   }
@@ -56,7 +62,7 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
 
   const value = {
     dgw,
-    geolocation
+    geolocation,
   }
   return (
     <DguidewalksContext.Provider value={value}>
@@ -65,7 +71,4 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   )
 }
 DguidewalksProvider.displayName = 'DguidewalksProvider'
-export {
-  DguidewalksContext,
-  DguidewalksProvider
-}
+export { DguidewalksContext, DguidewalksProvider }

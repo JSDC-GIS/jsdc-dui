@@ -8,7 +8,8 @@ declare class WeatherElement {
     getElements(): {
         time: any;
         description: any;
-        unit: any;
+        temp: any;
+        ci: any;
         value: any;
     }[];
 }

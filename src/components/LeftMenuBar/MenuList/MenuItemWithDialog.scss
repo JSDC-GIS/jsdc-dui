@@ -1,47 +1,47 @@
 @import '../../../style/index.scss';
 
-.dui-MenuItemWithDialog{
-  @include mobile{
+.dui-MenuItemWithDialog {
+  @include mobile {
     margin: 5px 0px;
   }
-  .list-item{
+  .list-item {
     display: flex;
     margin: 20px;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    @include mobile{
+    @include mobile {
       max-height: 35px;
       padding: 0px 5px;
       margin: 0px;
-      &:not(:last-child){
+      &:not(:last-child) {
         border-right: 1px solid rgba(0, 0, 0, 0.151);
       }
     }
-    &:hover{
-        font-weight: bolder;
+    &:hover {
+      font-weight: bolder;
     }
-    .icon{
-        // height: 30px;
-        margin: 0px 5px;
-        display: flex;
-        & > * {
-          width: 32px;
-          height: auto;
-        }
-        @include mobile{
-            margin: 0px;
-            // height: 25px;
-        }
+    .icon {
+      // height: 30px;
+      margin: 0px 5px;
+      display: flex;
+      & > * {
+        width: 32px;
+        height: auto;
+      }
+      @include mobile {
+        margin: 0px;
+        // height: 25px;
+      }
     }
-    .text{
-        margin-left: 12px;
-        @include mobile{
-            display: none;
-        }
+    .text {
+      margin-left: 12px;
+      @include mobile {
+        display: none;
+      }
     }
   }
-  .dialog-container{
+  .dialog-container {
     pointer-events: none;
     position: fixed;
     z-index: 500;
@@ -49,7 +49,7 @@
     left: 245px;
     bottom: 45px;
     top: 140px;
-    .dui-ResponsiveDialog{
+    .dui-ResponsiveDialog {
       max-height: unset;
       min-height: unset;
     }
@@ -61,17 +61,17 @@
       left: 0px;
       bottom: 0px;
       margin: 0px $marginSpace;
-      width: calc(100% - $marginSpace*2);
+      width: calc(100% - $marginSpace * 2);
       max-width: 100vw;
       max-height: calc(100% - 165px);
       height: 100vh;
       animation: showUp 0.3s;
       @keyframes showUp {
-        0%{
+        0% {
           bottom: -1000px;
         }
-        100%{
-          bottom: 0px
+        100% {
+          bottom: 0px;
         }
       }
     }

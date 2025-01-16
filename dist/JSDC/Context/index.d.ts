@@ -1,6 +1,6 @@
-import JSDC from "../";
-import { LayerInfo } from "../Controller/LayerController";
-import React from "react";
+import JSDC from '../';
+import { LayerInfo } from '../Controller/LayerController';
+import React from 'react';
 export declare type JSDCContextType = {
     Jsdc: JSDC;
     layerInfos: LayerInfo[];

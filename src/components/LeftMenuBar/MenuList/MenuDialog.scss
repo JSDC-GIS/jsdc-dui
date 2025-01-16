@@ -1,6 +1,6 @@
 @import '../../../style/index.scss';
 
-.dui-MenuDialog{
+.dui-MenuDialog {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -9,53 +9,53 @@
   border-radius: 10px 10px 0px 0px;
   pointer-events: auto;
   overflow: hidden;
-  @include mobile{
-      width: unset;
-      border-radius: 10px 10px 0px 0px ;
+  @include mobile {
+    width: unset;
+    border-radius: 10px 10px 0px 0px;
   }
-  .header{
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      color: black;
+      opacity: 1;
       display: flex;
+      flex-direction: row;
       align-items: center;
-      justify-content: space-between;
-      .title{
-          color: black;
-          opacity: 1;
+      .icon {
+        display: flex;
+        margin: 0px 10px;
+        & > * {
+          height: 32px;
+          width: auto;
+        }
+      }
+      .text {
+        opacity: 0.7;
+        font-size: 20px;
+      }
+    }
+    .action {
+      display: flex;
+      justify-content: flex-end;
+      .close-btn {
+        cursor: pointer;
+        font-size: large;
+        margin-right: 20px;
+        @include mobile {
+          border: 1px solid;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
           display: flex;
-          flex-direction: row;
+          justify-content: center;
           align-items: center;
-          .icon{
-              display: flex;
-              margin: 0px 10px;
-              & > *{
-                  height: 32px;
-                  width: auto;
-              }
-          }
-          .text{
-              opacity: 0.7;
-              font-size: 20px;
-          }
+        }
+        &:hover {
+          font-weight: bolder;
+        }
       }
-      .action{
-          display: flex;
-          justify-content: flex-end;
-          .close-btn{
-              cursor: pointer;
-              font-size: large;
-              margin-right: 20px;
-              @include mobile{
-                border: 1px solid;
-                border-radius: 50%;
-                width: 25px;
-                height: 25px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              }
-              &:hover{
-                  font-weight: bolder;
-              }
-          }
-      }
+    }
   }
 }

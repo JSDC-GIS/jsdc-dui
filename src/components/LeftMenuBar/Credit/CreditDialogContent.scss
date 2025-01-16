@@ -1,41 +1,41 @@
 @import '../../../style/index.scss';
 
-.dui-CreditDialogContent{
-    margin: 0px 5px;
-    padding: 0px 20px;
-    padding-bottom: 45px;
-    padding-top: 20px;
+.dui-CreditDialogContent {
+  margin: 0px 5px;
+  padding: 0px 20px;
+  padding-bottom: 45px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+  gap: 15px;
+  .title {
     display: flex;
     flex-direction: column;
+    color: var(--dui-primary);
+    align-items: center;
+    font-weight: bolder;
+    font-size: 15px;
+    margin: 15px 0px;
+  }
+  &-content {
+    text-justify: inter-ideograph;
+    text-align: justify;
+    font-size: 18px;
+    .qr-code {
+      display: block;
+      margin-top: 20px;
+      width: 71.3px;
+      height: 71.3px;
+    }
+  }
+  .final {
     flex: 1;
-    overflow: auto;
-    gap: 15px;
-    .title{
-        display: flex;
-        flex-direction: column;
-        color: var(--dui-primary);
-        align-items: center;
-        font-weight: bolder;
-        font-size: 15px;
-        margin: 15px 0px;
-    }
-    &-content{
-        text-justify:inter-ideograph;
-        text-align: justify;
-        font-size: 18px;
-        .qr-code{
-            display: block;
-            margin-top: 20px;
-            width: 71.3px;
-            height: 71.3px;
-        }
-    }
-    .final{
-        flex: 1;
-        display: flex;
-        margin: 10px 0px;
-        white-space: pre-line;
-        align-items: flex-end;
-        min-height: 70px;
-    }
+    display: flex;
+    margin: 10px 0px;
+    white-space: pre-line;
+    align-items: flex-end;
+    min-height: 70px;
+  }
 }

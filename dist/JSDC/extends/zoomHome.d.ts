@@ -1,5 +1,5 @@
-import JSDC from "../";
-import { Control, Map } from "leaflet";
+import JSDC from '../';
+import { Control, Map } from 'leaflet';
 export declare type Options = {
     position: string;
     Jsdc?: JSDC;

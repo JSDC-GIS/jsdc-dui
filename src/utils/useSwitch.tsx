@@ -13,7 +13,7 @@ const useSwitch = <T extends SwitchData>(switchDatas: Array<T>) => {
       setactiveId(undefined)
       return
     }
-    const target = switchDatas.find(item => item.id === id)
+    const target = switchDatas.find((item) => item.id === id)
     if (!target) {
       console.warn(`id: ${id} not found`)
       return
@@ -32,7 +32,7 @@ const useSwitch = <T extends SwitchData>(switchDatas: Array<T>) => {
     activeData,
     activeId,
     switchById,
-    forceSwitchActiveId
+    forceSwitchActiveId,
   }
 }
 

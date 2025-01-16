@@ -1,40 +1,38 @@
-import { Map } from "leaflet";
-import { IController } from "./IController";
+import { Map } from 'leaflet'
+import { IController } from './IController'
 
 export default abstract class AbstractController implements IController {
   viewer: Map | undefined
   name: string
   _isDestroy: boolean = false
-  constructor (name: string) {
+  constructor(name: string) {
     this.name = name
   }
 
-  get isDestroy () {
+  get isDestroy() {
     return this._isDestroy
   }
 
-  init (viewer: Map) {
+  init(viewer: Map) {
     this.viewer = viewer
     this._isDestroy = false
   }
 
-  validateViewer () {
+  validateViewer() {
     if (!this.viewer) {
-        throw new Error('viewer is undefined, init controller first')
+      throw new Error('viewer is undefined, init controller first')
     }
     return this.viewer
   }
 
-  start () {
+  start() {
     this.validateViewer()
     return this
   }
 
-  stop () {
+  stop() {}
 
-  }
-
-  destroy () {
+  destroy() {
     this.viewer = undefined
     this._isDestroy = true
   }

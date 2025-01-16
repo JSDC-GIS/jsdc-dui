@@ -10,6 +10,6 @@ export interface GoogleNavigatorOptions {
     type: GoogleNavigationType;
 }
 declare const useGoogleNavigator: () => {
-    openNavigator: ({ origin, destination, type }: GoogleNavigatorOptions) => void;
+    openNavigator: ({ origin, destination, type, }: GoogleNavigatorOptions) => void;
 };
 export default useGoogleNavigator;

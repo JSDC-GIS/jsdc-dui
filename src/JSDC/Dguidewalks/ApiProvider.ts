@@ -1,5 +1,11 @@
-import { LineString, MultiLineString, MultiPolygon, Point, Polygon } from "geojson"
-import ConfigProvider from "./ConfigProvider"
+import {
+  LineString,
+  MultiLineString,
+  MultiPolygon,
+  Point,
+  Polygon,
+} from 'geojson'
+import ConfigProvider from './ConfigProvider'
 
 interface LayerApiRespBase {
   updatedAt: string
@@ -16,28 +22,32 @@ export interface LayerApiRespVectorProps {
   [k: string]: any
 }
 
-export interface LayerApiRespVectorType<T = {}> extends LayerApiRespBase, LayerApiRespVectorProps {
+export interface LayerApiRespVectorType<T = {}>
+  extends LayerApiRespBase,
+    LayerApiRespVectorProps {
   geometry: T
 }
 
-export type LayerApiRespLineFeature = LayerApiRespVectorType<LineString | MultiLineString>
+export type LayerApiRespLineFeature = LayerApiRespVectorType<
+  LineString | MultiLineString
+>
 
 export type LayerApiRespPointFeature = LayerApiRespVectorType<Point>
 
-export type LayerApiRespPolygonFeature = LayerApiRespVectorType<Polygon | MultiPolygon>
-
+export type LayerApiRespPolygonFeature = LayerApiRespVectorType<
+  Polygon | MultiPolygon
+>
 
 export interface LayerApiRespBasemap extends LayerApiRespBase {
-  url: "https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}"
+  url: 'https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}'
 }
-
 
 export interface BasemapApiRespItem {
   createdAt: string
   id: number
   name: string
   options: null | {}
-  type: "xyz" | string
+  type: 'xyz' | string
   updatedAt: string
   url: string
 }
@@ -58,7 +68,7 @@ export interface LayerApiRespItem {
 export interface ApiGetLayerResponse {}
 
 export interface ApiGetVisitorCountResponse {
-  project: string,
+  project: string
   counter: number
 }
 
@@ -66,50 +76,50 @@ export default class ApiProvider {
   readonly baseUrl: string
   readonly eventId: string
   readonly cmsPath: string
-  constructor (configProvider: ConfigProvider) {
+  constructor(configProvider: ConfigProvider) {
     this.baseUrl = configProvider.baseApiUrl
     this.eventId = configProvider.eventId
     this.cmsPath = configProvider.cmsPath || ''
   }
 
-  get layersApiUrl () {
+  get layersApiUrl() {
     return `${this.baseUrl}event/${this.eventId}/layers`
   }
 
-  get basemapsUrl () {
+  get basemapsUrl() {
     return `${this.baseUrl}event/${this.eventId}/basemaps`
   }
 
-  get counterUrl () {
+  get counterUrl() {
     return `https://map.jsdc.com.tw/tools/counter/${this.eventId}/`
   }
 
-  async getVisitorCount () {
+  async getVisitorCount() {
     const url = this.counterUrl
     console.log(`[visit count]: ${url}`)
     const resp = await fetch(url)
-    return await resp.json() as ApiGetVisitorCountResponse
+    return (await resp.json()) as ApiGetVisitorCountResponse
   }
 
-  async getLayers () {
-    const url =  this.layersApiUrl
+  async getLayers() {
+    const url = this.layersApiUrl
     const resp = await fetch(url)
-    return await resp.json() as LayerApiRespItem[]
+    return (await resp.json()) as LayerApiRespItem[]
   }
 
-  async getBasemaps () {
+  async getBasemaps() {
     const url = this.basemapsUrl
     const resp = await fetch(url)
-    return await resp.json() as BasemapApiRespItem[]
+    return (await resp.json()) as BasemapApiRespItem[]
   }
 
-  get proxyApiUrl () {
+  get proxyApiUrl() {
     return `${this.baseUrl}jsdc-proxy/`
   }
 
   getProxyQuery = async (targetUrl: string) => {
     const url = this.proxyApiUrl
     const resp = await fetch(`${url}?proxy=${targetUrl}`)
-    return await resp.text() as string
+    return (await resp.text()) as string
   }
 }

@@ -1,6 +1,6 @@
 @import '../../../style/index.scss';
 
-.dui-CheckInPopup{
+.dui-CheckInPopup {
   min-width: 200px;
   min-height: 300px;
   max-width: 400px;
@@ -10,22 +10,22 @@
   overflow-y: auto;
   overflow-x: hidden;
   transition: 0.3s all;
-  @include mobile{
+  @include mobile {
     max-height: unset;
     flex: 1;
   }
-  &-Kanban{
+  &-Kanban {
     $spacing: 20px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
+    img {
       width: 100%;
     }
   }
 
-  &-action{
+  &-action {
     $height: 26px;
     position: absolute;
     display: flex;
@@ -34,14 +34,14 @@
     align-items: center;
     background-color: rgb(255 255 255 / 65%);
     border-radius: 5px 5px 0px 0px;
-    padding: 10px 15px calc($height - 2px);;
+    padding: 10px 15px calc($height - 2px);
     bottom: 0px;
     // color: var(--dui-primary);
     line-height: 18px;
     font-size: 14px;
     font-weight: 700;
 
-    .action-btn{
+    .action-btn {
       position: absolute;
       cursor: pointer;
       min-height: $height;
@@ -62,48 +62,48 @@
     }
   }
 
-  &-geonavigator{
+  &-geonavigator {
     width: min-content;
     margin: 35px auto 0px auto;
     cursor: pointer;
   }
 
-  &-artical{
+  &-artical {
     padding: 0px 20px;
-    .header{
+    .header {
       margin-top: 0px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      .title{
+      .title {
         font-size: x-large;
         // font-weight: bold;
         margin-top: 15px;
         margin-bottom: 5px;
       }
-      .subtitle{
+      .subtitle {
         opacity: 0.7;
         font-size: 16px;
         margin: 0;
       }
     }
 
-    .content{
+    .content {
       line-height: 25px;
       font-size: 18px;
       min-width: 100px;
       text-align: justify;
       font-weight: 400;
-      &::first-letter{
+      &::first-letter {
         color: var(--dui-accent);
         font-size: large;
       }
     }
-    .CheckInPopup-credit{
+    .CheckInPopup-credit {
       margin-top: 15px;
       display: flex;
       justify-content: flex-end;
-      span{
+      span {
         border-radius: 500px;
         padding: 3px 10px;
         background-color: gray;

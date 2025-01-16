@@ -8,21 +8,16 @@ export interface IDialogProps {
   open: boolean
 }
 
-const Dialog: React.FC<IDialogProps> = ({
-  open,
-  title,
-  onClose,
-  children
-}) => {
+const Dialog: React.FC<IDialogProps> = ({ open, title, onClose, children }) => {
   return (
     <div className={`dui-Dialog ${open ? 'open' : ''}`}>
       <div className="dui-Dialog-header">
         <div className="dui-Dialog-title">{title}</div>
-        <div className="close-btn" onClick={() => onClose()}>✕</div>
+        <div className="close-btn" onClick={() => onClose()}>
+          ✕
+        </div>
       </div>
-      <div className="dui-Dialog-content">
-        {children}
-      </div>
+      <div className="dui-Dialog-content">{children}</div>
     </div>
   )
 }

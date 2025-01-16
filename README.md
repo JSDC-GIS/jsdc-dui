@@ -1,20 +1,32 @@
-<h1 align="center">JSDC DUI</h1>
+# JSDC DUI
 
----
+## Start Local Development
 
-
-## Installation
-
-```
-// Install from git repo.
-npm install https://github.com/60723005l/jsdc-dui.git
-// to install a tag version named 0.3.1
-npm install https://github.com/60723005l/jsdc-dui.git#0.3.1
-
-// Install from npm
-npm i jsdc-dui
+```bash
+npm i
+npm start
 ```
 
-## publish procedure
-npm run build -> package.json小版號+1 -> commit -> start release branch(tag要跟package版號相同)
--> finish release -> push -> npm publish
+## Publish Package
+之前把 package 推到 npm package registry, 現在不用這麼麻煩，
+記得 `git push` 之前先跑 `npm run build` 把 build 好的東西一起堆到 github 就行
+
+## Using This Package
+基本上這個 packege 只會在 [jsdc-dgw-frontend-main](https://github.com/JSDC-GIS/jsdc-dgw-frontend-main) 裡面用到，直接參考 [How to create a new Event (add a submodule)
+](https://github.com/JSDC-GIS/jsdc-dgw-frontend-main?tab=readme-ov-file#create-a-new-event-add-a-submodule)
+
+如果想要 install package:
+```bash
+npm install github:jsdc-gis/jsdc-dui
+
+# 指定版本
+npm install github:jsdc-gis/jsdc-dui#1.7.1
+
+# 指定分支
+npm install github:jsdc-gis/jsdc-dui#main
+```
+
+uninstall package:
+```bash
+npm uninstall jsdc-dui
+```

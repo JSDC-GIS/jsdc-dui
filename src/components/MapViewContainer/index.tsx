@@ -16,23 +16,23 @@ const MapViewContainer: React.FC<IMapViewContainerProps> = ({
   headerImgSrc,
   menuChildren,
   mapChildren,
-  Jsdc
+  Jsdc,
 }: IMapViewContainerProps) => {
   const style = useCssVariable({
-    "--header-mb-img": `url(${headerImgSrc})`
+    '--header-mb-img': `url(${headerImgSrc})`,
   })
   return (
     <div className="dui-MapViewContainer" style={style}>
       <div className="header-img-mb"></div>
       <div className="pd-space">
-          <p className="credit" dangerouslySetInnerHTML={{ __html: credit }}></p>
-          {menuChildren}
-          <div className="map">
-            <MapView Jsdc={Jsdc}/>
-            {mapChildren}
-          </div>
+        <p className="credit" dangerouslySetInnerHTML={{ __html: credit }}></p>
+        {menuChildren}
+        <div className="map">
+          <MapView Jsdc={Jsdc} />
+          {mapChildren}
+        </div>
       </div>
-  </div>
+    </div>
   )
 }
 MapViewContainer.displayName = 'MapViewContainer'

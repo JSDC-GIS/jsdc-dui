@@ -17,26 +17,23 @@ const MenuList: React.FC<IMenuListProps> = ({
   headerImg,
   headerMBImg,
   children,
-  endChildren
+  endChildren,
 }: IMenuListProps) => {
   const style = useCssVariable({
-    "--header-img": `url(${headerImg})`,
-    "--header-mb-img": `url(${headerMBImg})`
+    '--header-img': `url(${headerImg})`,
+    '--header-mb-img': `url(${headerMBImg})`,
   })
   return (
     <div className="dui-MenuList" style={style}>
-        <div className="header-img"></div>
-        <div className="title">
-            <div className="main">{title}</div><div className="sub">{subtitle}</div>
-        </div>
-        <div className="content">
-            <div className='main-content'>
-              {children}
-            </div>
-            <div className="end-content">
-              {endChildren}
-            </div>
-        </div>
+      <div className="header-img"></div>
+      <div className="title">
+        <div className="main">{title}</div>
+        <div className="sub">{subtitle}</div>
+      </div>
+      <div className="content">
+        <div className="main-content">{children}</div>
+        <div className="end-content">{endChildren}</div>
+      </div>
     </div>
   )
 }

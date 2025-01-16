@@ -1,4 +1,4 @@
-.dui-WeatherCard{
+.dui-WeatherCard {
   display: flex;
   flex-direction: column;
   margin: 15px;
@@ -7,32 +7,32 @@
   transition: 0.3s all;
   width: 250px;
   min-height: 200px;
-  &:hover{
-      background: #d4e9ffd9;
-      border: 1px solid #ffffff;
+  &:hover {
+    background: #d4e9ffd9;
+    border: 1px solid #ffffff;
   }
-  .time{
+  .time {
     color: #00000094;
     font-size: smaller;
     padding: 0.5rem;
   }
-  .description{
+  .description {
     display: flex;
     padding: 0.5rem;
     flex-wrap: wrap;
     font-size: 1.4rem;
-    p{
+    p {
       margin: 0px 5px;
     }
   }
-  .main-info{
+  .main-info {
     display: flex;
     justify-content: space-around;
-    .degree{
+    .degree {
       padding: 0.5rem;
       font-size: xx-large;
     }
-    img{
+    img {
       height: 100px;
     }
   }

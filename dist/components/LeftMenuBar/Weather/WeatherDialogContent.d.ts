@@ -1,6 +1,6 @@
 import React from 'react';
 import { CountyName } from './src/api';
-import "./WeatherDialogContent.scss";
+import './WeatherDialogContent.scss';
 export interface IWeatherDialogContentProps {
     locations: Array<{
         county: CountyName;

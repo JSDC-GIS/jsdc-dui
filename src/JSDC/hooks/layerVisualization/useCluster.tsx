@@ -10,15 +10,12 @@ export type UseClusterParams = {
   config?: MarkerClusterGroupOptions
 }
 
-const useCluster = (
-  asyncMap: Promise<Map>,
-  options: UseClusterParams = {}
-) => {
+const useCluster = (asyncMap: Promise<Map>, options: UseClusterParams = {}) => {
   const {
     layers = [],
     config = {
-      showCoverageOnHover: false
-    }
+      showCoverageOnHover: false,
+    },
   } = options
   const cluster = useRef(new MarkerClusterGroup(config))
   const sourceLayers = useRef<Array<UseClusterValidLayer>>([])
@@ -28,14 +25,14 @@ const useCluster = (
     const map = await asyncMap
     map.removeLayer(cluster.current)
     map.addLayer(cluster.current)
-    sourceLayers.current.forEach(layer => layer.show = false)
+    sourceLayers.current.forEach((layer) => (layer.show = false))
     setShow(true)
   }
 
   const hideCluster = async () => {
     const map = await asyncMap
     map.removeLayer(cluster.current)
-    sourceLayers.current.forEach(layer => layer.show = true)
+    sourceLayers.current.forEach((layer) => (layer.show = true))
     setShow(false)
   }
 
@@ -59,9 +56,9 @@ const useCluster = (
   }
 
   useEffect(() => {
-    (async function () {
+    ;(async function () {
       const map = await asyncMap
-      layers.forEach(layer => addLayer(layer))
+      layers.forEach((layer) => addLayer(layer))
       map.addLayer(cluster.current)
     })()
   }, [])
@@ -69,7 +66,7 @@ const useCluster = (
   return {
     show,
     addLayer,
-    toggleShowCluster
+    toggleShowCluster,
   }
 }
 
