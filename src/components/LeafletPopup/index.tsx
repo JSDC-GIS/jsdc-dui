@@ -6,7 +6,7 @@ import Dguidewalks from '../../JSDC/Dguidewalks'
 import { get } from 'lodash'
 
 export type BindPopupWithComponentOptions<P> = {
-  Component: (props: P) => JSX.Element
+  Component: (props: P) => JSX.Element | null
   props: P
   onLayerClick?: () => void
 }
@@ -16,7 +16,8 @@ export function bindPopupWithComponent<P>(
   stringRenderer: typeof renderToString,
   { Component, props, onLayerClick }: BindPopupWithComponentOptions<P>,
 ) {
-  layer.bindPopup(stringRenderer(Component(props)))
+  const element = Component(props)
+  element && layer.bindPopup(stringRenderer(element))
   onLayerClick &&
     layer.on('click', async () => {
       onLayerClick()
