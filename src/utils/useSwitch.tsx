@@ -1,39 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 type SwitchData = {
-  id: string
-}
+  id: string;
+};
 
 const useSwitch = <T extends SwitchData>(switchDatas: Array<T>) => {
-  const [activeData, setactiveData] = useState(switchDatas[0])
-  const [activeId, setactiveId] = useState<string | undefined>(undefined)
+  const [activeData, setactiveData] = useState(switchDatas[0]);
+  const [activeId, setactiveId] = useState<string | undefined>(undefined);
 
   const switchById = (id: string | undefined) => {
     if (id === undefined) {
-      setactiveId(undefined)
-      return
+      setactiveId(undefined);
+      return;
     }
-    const target = switchDatas.find(item => item.id === id)
+    const target = switchDatas.find((item) => item.id === id);
     if (!target) {
-      console.warn(`id: ${id} not found`)
-      return
+      console.warn(`id: ${id} not found`);
+      return;
     }
-    setactiveData(target)
-    setactiveId(id)
-  }
+    setactiveData(target);
+    setactiveId(id);
+  };
 
   const forceSwitchActiveId = (id: string | undefined) => {
-    setactiveId(id)
-    switchById(id)
-  }
+    setactiveId(id);
+    switchById(id);
+  };
 
   return {
     switchDatas,
     activeData,
     activeId,
     switchById,
-    forceSwitchActiveId
-  }
-}
+    forceSwitchActiveId,
+  };
+};
 
-export default useSwitch
+export default useSwitch;

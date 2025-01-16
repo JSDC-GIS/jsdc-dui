@@ -3,18 +3,20 @@ import { LayerInfo } from "../Controller/LayerController";
 import { useEffect, useState } from "react";
 
 const useLayerInfos = (Jsdc: JSDC) => {
-  const [layerInfos, setlayerInfos] = useState<LayerInfo[]>([])
+  const [layerInfos, setlayerInfos] = useState<LayerInfo[]>([]);
   useEffect(() => {
-    const layerController = Jsdc.Controller.get('Layer')
-    const removeUpdateEvent = layerController.onUpdateEvent.addEventListener(() => setlayerInfos(layerController.layerInfos))
+    const layerController = Jsdc.Controller.get("Layer");
+    const removeUpdateEvent = layerController.onUpdateEvent.addEventListener(
+      () => setlayerInfos(layerController.layerInfos),
+    );
     return () => {
-      removeUpdateEvent && removeUpdateEvent()
-    }
-  }, [])
+      removeUpdateEvent && removeUpdateEvent();
+    };
+  }, []);
 
   return {
-    layerInfos
-  }
-}
+    layerInfos,
+  };
+};
 
-export default useLayerInfos
+export default useLayerInfos;

@@ -1,63 +1,66 @@
-import { range } from "lodash"
+import { range } from "lodash";
 
-export const baseUrl = 'https://map.jsdc.com.tw/webgis/dguidewalks/assets/'
+export const baseUrl = "https://map.jsdc.com.tw/webgis/dguidewalks/assets/";
 
 export const legend = {
-  '人文地景': {
-      default: `${baseUrl}legends/icon-l-01-g.svg`,
-      active: `${baseUrl}legends/icon-l-01.svg`
+  人文地景: {
+    default: `${baseUrl}legends/icon-l-01-g.svg`,
+    active: `${baseUrl}legends/icon-l-01.svg`,
   },
-  '歷史建物': {
-      default: `${baseUrl}legends/icon-l-02-g.svg`,
-      active: `${baseUrl}legends/icon-l-02.svg`
+  歷史建物: {
+    default: `${baseUrl}legends/icon-l-02-g.svg`,
+    active: `${baseUrl}legends/icon-l-02.svg`,
   },
-  '聚落': {
-      default: `${baseUrl}legends/icon-l-03-g.svg`,
-      active: `${baseUrl}legends/icon-l-03.svg`
+  聚落: {
+    default: `${baseUrl}legends/icon-l-03-g.svg`,
+    active: `${baseUrl}legends/icon-l-03.svg`,
   },
-  '自然地景': {
-      default: `${baseUrl}legends/icon-l-04-g.svg`,
-      active: `${baseUrl}legends/icon-l-04.svg`
+  自然地景: {
+    default: `${baseUrl}legends/icon-l-04-g.svg`,
+    active: `${baseUrl}legends/icon-l-04.svg`,
   },
-  '田園景色': {
-      default: `${baseUrl}legends/icon-l-05-g.svg`,
-      active: `${baseUrl}legends/icon-l-05.svg`
+  田園景色: {
+    default: `${baseUrl}legends/icon-l-05-g.svg`,
+    active: `${baseUrl}legends/icon-l-05.svg`,
   },
-  '資訊站': {
-      default: `${baseUrl}legends/icon-l-06-g.svg`,
-      active: `${baseUrl}legends/icon-l-06.svg`
+  資訊站: {
+    default: `${baseUrl}legends/icon-l-06-g.svg`,
+    active: `${baseUrl}legends/icon-l-06.svg`,
   },
-  '紀念指標': {
-      default: `${baseUrl}legends/icon-l-07-g.svg`,
-      active: `${baseUrl}legends/icon-l-07.svg`
+  紀念指標: {
+    default: `${baseUrl}legends/icon-l-07-g.svg`,
+    active: `${baseUrl}legends/icon-l-07.svg`,
   },
-  '展覽場館': {
-      default: `${baseUrl}legends/icon-l-08-g.svg`,
-      active: `${baseUrl}legends/icon-l-08.svg`
+  展覽場館: {
+    default: `${baseUrl}legends/icon-l-08-g.svg`,
+    active: `${baseUrl}legends/icon-l-08.svg`,
   },
-  '水利工程': {
-      default: `${baseUrl}legends/icon-l-09-g.svg`,
-      active: `${baseUrl}legends/icon-l-09.svg`
+  水利工程: {
+    default: `${baseUrl}legends/icon-l-09-g.svg`,
+    active: `${baseUrl}legends/icon-l-09.svg`,
   },
-  '工作站': {
-      default: `${baseUrl}legends/icon-l-10-g.svg`,
-      active: `${baseUrl}legends/icon-l-10.svg`
+  工作站: {
+    default: `${baseUrl}legends/icon-l-10-g.svg`,
+    active: `${baseUrl}legends/icon-l-10.svg`,
   },
-  '裝置藝術': {
-      default: `${baseUrl}legends/icon-l-11-g.svg`,
-      active: `${baseUrl}legends/icon-l-11.svg`
+  裝置藝術: {
+    default: `${baseUrl}legends/icon-l-11-g.svg`,
+    active: `${baseUrl}legends/icon-l-11.svg`,
   },
-  '商店': {
-      default: `${baseUrl}legends/icon-l-12-g.svg`,
-      active: `${baseUrl}legends/icon-l-12.svg`
-  }
-}
+  商店: {
+    default: `${baseUrl}legends/icon-l-12-g.svg`,
+    active: `${baseUrl}legends/icon-l-12.svg`,
+  },
+};
 
-export const counter = range(0, 10).reduce((obj, value) => {
-    const key = String(value)
-    obj[key] = `${baseUrl}counter/${value}.svg`
-    return obj
-}, {} as { [k: string]: string })
+export const counter = range(0, 10).reduce(
+  (obj, value) => {
+    const key = String(value);
+    obj[key] = `${baseUrl}counter/${value}.svg`;
+    return obj;
+  },
+  {} as { [k: string]: string },
+);
 
 export const activable = {
   layer: `${baseUrl}menu_icons/layer.svg`,
@@ -72,20 +75,20 @@ export const activable = {
   aboutActive: `${baseUrl}menu_icons/about_active.svg`,
   locationMappin: `${baseUrl}menu_icons/location-mappin.svg`,
   locationMappinActive: `${baseUrl}menu_icons/location-mappin_active.svg`,
-}
+};
 
 export const credit = {
-    qrcode: `${baseUrl}credit/fb_qrcode.png`,
-    logo: `${baseUrl}credit/main-logo.svg`,
-}
+  qrcode: `${baseUrl}credit/fb_qrcode.png`,
+  logo: `${baseUrl}credit/main-logo.svg`,
+};
 
 export const others = {
-    processing: `${baseUrl}others/processing.gif`
-}
+  processing: `${baseUrl}others/processing.gif`,
+};
 
 export default {
   activable,
   legend,
   credit,
-  others
-}
+  others,
+};

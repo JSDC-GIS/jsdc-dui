@@ -1,4 +1,3 @@
-
 export interface IActivableProps {
-  active: boolean
+  active: boolean;
 }

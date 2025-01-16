@@ -1,16 +1,16 @@
-@import '../../../style/index.scss';
+@import "../../../style/index.scss";
 
-.dui-AboutWalkDialogContent{
+.dui-AboutWalkDialogContent {
   overflow: auto;
   margin: 0px 5px;
   padding: 0px 25px;
   flex: unset;
   display: unset;
 
-  &-img{
+  &-img {
     display: flex;
     justify-content: center;
-    img{
+    img {
       max-height: 400px;
       max-height: 400px;
       min-height: 200px;
@@ -21,7 +21,7 @@
     }
   }
 
-  &-title{
+  &-title {
     font-size: 20px;
     font-weight: 700;
     margin: 15px 0px;
@@ -31,7 +31,7 @@
     color: var(--dui-accent);
   }
 
-  &-content{
+  &-content {
     font-size: 18px !important;
     padding: 0 20px;
     text-align: justify;

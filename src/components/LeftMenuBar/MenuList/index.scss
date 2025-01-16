@@ -1,6 +1,6 @@
-@import '../../../style/index.scss';
+@import "../../../style/index.scss";
 
-.dui-MenuList{
+.dui-MenuList {
   display: flex;
   flex-direction: column;
   background: var(--dui-bg-primary);
@@ -9,68 +9,68 @@
   overflow: hidden;
   max-height: 100%;
   @include mobile {
+    flex-direction: row;
+    position: fixed;
+    height: auto;
+    z-index: 600;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.384);
+    min-width: auto;
+    max-height: auto;
+    border-radius: 5px;
+    margin: 10px;
+  }
+  .header-img {
+    margin-top: 20px;
+    background: #fff;
+    border-top: 0px solid #4ba549;
+    background-color: var(--dui-bg-accent);
+    height: 80px;
+    background-image: var(--header-img);
+    background-size: cover;
+    background-position: center;
+    @media all and (max-width: 480px) {
+      display: none;
+    }
+  }
+  .title {
+    color: var(--dui-accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bolder;
+    font-size: 15px;
+    margin: 15px 0px;
+    @include mobile {
+      display: none;
+    }
+  }
+  .content {
+    flex: 1;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
+    @include mobile {
+      max-height: 45px;
       flex-direction: row;
-      position: fixed;
-      height: auto;
-      z-index: 600;
-      box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.384);
-      min-width: auto;
-      max-height: auto;
-      border-radius: 5px;
-      margin: 10px;
-  }
-  .header-img{
-      margin-top: 20px;
-      background: #fff;
-      border-top: 0px solid #4ba549;
-      background-color: var(--dui-bg-accent);
-      height: 80px;
-      background-image: var(--header-img);
-      background-size: cover;
-      background-position: center;
-      @media all and (max-width: 480px){
-          display: none;
-      }
-  }
-  .title{
-      color: var(--dui-accent);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-weight: bolder;
-      font-size: 15px;
-      margin: 15px 0px;
-      @include mobile {
-          display: none;
-      }
-  }
-  .content{
-      flex: 1;
-      margin-bottom: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      margin: 0px;
+      max-width: calc(100vw - 65px);
       overflow: auto;
+    }
+    .main-content {
       @include mobile {
-          max-height: 45px;
-          flex-direction: row;
-          margin: 0px;
-          max-width: calc(100vw - 65px);
-          overflow: auto;
+        display: flex;
+        flex-direction: row;
       }
-      .main-content{
-        @include mobile {
-            display: flex;
-            flex-direction: row;
-        }
+    }
+    .end-content {
+      padding-top: 1rem;
+      @include mobile {
+        display: flex;
+        flex-direction: row;
+        padding-top: 0px;
       }
-      .end-content{
-          padding-top: 1rem;
-          @include mobile {
-              display: flex;
-              flex-direction: row;
-              padding-top: 0px;
-        }
-      }
+    }
   }
 }

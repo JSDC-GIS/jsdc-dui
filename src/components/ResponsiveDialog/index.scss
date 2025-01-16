@@ -1,6 +1,6 @@
-@import '../../style/index.scss';
+@import "../../style/index.scss";
 
-.dui-ResponsiveDialog{
+.dui-ResponsiveDialog {
   background: var(--dui-bg-primary--opacity-95);
   position: fixed;
   top: 50%;
@@ -17,10 +17,10 @@
   border-radius: 10px;
   pointer-events: auto;
   overflow: hidden;
-  @include mobile{
+  @include mobile {
     $marginSpace: 5px;
     max-width: unset;
-    width: calc(100% - $marginSpace*2);
+    width: calc(100% - $marginSpace * 2);
     transform: unset;
     bottom: 0px;
     left: $marginSpace;
@@ -29,16 +29,16 @@
     max-height: unset;
     animation: showUp 0.3s;
     @keyframes showUp {
-      0%{
+      0% {
         bottom: -1000px;
       }
-      100%{
-        bottom: 0px
+      100% {
+        bottom: 0px;
       }
     }
   }
 
-  &-disableFixed{
+  &-disableFixed {
     position: relative;
     top: auto;
     left: auto;
@@ -47,8 +47,8 @@
     width: 100%;
   }
 
-  &-kanban{
-    img{
+  &-kanban {
+    img {
       width: 100%;
       max-height: 150px;
       object-fit: cover;
@@ -57,53 +57,53 @@
       display: none;
     }
   }
-  .header{
+  .header {
     margin-top: 10px;
     margin-left: 0px;
     min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title {
+      color: black;
+      opacity: 1;
       display: flex;
+      flex-direction: row;
       align-items: center;
-      justify-content: space-between;
-      .title{
-          color: black;
-          opacity: 1;
+      margin-top: 15px;
+      .icon {
+        display: flex;
+        margin: 0px 10px;
+        & > * {
+          height: 32px;
+          width: auto;
+        }
+      }
+      .text {
+        opacity: 0.7;
+        font-size: 20px;
+      }
+    }
+    .action {
+      display: flex;
+      justify-content: flex-end;
+      .close-btn {
+        cursor: pointer;
+        font-size: large;
+        margin-right: 20px;
+        @include mobile {
+          border: 1px solid;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
           display: flex;
-          flex-direction: row;
+          justify-content: center;
           align-items: center;
-          margin-top: 15px;
-          .icon{
-              display: flex;
-              margin: 0px 10px;
-              & > *{
-                  height: 32px;
-                  width: auto;
-              }
-          }
-          .text{
-              opacity: 0.7;
-              font-size: 20px;
-          }
+        }
+        &:hover {
+          font-weight: bolder;
+        }
       }
-      .action{
-          display: flex;
-          justify-content: flex-end;
-          .close-btn{
-              cursor: pointer;
-              font-size: large;
-              margin-right: 20px;
-              @include mobile{
-                border: 1px solid;
-                border-radius: 50%;
-                width: 25px;
-                height: 25px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              }
-              &:hover{
-                  font-weight: bolder;
-              }
-          }
-      }
+    }
   }
 }

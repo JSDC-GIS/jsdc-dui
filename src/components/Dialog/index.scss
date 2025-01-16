@@ -1,4 +1,4 @@
-.dui-Dialog{
+.dui-Dialog {
   position: fixed;
   top: 500%;
   left: 50%;
@@ -8,7 +8,7 @@
   max-height: 90vh;
   max-width: 90vw;
   width: 400;
-  
+
   flex-direction: column;
   z-index: 1000;
   transition: all 0.3s;
@@ -17,30 +17,30 @@
   border: rgb(221, 221, 221) solid 1px;
   box-shadow: 3px 3px 14px 1px #0000004a;
 
-  &.open{
+  &.open {
     top: 50%;
     display: flex;
   }
-  
-  .dui-Dialog-header{
+
+  .dui-Dialog-header {
     position: relative;
     border-radius: 8px;
     display: inline-flex;
     justify-content: space-between;
-    .dui-Dialog-title{
+    .dui-Dialog-title {
       padding: 5px 10px;
     }
-    .close-btn{
+    .close-btn {
       padding: 5px;
       cursor: pointer;
       font-size: large;
       margin-right: 10px;
-      &:hover{
-          font-weight: bolder;
+      &:hover {
+        font-weight: bolder;
       }
     }
-    &:after{
-      content: ' ';
+    &:after {
+      content: " ";
       border-bottom: 1px solid #00000029;
       position: absolute;
       width: 100%;
