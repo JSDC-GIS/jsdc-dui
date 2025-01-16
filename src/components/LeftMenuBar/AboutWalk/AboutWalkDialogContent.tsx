@@ -12,9 +12,8 @@ const AboutWalkDialogContent: React.FC<IAboutWalkDialogContentProps> = ({
   imgSrc,
   title,
   subtitle,
-  content
+  content,
 }) => {
-  
   return (
     <div className="dui-AboutWalkDialogContent">
       <div className="dui-AboutWalkDialogContent-img">

@@ -1,71 +1,66 @@
-import { get } from "lodash"
+import { get } from 'lodash'
 
 type Dict = { [k: string]: any }
 
 class WeatherElement {
-    catch: Dict
-    data: Array<Dict>
-    constructor(jsonObj: Dict)
-    {
-        this.catch = jsonObj
-        this.data = jsonObj.time
-    }
-    getElements()
-    {
-        return this.data.map( item => {
-            let value =  get(item, "elementValue[1].value")
-            return {
-                time: item.startTime,
-                description: get(item, "elementValue[0].value"),
-                unit: get(item, "elementValue[0].measures"),
-                value,
-            }
-        })
-    }
+  catch: Dict
+  data: Array<Dict>
+  constructor(jsonObj: Dict) {
+    this.catch = jsonObj
+    this.data = jsonObj.Time
+  }
+  getElements() {
+    return this.data.map((item) => {
+      return {
+        time: item.StartTime,
+        description: item.ElementValue[0].Weather,
+        temp: item.ElementValue[0].Temperature,
+        ci: item.ElementValue[0].ComfortIndexDescription,
+        value: item.ElementValue[0].WeatherCode,
+      }
+    })
+  }
 }
 
 class Weather {
-    name: string
-    catch: Dict
-    data: Dict
-    constructor(name: string, json_resp: Dict)
-    {
-        this.name = name
-        this.catch = json_resp
-        this.data = get(json_resp, "records.locations[0]")
+  name: string
+  catch: Dict
+  data: Dict
+  constructor(name: string, json_resp: Dict) {
+    this.name = name
+    this.catch = json_resp
+    this.data = get(json_resp, 'records.Locations[0]')
+  }
+  get description() {
+    return get(this.data, 'DatasetDescription')
+  }
+  get locationName() {
+    return get(this.data, 'Location[0].LocationName')
+  }
+  get location() {
+    return {
+      lat: get(this.data, 'Location[0].Latitude'),
+      lon: get(this.data, 'Location[0].Longitude'),
     }
-    get description()
-    {
-        return get(this.data, "datasetDescription")
-    }
-    get locationName()
-    {
-        return get(this.data, "location[0].locationName")
-    }
-    get location()
-    {
-        return {
-            lat: get(this.data, "location[0].lat"),
-            lon: get(this.data, "location[0].lon")
-        }
-    }
-    get elements()
-    {
-        return get(this.data, "location[0].weatherElement") as Array<Dict>
-    }
-    get wx()
-    {
-        return new WeatherElement(this.elements.find( elem => elem.elementName === "Wx")!)
-    }
-    get temp()
-    {
-        return new WeatherElement(this.elements.find( elem => elem.elementName === "T")!)
-    }
-    get ci()
-    {
-        return new WeatherElement(this.elements.find( elem => elem.elementName === "CI")!)
-    }
-
+  }
+  get elements() {
+    return get(this.data, 'Location[0].WeatherElement') as Array<Dict>
+  }
+  get wx() {
+    return new WeatherElement(
+      this.elements.find((elem) => elem.ElementName === '天氣現象')!,
+    )
+  }
+  get temp() {
+    return new WeatherElement(
+      this.elements.find((elem) => elem.ElementName === '溫度')!,
+    )
+  }
+  get ci() {
+    return new WeatherElement(
+      this.elements.find((elem) => elem.ElementName === '舒適度指數')!,
+    )
+  }
 }
 
-export { Weather as default, WeatherElement}
+export { Weather as default, WeatherElement }

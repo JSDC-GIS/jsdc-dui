@@ -1,4 +1,3 @@
-
 export type StyleType = {
   [k: string]: string
 }

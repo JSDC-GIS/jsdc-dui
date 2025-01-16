@@ -11,15 +11,18 @@ export interface ILayerDialogContentProps {
 const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
   layerInfos,
   onToggleShow,
-  onOpacityChange
+  onOpacityChange,
 }) => {
   return (
-    <div className='dui-LayerDialogContent'>
-      {
-        layerInfos.map(item => (
-          <LayerItem key={item.id} {...item} onToggleShow={show => onToggleShow(item.id, show)} onOpacityChange={value => onOpacityChange(item.id, value)}/>
-        ))
-      }
+    <div className="dui-LayerDialogContent">
+      {layerInfos.map((item) => (
+        <LayerItem
+          key={item.id}
+          {...item}
+          onToggleShow={(show) => onToggleShow(item.id, show)}
+          onOpacityChange={(value) => onOpacityChange(item.id, value)}
+        />
+      ))}
     </div>
   )
 }

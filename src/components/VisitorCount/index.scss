@@ -1,4 +1,4 @@
-.dui-VisitorCount{
+.dui-VisitorCount {
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -8,11 +8,11 @@
   z-index: 400;
   pointer-events: none;
   user-select: none;
-  &-title{
+  &-title {
     color: #3c3c3c;
     font-size: 12px;
   }
-  &-display{
+  &-display {
     display: flex;
     gap: 1px;
   }

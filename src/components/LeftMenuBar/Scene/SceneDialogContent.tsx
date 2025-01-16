@@ -14,7 +14,7 @@ export interface ISceneDialogContentProps {
 const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
   onTarget,
   onNavigate,
-  cardsReducer = (data: Article[]) => data
+  cardsReducer = (data: Article[]) => data,
 }: ISceneDialogContentProps) => {
   const { dgw } = useContext(DguidewalksContext)
   const [_articles, setArticles] = useState<Article[]>([])
@@ -26,7 +26,7 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
   }
 
   const padNumber = (d: number) => {
-    return (d < 10) ? '0' + d.toString() : d.toString();
+    return d < 10 ? '0' + d.toString() : d.toString()
   }
 
   useEffect(() => {
@@ -34,27 +34,39 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
   }, [])
   return (
     <div className="dui-SceneDialogContent">
-      {
-        articles.map((article, index) => (
-          <div key={index} className="dui-SceneDialogContent-row">
-            <div className="dui-SceneDialogContent-picture">
-              <img src={article.imgSrc} />
-              <p className="geonavigator" onClick={() => onNavigate(article.title)}><NavigatorArrow /></p>
+      {articles.map((article, index) => (
+        <div key={index} className="dui-SceneDialogContent-row">
+          <div className="dui-SceneDialogContent-picture">
+            <img src={article.imgSrc} />
+            <p
+              className="geonavigator"
+              onClick={() => onNavigate(article.title)}
+            >
+              <NavigatorArrow />
+            </p>
+          </div>
+          <div className="dui-SceneDialogContent-content">
+            <div className="content-header">
+              <div className="header-title">{article.title}</div>
+              <div
+                className="header-action"
+                onClick={() => onTarget(article.title)}
+              >
+                <Target color={'var(--dui-secondary)'} />
+              </div>
             </div>
-            <div className="dui-SceneDialogContent-content">
-              <div className="content-header">
-                <div className="header-title">{article.title}</div>
-                <div className="header-action" onClick={() => onTarget(article.title)}><Target color={'var(--dui-secondary)'}/></div>
-              </div>
-              <div className="dui-SceneDialogContent-mainText">{article.content}</div>
-              <div className="dui-SceneDialogContent-footer">
-                <div className="count">{`${padNumber(index + 1)}/${articles.length}`}</div>
-                <a className="more" target='_blank' href={article.link}>more</a>
-              </div>
+            <div className="dui-SceneDialogContent-mainText">
+              {article.content}
+            </div>
+            <div className="dui-SceneDialogContent-footer">
+              <div className="count">{`${padNumber(index + 1)}/${articles.length}`}</div>
+              <a className="more" target="_blank" href={article.link}>
+                more
+              </a>
             </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
     </div>
   )
 }

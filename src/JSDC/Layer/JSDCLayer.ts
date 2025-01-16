@@ -3,9 +3,8 @@ import Event from '../utils/Event'
 import { Layer, Map, TileLayer, GeoJSON } from 'leaflet'
 import JSDCLayerBehavior, { JSDCLayerDescription } from './@types'
 
-export interface JSDCLayerConstructorOptions extends Pick<JSDCLayerBehavior, 'id' | 'description'> {
-
-}
+export interface JSDCLayerConstructorOptions
+  extends Pick<JSDCLayerBehavior, 'id' | 'description'> {}
 
 type ValidationParam = {
   strictMode?: boolean
@@ -15,19 +14,19 @@ interface FeatureLayer<O> extends Layer {
   feature: Feature<any, O>
 }
 
-class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P>{
+class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P> {
   private _show = false
   private _viewer: Map | undefined
   instance: P | undefined
   description: JSDCLayerDescription
   id: string
   onToggleShowEvent = new Event()
-  constructor (options: JSDCLayerConstructorOptions) {
+  constructor(options: JSDCLayerConstructorOptions) {
     this.id = options.id
     this.description = options.description
   }
 
-  get show () {
+  get show() {
     const _viewer = this.getPrivateViewer()
     if (!_viewer) {
       return this._show
@@ -36,7 +35,7 @@ class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P>{
     }
   }
 
-  set show (val: boolean) {
+  set show(val: boolean) {
     const _viewer = this.getPrivateViewer()
     this._show = val
     if (!_viewer || !this.instance) return
@@ -48,20 +47,23 @@ class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P>{
     this.onToggleShowEvent.raise()
   }
 
-  isInstanceType<T> (type: T | any, validOptions: ValidationParam = {}): JSDCLayer<P> & { instance: T; } | false {
+  isInstanceType<T>(
+    type: T | any,
+    validOptions: ValidationParam = {},
+  ): (JSDCLayer<P> & { instance: T }) | false {
     const jsdcLayer = this.isInstanceExist(validOptions)
     if (this.instance instanceof type) {
-      return jsdcLayer as JSDCLayer<P> & { instance: T; }
+      return jsdcLayer as JSDCLayer<P> & { instance: T }
     } else {
       return false
     }
   }
 
-  isTileLayer (validOptions: ValidationParam = {}) {
+  isTileLayer(validOptions: ValidationParam = {}) {
     return this.isInstanceType<TileLayer>(TileLayer, validOptions)
   }
 
-  isGeoJSON (validOptions: ValidationParam = {}) {
+  isGeoJSON(validOptions: ValidationParam = {}) {
     return this.isInstanceType<GeoJSON>(GeoJSON, validOptions)
   }
 
@@ -79,37 +81,39 @@ class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P>{
     viewer.addLayer(this.instance!)
   }
 
-  isInstanceExist ({ strictMode = false }: ValidationParam = {}) {
+  isInstanceExist({ strictMode = false }: ValidationParam = {}) {
     if (!this.instance) {
       if (!strictMode) return false
-      throw new Error('JSDCLayer\'s instance is not set yet')
+      throw new Error("JSDCLayer's instance is not set yet")
     }
     return this as JSDCLayer<P> & { instance: Layer }
   }
 
-  isInstanceExistStrict () {
-    if (!this.instance) throw new Error('JSDCLayer\'s instance is not set yet')
+  isInstanceExistStrict() {
+    if (!this.instance) throw new Error("JSDCLayer's instance is not set yet")
     return this as JSDCLayer<P> & { instance: Layer }
   }
 
   setInstance(instance: P | undefined) {
     this.instance = instance
   }
-  
-  getPrivateViewer () {
+
+  getPrivateViewer() {
     const leafletPrivateMap = (this.instance as any)._map as Map | undefined
     this._viewer = leafletPrivateMap ? leafletPrivateMap : this._viewer
     return this._viewer
   }
 
-  forEachLayerAsGeoJSON<L, O = GeoJsonProperties>(eachLayer: (layer: L, props: O) => void = () => null) {
+  forEachLayerAsGeoJSON<L, O = GeoJsonProperties>(
+    eachLayer: (layer: L, props: O) => void = () => null,
+  ) {
     const jsdcLayer = this.isGeoJSON({ strictMode: true })
     if (!jsdcLayer) {
       console.log('fuck')
       return
     }
     const layers = jsdcLayer.instance.getLayers() as Array<L & FeatureLayer<O>>
-    
+
     layers.forEach((layer) => {
       const { properties } = layer.feature
       eachLayer(layer, properties)

@@ -1,29 +1,29 @@
-.dui-LayerItem{
+.dui-LayerItem {
   margin: 0px 5px;
   display: inline-flex;
   align-items: center;
   min-height: fit-content;
-  &:hover{
+  &:hover {
     background: #9797971f;
   }
 
-  &-content{
+  &-content {
     cursor: pointer;
     padding: 5px;
     flex: 1;
-    & > span{
+    & > span {
       text-align: justify;
       display: inline-flex;
       text-justify: auto;
     }
   }
 
-  &-opacity-config{
+  &-opacity-config {
     max-height: 0px;
     transition: max-height 0.3s;
     overflow: hidden;
-      &.open{
-        max-height: 50px;
-      }
+    &.open {
+      max-height: 50px;
+    }
   }
 }

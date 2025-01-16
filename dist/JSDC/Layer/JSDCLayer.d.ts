@@ -17,9 +17,9 @@ declare class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P>
     constructor(options: JSDCLayerConstructorOptions);
     get show(): boolean;
     set show(val: boolean);
-    isInstanceType<T>(type: T | any, validOptions?: ValidationParam): JSDCLayer<P> & {
+    isInstanceType<T>(type: T | any, validOptions?: ValidationParam): (JSDCLayer<P> & {
         instance: T;
-    } | false;
+    }) | false;
     isTileLayer(validOptions?: ValidationParam): false | (JSDCLayer<P> & {
         instance: TileLayer;
     });

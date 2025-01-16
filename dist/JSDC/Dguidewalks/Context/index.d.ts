@@ -1,9 +1,9 @@
-import JSDC from "../../";
-import React from "react";
-import Dguidewalks from "..";
-import ConfigProvider from "../ConfigProvider";
-import { IArticleProxyParser } from "../proxyParser/@types";
-import useGeolocation from "../../../hooks/useGeolocation";
+import JSDC from '../../';
+import React from 'react';
+import Dguidewalks from '..';
+import ConfigProvider from '../ConfigProvider';
+import { IArticleProxyParser } from '../proxyParser/@types';
+import useGeolocation from '../../../hooks/useGeolocation';
 export declare type DguidewalksContextType = {
     dgw: Dguidewalks;
     geolocation: ReturnType<typeof useGeolocation>;

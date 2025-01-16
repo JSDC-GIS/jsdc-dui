@@ -21,7 +21,7 @@ const MenuItemWithDialog: React.FC<IMenuItemWithDialogProps> = ({
   Icon,
   title,
   children,
-  active = false
+  active = false,
 }: IMenuItemWithDialogProps) => {
   const handleClose = () => {
     onActiveChange(false)
@@ -32,13 +32,28 @@ const MenuItemWithDialog: React.FC<IMenuItemWithDialogProps> = ({
     onClick()
   }
   return (
-    <div className='dui-MenuItemWithDialog'>
+    <div className="dui-MenuItemWithDialog">
       <div className="list-item" onClick={() => handleClick()}>
-          <span className="icon"><Icon active={active}/></span>
-          <div className="text">{title}</div>
+        <span className="icon">
+          <Icon active={active} />
+        </span>
+        <div className="text">{title}</div>
       </div>
       {/* <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><MenuDialog Icon={Icon} title={title} onClose={handleClose}>{children}</MenuDialog></div> */}
-      <div className='dialog-container' style={{ display: active ? 'block' : 'none' }}><ResponsiveDialog open={true} disabledFixedPosition Icon={<Icon active={active}/>} title={title} onClose={handleClose}>{children}</ResponsiveDialog></div>
+      <div
+        className="dialog-container"
+        style={{ display: active ? 'block' : 'none' }}
+      >
+        <ResponsiveDialog
+          open={true}
+          disabledFixedPosition
+          Icon={<Icon active={active} />}
+          title={title}
+          onClose={handleClose}
+        >
+          {children}
+        </ResponsiveDialog>
+      </div>
     </div>
   )
 }

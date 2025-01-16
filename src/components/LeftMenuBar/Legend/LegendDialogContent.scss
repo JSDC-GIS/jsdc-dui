@@ -1,4 +1,4 @@
-.dui-LegendDialogContent{
+.dui-LegendDialogContent {
   overflow: auto;
   flex: 1;
   display: grid;
@@ -10,10 +10,10 @@
   height: inherit;
 
   .legend-item {
-      padding: 20px;
+    padding: 20px;
 
-      .icon{
-          max-width: 50px;
-      }
+    .icon {
+      max-width: 50px;
+    }
   }
 }

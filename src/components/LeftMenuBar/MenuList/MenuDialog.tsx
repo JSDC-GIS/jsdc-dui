@@ -13,22 +13,25 @@ const MenuDialog: React.FC<IMenuDialogProps> = ({
   Icon,
   title,
   children,
-  onClose = () => null
+  onClose = () => null,
 }: IMenuDialogProps) => {
   return (
     <div className="dui-MenuDialog">
-        <div className="header">
-            <div className="title">
-                {/* <img className="icon" v-if="icon" src={imgSrc} alt='source not found'/> */}
-                <div className="icon"><Icon active={true}/></div>
-                <div className="text">{title}</div>
-            </div>
-            <div className="action">
-                <div className="close-btn" onClick={() => onClose()}><p>✕</p></div>
-            </div>
-            
+      <div className="header">
+        <div className="title">
+          {/* <img className="icon" v-if="icon" src={imgSrc} alt='source not found'/> */}
+          <div className="icon">
+            <Icon active={true} />
+          </div>
+          <div className="text">{title}</div>
         </div>
-        {children}
+        <div className="action">
+          <div className="close-btn" onClick={() => onClose()}>
+            <p>✕</p>
+          </div>
+        </div>
+      </div>
+      {children}
     </div>
   )
 }

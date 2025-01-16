@@ -9,30 +9,30 @@ export interface ILeafletPopupTableProps {
 
 const LeafletPopupTable: React.FC<ILeafletPopupTableProps> = ({
   name,
-  value
+  value,
 }) => {
-
   const isUrl = (value: string) => {
-    const expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+    const expression =
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
     const regex = new RegExp(expression)
     return regex.test(value)
   }
   return (
-    <div className='dui-LeafletPopupTable'>
+    <div className="dui-LeafletPopupTable">
       <div className="dui-LeafletPopupTable-name">{name}</div>
       <div className="dui-LeafletPopupTable-body">
-        {
-          map(value, (value, key) => (
-            <div key={key} className="row">
-              <p>{key}</p>
-              {
-                isUrl(String(value))
-                  ? <a target='_blank' href={String(value)}>{value}</a>
-                  : <p>{value}</p>
-              }
-            </div>
-          ))
-        }
+        {map(value, (value, key) => (
+          <div key={key} className="row">
+            <p>{key}</p>
+            {isUrl(String(value)) ? (
+              <a target="_blank" href={String(value)}>
+                {value}
+              </a>
+            ) : (
+              <p>{value}</p>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   )

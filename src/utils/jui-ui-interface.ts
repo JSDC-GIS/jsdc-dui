@@ -5,7 +5,7 @@ export interface IPropsWithChildren {
 }
 
 export interface IPropsWithSize {
-  size?: 'sm'| 'md' | 'larg' | 'xsm' | 'xlarg'
+  size?: 'sm' | 'md' | 'larg' | 'xsm' | 'xlarg'
 }
 
 export interface IPropsWithDisplayVarient {

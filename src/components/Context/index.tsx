@@ -11,28 +11,28 @@ import { ISceneMenuItemProps } from '../LeftMenuBar/Scene/SceneMenuItem'
 export const defaultMenuItems = [
   {
     id: '地圖圖層',
-    name: '地圖圖層'
+    name: '地圖圖層',
   },
   {
     id: '景點介紹',
-    name: '景點介紹'
+    name: '景點介紹',
   },
   {
     id: '氣象預測',
-    name: '氣象預測'
+    name: '氣象預測',
   },
   {
     id: '圖例說明',
-    name: '圖例說明'
+    name: '圖例說明',
   },
   {
     id: '路線介紹',
-    name: '路線介紹'
+    name: '路線介紹',
   },
   {
     id: '關於圖臺',
-    name: '關於圖臺'
-  }
+    name: '關於圖臺',
+  },
 ]
 
 export type WeatherConfig = {
@@ -60,7 +60,7 @@ export type DuiContextType = {
   menuSwitcherAction: (id: string) => {
     onClick: () => void
     onClose: () => void
-  },
+  }
   menuSwitchEvent: Event<string | undefined>
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
@@ -71,10 +71,12 @@ export type DuiContextType = {
 
 export const initialDuiContext = {}
 
-const DuiContext = createContext<DuiContextType>(initialDuiContext as DuiContextType)
+const DuiContext = createContext<DuiContextType>(
+  initialDuiContext as DuiContextType,
+)
 
 type MenuItemType = {
-  id: string,
+  id: string
   name: string
 }
 
@@ -88,7 +90,7 @@ export interface IDuiContextProviderProps {
   creditHref?: string
   headerMBImgSrc: string
   headerDImgSrc: string
-  menuSwitchItems: Array<MenuItemType>,
+  menuSwitchItems: Array<MenuItemType>
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   themeConfig?: StyleType
@@ -113,23 +115,26 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   themeConfig = defaultStyle,
   onSceneTargetClick = () => null,
   onSceneNavigate = () => null,
-  sceneCardsReducer
+  sceneCardsReducer,
 }) => {
   useTheme(themeConfig)
-  const { switchById, activeId } = useSwitch<MenuItemType>([...defaultMenuItems, ...menuSwitchItems])
+  const { switchById, activeId } = useSwitch<MenuItemType>([
+    ...defaultMenuItems,
+    ...menuSwitchItems,
+  ])
   const [menuSwitchEvent] = useState(new Event<string | undefined>())
 
   const menuSwitch = (id: string | undefined) => {
     switchById(id)
     menuSwitchEvent.raise(id)
-  } 
+  }
   const menuSwitcherAction = (id: string) => {
     return {
       onClick: () => menuSwitch(id),
       onClose: () => {
         switchById(undefined)
         menuSwitchEvent.raise(undefined)
-      }
+      },
     }
   }
 
@@ -150,16 +155,9 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     legendConfig,
     onSceneTargetClick,
     sceneCardsReducer,
-    onSceneNavigate
+    onSceneNavigate,
   }
-  return (
-    <DuiContext.Provider value={value}>
-      {children}
-    </DuiContext.Provider>
-  )
+  return <DuiContext.Provider value={value}>{children}</DuiContext.Provider>
 }
 DuiContextProvider.displayName = 'DuiContextProvider'
-export {
-  DuiContextProvider,
-  DuiContext
-}
+export { DuiContextProvider, DuiContext }

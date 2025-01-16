@@ -17,11 +17,10 @@ const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
   mainTextContent = '...',
   credit = '　:　',
 }) => {
-  
   return (
-    <div className='dui-SceneCard'>
+    <div className="dui-SceneCard">
       <div className="dui-SceneCard-Kanban">
-        <img src={imgSrc}/>
+        <img src={imgSrc} />
       </div>
       <div className="dui-SceneCard-artical">
         <div className="header">
@@ -29,7 +28,9 @@ const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
           <p className="subtitle">{subtitle}</p>
         </div>
         <div className="content">{mainTextContent}</div>
-        <div className="SceneCard-credit"><span>{credit}</span></div>
+        <div className="SceneCard-credit">
+          <span>{credit}</span>
+        </div>
       </div>
     </div>
   )
