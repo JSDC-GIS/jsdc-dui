@@ -54,7 +54,7 @@ export const getTwoDays = async (
   town: string,
   token: string,
 ) => {
-  const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/${COUNTY_MAP[county]}/?Authorization=${token}&locationName=${town}`
+  const url = `https://opendata.cwa.gov.tw/api/v1/rest/datastore/${COUNTY_MAP[county]}/?Authorization=${token}&LocationName=${town}`
   const resp = await fetch(url)
   const json = await resp.json()
   return json

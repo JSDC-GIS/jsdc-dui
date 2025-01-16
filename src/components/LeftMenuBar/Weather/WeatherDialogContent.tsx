@@ -66,8 +66,8 @@ const WeatherDialogContent: React.FC<IWeatherDialogContentProps> = ({
       const ci = weather.ci.getElements()
       map[location.id] = wx.map((item, index) => {
         let result: any = { ...item }
-        result.temp = temp[index].description
-        result.ci = ci[index].value
+        result.temp = temp[index].temp
+        result.ci = ci[index].ci
         return result as WeatherItem
       })
     }
