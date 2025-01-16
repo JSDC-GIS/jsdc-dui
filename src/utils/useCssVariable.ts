@@ -1,9 +1,9 @@
 export type StyleType = {
-  [k: string]: string;
-};
+  [k: string]: string
+}
 
 const useCssVariable = (style: StyleType) => {
-  return style;
-};
+  return style
+}
 
-export default useCssVariable;
+export default useCssVariable

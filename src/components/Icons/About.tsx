@@ -1,10 +1,10 @@
-import React from "react";
-import { IActivableProps } from "./types";
+import React from 'react'
+import { IActivableProps } from './types'
 import {
   inactiveColor,
   activeColor,
   activeAccentColor,
-} from "./common/ActivableColor";
+} from './common/ActivableColor'
 
 const About = ({ active }: IActivableProps) => {
   return (
@@ -30,7 +30,7 @@ const About = ({ active }: IActivableProps) => {
       </g>
       <path d="m0 0h32v32h-32z" fill="none" />
     </svg>
-  );
-};
+  )
+}
 
-export default About;
+export default About

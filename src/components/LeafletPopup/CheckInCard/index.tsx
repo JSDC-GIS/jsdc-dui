@@ -1,37 +1,37 @@
-import React, { useContext } from "react";
-import icon from "../../../icon";
-import "./index.scss";
-import { LatLng } from "leaflet";
-import useGeolocation from "../../../hooks/useGeolocation";
-import { JSDCContext } from "../../../JSDC/Context";
-import NavigatorArrow from "../../Icons/NavigatorArrow";
-import { DuiContext } from "../../Context";
+import React, { useContext } from 'react'
+import icon from '../../../icon'
+import './index.scss'
+import { LatLng } from 'leaflet'
+import useGeolocation from '../../../hooks/useGeolocation'
+import { JSDCContext } from '../../../JSDC/Context'
+import NavigatorArrow from '../../Icons/NavigatorArrow'
+import { DuiContext } from '../../Context'
 
 export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
-  title: string;
-  subtitle: string;
-  imgSrc: string;
-  mainTextContent: string;
-  credit: string;
-  sceneLatLng: LatLng;
-  innerRef?: React.ForwardedRef<HTMLDivElement>;
-  onCheckin?: (src: string) => void;
-  userLatLng?: ReturnType<typeof useGeolocation>["latLng"];
-  checkinSrc?: string;
-  validDistance?: number;
+  title: string
+  subtitle: string
+  imgSrc: string
+  mainTextContent: string
+  credit: string
+  sceneLatLng: LatLng
+  innerRef?: React.ForwardedRef<HTMLDivElement>
+  onCheckin?: (src: string) => void
+  userLatLng?: ReturnType<typeof useGeolocation>['latLng']
+  checkinSrc?: string
+  validDistance?: number
 }
 function toCurrency(num: number) {
-  var parts = num.toString().split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join(".");
+  var parts = num.toString().split('.')
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return parts.join('.')
 }
 
 const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
-  title = "...",
-  subtitle = "...",
+  title = '...',
+  subtitle = '...',
   imgSrc = icon.others.processing,
-  mainTextContent = "...",
-  credit = "　:　",
+  mainTextContent = '...',
+  credit = '　:　',
   innerRef,
   sceneLatLng,
   userLatLng: latLng,
@@ -39,22 +39,22 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   validDistance = Infinity,
   onCheckin = () => null,
 }) => {
-  const { Jsdc } = useContext(JSDCContext);
-  const dui = useContext(DuiContext);
+  const { Jsdc } = useContext(JSDCContext)
+  const dui = useContext(DuiContext)
   const distance =
-    latLng && sceneLatLng ? sceneLatLng.distanceTo(latLng) : Infinity;
+    latLng && sceneLatLng ? sceneLatLng.distanceTo(latLng) : Infinity
   const readableDistance =
-    distance === Infinity ? "----" : toCurrency(Math.floor(distance));
+    distance === Infinity ? '----' : toCurrency(Math.floor(distance))
 
-  const isCheckinValid = distance < validDistance;
+  const isCheckinValid = distance < validDistance
 
   const handleCheckin = () => {
-    if (!isCheckinValid) return;
+    if (!isCheckinValid) return
     const checkinIframeSrc =
       checkinSrc ||
-      `https://map.jsdc.com.tw/tools/checkin/${Jsdc.id}/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`;
-    onCheckin(checkinIframeSrc);
-  };
+      `https://map.jsdc.com.tw/tools/checkin/${Jsdc.id}/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
+    onCheckin(checkinIframeSrc)
+  }
 
   return (
     <div className="dui-CheckInPopup" ref={innerRef}>
@@ -108,7 +108,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
         </div>
       </div>
     </div>
-  );
-};
-CheckInCard.displayName = "CheckInCard";
-export default CheckInCard;
+  )
+}
+CheckInCard.displayName = 'CheckInCard'
+export default CheckInCard

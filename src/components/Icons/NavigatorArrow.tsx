@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
 interface INavigatorArrowProps {
-  color?: string;
+  color?: string
 }
 const NavigatorArrow = ({
-  color = "var(--dui-primary)",
+  color = 'var(--dui-primary)',
 }: INavigatorArrowProps) => {
   return (
     <svg
@@ -46,7 +46,7 @@ const NavigatorArrow = ({
         </g>
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default NavigatorArrow;
+export default NavigatorArrow

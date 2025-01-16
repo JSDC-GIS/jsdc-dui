@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import "./LayerItem.scss";
+import React, { useState } from 'react'
+import './LayerItem.scss'
 
 export interface ILayerItemProps {
-  id: string;
-  name: string;
-  type: "vector" | "image" | string;
-  show: boolean;
-  onToggleShow: (show: boolean) => void;
-  onOpacityChange: (value: number) => void;
+  id: string
+  name: string
+  type: 'vector' | 'image' | string
+  show: boolean
+  onToggleShow: (show: boolean) => void
+  onOpacityChange: (value: number) => void
 }
 
 const LayerItem: React.FC<ILayerItemProps> = ({
@@ -17,17 +17,17 @@ const LayerItem: React.FC<ILayerItemProps> = ({
   onToggleShow,
   onOpacityChange,
 }) => {
-  const [openConfig, setopenConfig] = useState(false);
-  const [opacity, setopacity] = useState(0);
+  const [openConfig, setopenConfig] = useState(false)
+  const [opacity, setopacity] = useState(0)
 
   const hangleOpacityChange = (value: number) => {
-    setopacity(value);
-    onOpacityChange(value);
-  };
+    setopacity(value)
+    onOpacityChange(value)
+  }
 
   const canOpenConfig = () => {
-    return openConfig && type === "image";
-  };
+    return openConfig && type === 'image'
+  }
   return (
     <div className="dui-LayerItem">
       <input
@@ -38,7 +38,7 @@ const LayerItem: React.FC<ILayerItemProps> = ({
       <div className="dui-LayerItem-content">
         <span onClick={() => setopenConfig(!openConfig)}>{name}</span>
         <div
-          className={`dui-LayerItem-opacity-config ${canOpenConfig() && "open"}`}
+          className={`dui-LayerItem-opacity-config ${canOpenConfig() && 'open'}`}
         >
           <span>透明度</span>
           <input
@@ -53,7 +53,7 @@ const LayerItem: React.FC<ILayerItemProps> = ({
         </div>
       </div>
     </div>
-  );
-};
-LayerItem.displayName = "LayerItem";
-export default LayerItem;
+  )
+}
+LayerItem.displayName = 'LayerItem'
+export default LayerItem

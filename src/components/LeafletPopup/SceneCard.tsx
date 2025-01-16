@@ -1,21 +1,21 @@
-import React from "react";
-import icon from "../../icon";
-import "./index.scss";
+import React from 'react'
+import icon from '../../icon'
+import './index.scss'
 
 export interface ISceneCardProps {
-  title: string;
-  subtitle: string;
-  imgSrc: string;
-  mainTextContent: string;
-  credit: string;
+  title: string
+  subtitle: string
+  imgSrc: string
+  mainTextContent: string
+  credit: string
 }
 
 const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
-  title = "...",
-  subtitle = "...",
+  title = '...',
+  subtitle = '...',
   imgSrc = icon.others.processing,
-  mainTextContent = "...",
-  credit = "　:　",
+  mainTextContent = '...',
+  credit = '　:　',
 }) => {
   return (
     <div className="dui-SceneCard">
@@ -33,7 +33,7 @@ const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
         </div>
       </div>
     </div>
-  );
-};
-SceneCard.displayName = "SceneCard";
-export default SceneCard;
+  )
+}
+SceneCard.displayName = 'SceneCard'
+export default SceneCard

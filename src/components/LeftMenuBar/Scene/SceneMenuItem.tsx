@@ -1,15 +1,15 @@
 import MenuItemWithDialog, {
   IMenuItemWithDialogProps,
-} from "../..//LeftMenuBar/MenuList/MenuItemWithDialog";
-import icon from "../../../icon";
-import React from "react";
+} from '../..//LeftMenuBar/MenuList/MenuItemWithDialog'
+import icon from '../../../icon'
+import React from 'react'
 import SceneDialogContent, {
   ISceneDialogContentProps,
-} from "./SceneDialogContent";
-import Mappin from "../../Icons/Mappin";
+} from './SceneDialogContent'
+import Mappin from '../../Icons/Mappin'
 
 export interface ISceneMenuItemProps
-  extends Omit<IMenuItemWithDialogProps, "title" | "Icon" | "children">,
+  extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
     ISceneDialogContentProps {}
 
 const SceneMenuItem: React.FC<ISceneMenuItemProps> = ({
@@ -26,7 +26,7 @@ const SceneMenuItem: React.FC<ISceneMenuItemProps> = ({
         cardsReducer={cardsReducer}
       />
     </MenuItemWithDialog>
-  );
-};
-SceneMenuItem.displayName = "SceneMenuItem";
-export default SceneMenuItem;
+  )
+}
+SceneMenuItem.displayName = 'SceneMenuItem'
+export default SceneMenuItem

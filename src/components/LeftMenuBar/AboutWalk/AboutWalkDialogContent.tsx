@@ -1,11 +1,11 @@
-import React from "react";
-import "./AboutWalkDialogContent.scss";
+import React from 'react'
+import './AboutWalkDialogContent.scss'
 
 export interface IAboutWalkDialogContentProps {
-  imgSrc: string;
-  title: string;
-  subtitle: string;
-  content: string;
+  imgSrc: string
+  title: string
+  subtitle: string
+  content: string
 }
 
 const AboutWalkDialogContent: React.FC<IAboutWalkDialogContentProps> = ({
@@ -25,7 +25,7 @@ const AboutWalkDialogContent: React.FC<IAboutWalkDialogContentProps> = ({
       </div>
       <div className="dui-AboutWalkDialogContent-content">{content}</div>
     </div>
-  );
-};
-AboutWalkDialogContent.displayName = "AboutWalkDialogContent";
-export default AboutWalkDialogContent;
+  )
+}
+AboutWalkDialogContent.displayName = 'AboutWalkDialogContent'
+export default AboutWalkDialogContent

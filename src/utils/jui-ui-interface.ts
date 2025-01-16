@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react'
 
 export interface IPropsWithChildren {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 export interface IPropsWithSize {
-  size?: "sm" | "md" | "larg" | "xsm" | "xlarg";
+  size?: 'sm' | 'md' | 'larg' | 'xsm' | 'xlarg'
 }
 
 export interface IPropsWithDisplayVarient {
-  varient?: "dense" | "primary" | "accent" | "flat";
-  hollow?: boolean;
+  varient?: 'dense' | 'primary' | 'accent' | 'flat'
+  hollow?: boolean
 }

@@ -1,11 +1,11 @@
-import React from "react";
-import LayerItem, { ILayerItemProps } from "./LayerItem";
-import "./LayerDialogContent.scss";
+import React from 'react'
+import LayerItem, { ILayerItemProps } from './LayerItem'
+import './LayerDialogContent.scss'
 
 export interface ILayerDialogContentProps {
-  layerInfos: Omit<ILayerItemProps, "onToggleShow" | "onOpacityChange">[];
-  onToggleShow: (id: string, show: boolean) => void;
-  onOpacityChange: (id: string, value: number) => void;
+  layerInfos: Omit<ILayerItemProps, 'onToggleShow' | 'onOpacityChange'>[]
+  onToggleShow: (id: string, show: boolean) => void
+  onOpacityChange: (id: string, value: number) => void
 }
 
 const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
@@ -24,7 +24,7 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
         />
       ))}
     </div>
-  );
-};
-LayerDialogContent.displayName = "LayerDialogContent";
-export default LayerDialogContent;
+  )
+}
+LayerDialogContent.displayName = 'LayerDialogContent'
+export default LayerDialogContent

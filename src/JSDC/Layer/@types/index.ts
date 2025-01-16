@@ -1,14 +1,14 @@
-import { Layer } from "leaflet";
+import { Layer } from 'leaflet'
 
 export type JSDCLayerDescription = {
-  name: string;
-  type: string;
-  [k: string]: any;
-};
+  name: string
+  type: string
+  [k: string]: any
+}
 
 export default interface JSDCLayerBehavior<P = {}> {
-  description: JSDCLayerDescription;
-  id: string;
-  instance: P | undefined;
-  show: boolean;
+  description: JSDCLayerDescription
+  id: string
+  instance: P | undefined
+  show: boolean
 }

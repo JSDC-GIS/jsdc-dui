@@ -1,10 +1,10 @@
-import icon from "../../../icon";
-import { map } from "lodash";
-import React from "react";
-import "./LegendDialogContent.scss";
+import icon from '../../../icon'
+import { map } from 'lodash'
+import React from 'react'
+import './LegendDialogContent.scss'
 
 export interface ILegendDialogContentProps {
-  activeLegends: Array<keyof typeof icon.legend>;
+  activeLegends: Array<keyof typeof icon.legend>
 }
 
 const LegendDialogContent: React.FC<ILegendDialogContentProps> = ({
@@ -24,7 +24,7 @@ const LegendDialogContent: React.FC<ILegendDialogContentProps> = ({
         </div>
       ))}
     </div>
-  );
-};
-LegendDialogContent.displayName = "LegendDialogContent";
-export default LegendDialogContent;
+  )
+}
+LegendDialogContent.displayName = 'LegendDialogContent'
+export default LegendDialogContent

@@ -1,10 +1,10 @@
-import React from "react";
-import { IActivableProps } from "./types";
+import React from 'react'
+import { IActivableProps } from './types'
 import {
   inactiveColor,
   activeColor,
   activeAccentColor,
-} from "./common/ActivableColor";
+} from './common/ActivableColor'
 
 const Checkin = ({ active }: IActivableProps) => {
   return (
@@ -45,7 +45,7 @@ const Checkin = ({ active }: IActivableProps) => {
         />
       </g>
     </svg>
-  );
-};
+  )
+}
 
-export default Checkin;
+export default Checkin

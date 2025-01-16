@@ -1,12 +1,12 @@
-import React from "react";
-import { IActivableProps } from "../../Icons/types";
-import "./MenuDialog.scss";
+import React from 'react'
+import { IActivableProps } from '../../Icons/types'
+import './MenuDialog.scss'
 
 export interface IMenuDialogProps {
-  Icon: ({ active }: IActivableProps) => JSX.Element;
-  title: string;
-  children: React.ReactNode;
-  onClose: () => void;
+  Icon: ({ active }: IActivableProps) => JSX.Element
+  title: string
+  children: React.ReactNode
+  onClose: () => void
 }
 
 const MenuDialog: React.FC<IMenuDialogProps> = ({
@@ -33,7 +33,7 @@ const MenuDialog: React.FC<IMenuDialogProps> = ({
       </div>
       {children}
     </div>
-  );
-};
-MenuDialog.displayName = "MenuDialog";
-export default MenuDialog;
+  )
+}
+MenuDialog.displayName = 'MenuDialog'
+export default MenuDialog

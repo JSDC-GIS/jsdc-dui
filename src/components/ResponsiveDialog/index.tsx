@@ -1,16 +1,16 @@
-import classNames from "classnames";
-import React from "react";
-import "./index.scss";
+import classNames from 'classnames'
+import React from 'react'
+import './index.scss'
 
 export interface IResponsiveDialogProps {
-  Icon?: React.ReactNode;
-  title?: string;
-  open: boolean;
-  children: React.ReactNode;
-  kanbanImgSrc?: string;
-  onClose: () => void;
-  disabledFixedPosition?: boolean;
-  keepAlive?: boolean;
+  Icon?: React.ReactNode
+  title?: string
+  open: boolean
+  children: React.ReactNode
+  kanbanImgSrc?: string
+  onClose: () => void
+  disabledFixedPosition?: boolean
+  keepAlive?: boolean
 }
 
 const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
@@ -23,14 +23,14 @@ const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
   keepAlive = false,
   onClose = () => null,
 }: IResponsiveDialogProps) => {
-  const displayStyle = keepAlive ? (open ? "flex" : "none") : "flex";
+  const displayStyle = keepAlive ? (open ? 'flex' : 'none') : 'flex'
 
-  if (!keepAlive && !open) return null;
+  if (!keepAlive && !open) return null
   return (
     <div
       style={{ display: displayStyle }}
-      className={classNames("dui-ResponsiveDialog", {
-        "dui-ResponsiveDialog-disableFixed": disabledFixedPosition,
+      className={classNames('dui-ResponsiveDialog', {
+        'dui-ResponsiveDialog-disableFixed': disabledFixedPosition,
       })}
     >
       {kanbanImgSrc && (
@@ -51,7 +51,7 @@ const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
       </div>
       {children}
     </div>
-  );
-};
-ResponsiveDialog.displayName = "ResponsiveDialog";
-export default ResponsiveDialog;
+  )
+}
+ResponsiveDialog.displayName = 'ResponsiveDialog'
+export default ResponsiveDialog

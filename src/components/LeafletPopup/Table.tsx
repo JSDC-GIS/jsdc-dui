@@ -1,10 +1,10 @@
-import { map } from "lodash";
-import React from "react";
-import "./index.scss";
+import { map } from 'lodash'
+import React from 'react'
+import './index.scss'
 
 export interface ILeafletPopupTableProps {
-  name: string;
-  value: { [k: string]: string | number };
+  name: string
+  value: { [k: string]: string | number }
 }
 
 const LeafletPopupTable: React.FC<ILeafletPopupTableProps> = ({
@@ -13,10 +13,10 @@ const LeafletPopupTable: React.FC<ILeafletPopupTableProps> = ({
 }) => {
   const isUrl = (value: string) => {
     const expression =
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
-    const regex = new RegExp(expression);
-    return regex.test(value);
-  };
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi
+    const regex = new RegExp(expression)
+    return regex.test(value)
+  }
   return (
     <div className="dui-LeafletPopupTable">
       <div className="dui-LeafletPopupTable-name">{name}</div>
@@ -35,7 +35,7 @@ const LeafletPopupTable: React.FC<ILeafletPopupTableProps> = ({
         ))}
       </div>
     </div>
-  );
-};
-LeafletPopupTable.displayName = "LeafletPopupTable";
-export default LeafletPopupTable;
+  )
+}
+LeafletPopupTable.displayName = 'LeafletPopupTable'
+export default LeafletPopupTable

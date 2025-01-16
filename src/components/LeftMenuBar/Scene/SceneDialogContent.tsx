@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./SceneDialogContent.scss";
-import { DguidewalksContext } from "../../../JSDC/Dguidewalks/Context";
-import { Article } from "../../../JSDC/Dguidewalks/proxyParser/@types";
-import Target from "../../Icons/Target";
-import NavigatorArrow from "../../Icons/NavigatorArrow";
+import React, { useContext, useEffect, useState } from 'react'
+import './SceneDialogContent.scss'
+import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
+import { Article } from '../../../JSDC/Dguidewalks/proxyParser/@types'
+import Target from '../../Icons/Target'
+import NavigatorArrow from '../../Icons/NavigatorArrow'
 
 export interface ISceneDialogContentProps {
-  onTarget: (title: string) => void;
-  onNavigate: (title: string) => void;
-  cardsReducer?: (data: Article[]) => Article[];
+  onTarget: (title: string) => void
+  onNavigate: (title: string) => void
+  cardsReducer?: (data: Article[]) => Article[]
 }
 
 const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
@@ -16,22 +16,22 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
   onNavigate,
   cardsReducer = (data: Article[]) => data,
 }: ISceneDialogContentProps) => {
-  const { dgw } = useContext(DguidewalksContext);
-  const [_articles, setArticles] = useState<Article[]>([]);
+  const { dgw } = useContext(DguidewalksContext)
+  const [_articles, setArticles] = useState<Article[]>([])
 
-  const articles = cardsReducer(_articles);
+  const articles = cardsReducer(_articles)
 
   const fetchArticles = async () => {
-    setArticles(await dgw.getSceneArticles());
-  };
+    setArticles(await dgw.getSceneArticles())
+  }
 
   const padNumber = (d: number) => {
-    return d < 10 ? "0" + d.toString() : d.toString();
-  };
+    return d < 10 ? '0' + d.toString() : d.toString()
+  }
 
   useEffect(() => {
-    fetchArticles();
-  }, []);
+    fetchArticles()
+  }, [])
   return (
     <div className="dui-SceneDialogContent">
       {articles.map((article, index) => (
@@ -52,7 +52,7 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
                 className="header-action"
                 onClick={() => onTarget(article.title)}
               >
-                <Target color={"var(--dui-secondary)"} />
+                <Target color={'var(--dui-secondary)'} />
               </div>
             </div>
             <div className="dui-SceneDialogContent-mainText">
@@ -68,7 +68,7 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
         </div>
       ))}
     </div>
-  );
-};
-SceneDialogContent.displayName = "SceneDialogContent";
-export default SceneDialogContent;
+  )
+}
+SceneDialogContent.displayName = 'SceneDialogContent'
+export default SceneDialogContent

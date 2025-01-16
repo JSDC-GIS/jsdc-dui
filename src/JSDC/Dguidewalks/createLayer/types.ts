@@ -1,6 +1,6 @@
-import { LayerApiRespItem } from "../ApiProvider";
+import { LayerApiRespItem } from '../ApiProvider'
 
 export type CommonProps = Omit<
   LayerApiRespItem,
-  "Basemap" | "LineFeatures" | "PointFeatures" | "PolygonFeatures"
->;
+  'Basemap' | 'LineFeatures' | 'PointFeatures' | 'PolygonFeatures'
+>

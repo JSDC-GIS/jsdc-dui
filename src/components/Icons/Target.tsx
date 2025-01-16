@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
 interface ITargetProps {
-  color?: string;
+  color?: string
 }
 
-const Target = ({ color = "var(--dui-primary)" }: ITargetProps) => {
+const Target = ({ color = 'var(--dui-primary)' }: ITargetProps) => {
   return (
     <svg
       height="20"
@@ -18,7 +18,7 @@ const Target = ({ color = "var(--dui-primary)" }: ITargetProps) => {
         transform="translate(-538.878 -267.976)"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default Target;
+export default Target

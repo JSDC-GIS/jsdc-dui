@@ -1,14 +1,14 @@
-import React from "react";
-import "./WeatherCard.scss";
-import { baseUrl } from "../../../icon";
+import React from 'react'
+import './WeatherCard.scss'
+import { baseUrl } from '../../../icon'
 
 export interface IWeatherCardProps {
-  title: string;
-  img: string;
-  degree: string;
-  description: string;
-  infoList: any[];
-  imgNum: string;
+  title: string
+  img: string
+  degree: string
+  description: string
+  infoList: any[]
+  imgNum: string
 }
 
 const WeatherCard: React.FC<IWeatherCardProps> = (props: IWeatherCardProps) => {
@@ -29,7 +29,7 @@ const WeatherCard: React.FC<IWeatherCardProps> = (props: IWeatherCardProps) => {
         />
       </div>
     </div>
-  );
-};
-WeatherCard.displayName = "WeatherCard";
-export default WeatherCard;
+  )
+}
+WeatherCard.displayName = 'WeatherCard'
+export default WeatherCard

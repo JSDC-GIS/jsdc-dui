@@ -1,10 +1,10 @@
-import icon from "../../../icon";
-import React from "react";
-import "./CreditDialogContent.scss";
+import icon from '../../../icon'
+import React from 'react'
+import './CreditDialogContent.scss'
 
 export interface ICreditDialogContentProps {
-  description: string;
-  herf?: string;
+  description: string
+  herf?: string
 }
 
 const CreditDialogContent: React.FC<ICreditDialogContentProps> = ({
@@ -23,7 +23,7 @@ const CreditDialogContent: React.FC<ICreditDialogContentProps> = ({
         </a>
       </div>
     </div>
-  );
-};
-CreditDialogContent.displayName = "CreditDialogContent";
-export default CreditDialogContent;
+  )
+}
+CreditDialogContent.displayName = 'CreditDialogContent'
+export default CreditDialogContent

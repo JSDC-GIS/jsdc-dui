@@ -1,15 +1,15 @@
 import MenuItemWithDialog, {
   IMenuItemWithDialogProps,
-} from "../..//LeftMenuBar/MenuList/MenuItemWithDialog";
-import icon from "../../../icon";
-import React from "react";
+} from '../..//LeftMenuBar/MenuList/MenuItemWithDialog'
+import icon from '../../../icon'
+import React from 'react'
 import CreditDialogContent, {
   ICreditDialogContentProps,
-} from "./CreditDialogContent";
-import Info from "../../Icons/Info";
+} from './CreditDialogContent'
+import Info from '../../Icons/Info'
 
 export interface ICreditMenuItemProps
-  extends Omit<IMenuItemWithDialogProps, "title" | "Icon" | "children">,
+  extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
     ICreditDialogContentProps {}
 
 const CreditMenuItem: React.FC<ICreditMenuItemProps> = ({
@@ -21,7 +21,7 @@ const CreditMenuItem: React.FC<ICreditMenuItemProps> = ({
     <MenuItemWithDialog {...props} title="關於圖臺" Icon={Info}>
       <CreditDialogContent description={description} herf={herf} />
     </MenuItemWithDialog>
-  );
-};
-CreditMenuItem.displayName = "CreditMenuItem";
-export default CreditMenuItem;
+  )
+}
+CreditMenuItem.displayName = 'CreditMenuItem'
+export default CreditMenuItem

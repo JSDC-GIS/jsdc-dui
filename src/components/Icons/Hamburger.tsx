@@ -1,10 +1,10 @@
-import React from "react";
-import { IActivableProps } from "./types";
+import React from 'react'
+import { IActivableProps } from './types'
 import {
   inactiveColor,
   activeColor,
   activeAccentColor,
-} from "./common/ActivableColor";
+} from './common/ActivableColor'
 
 const Hamburger = ({ active }: IActivableProps) => {
   return (
@@ -64,7 +64,7 @@ const Hamburger = ({ active }: IActivableProps) => {
       />
       <path d="m0 0h32v32h-32z" fill="none" />
     </svg>
-  );
-};
+  )
+}
 
-export default Hamburger;
+export default Hamburger

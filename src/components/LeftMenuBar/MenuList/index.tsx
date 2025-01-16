@@ -1,14 +1,14 @@
-import React from "react";
-import useCssVariable from "../../../utils/useCssVariable";
-import "./index.scss";
+import React from 'react'
+import useCssVariable from '../../../utils/useCssVariable'
+import './index.scss'
 
 export interface IMenuListProps {
-  title?: string;
-  subtitle?: string;
-  headerImg?: string;
-  headerMBImg?: string;
-  children?: React.ReactNode;
-  endChildren?: React.ReactNode;
+  title?: string
+  subtitle?: string
+  headerImg?: string
+  headerMBImg?: string
+  children?: React.ReactNode
+  endChildren?: React.ReactNode
 }
 
 const MenuList: React.FC<IMenuListProps> = ({
@@ -20,9 +20,9 @@ const MenuList: React.FC<IMenuListProps> = ({
   endChildren,
 }: IMenuListProps) => {
   const style = useCssVariable({
-    "--header-img": `url(${headerImg})`,
-    "--header-mb-img": `url(${headerMBImg})`,
-  });
+    '--header-img': `url(${headerImg})`,
+    '--header-mb-img': `url(${headerMBImg})`,
+  })
   return (
     <div className="dui-MenuList" style={style}>
       <div className="header-img"></div>
@@ -35,7 +35,7 @@ const MenuList: React.FC<IMenuListProps> = ({
         <div className="end-content">{endChildren}</div>
       </div>
     </div>
-  );
-};
-MenuList.displayName = "MenuList";
-export default MenuList;
+  )
+}
+MenuList.displayName = 'MenuList'
+export default MenuList

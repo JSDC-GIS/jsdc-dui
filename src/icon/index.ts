@@ -1,6 +1,6 @@
-import { range } from "lodash";
+import { range } from 'lodash'
 
-export const baseUrl = "https://map.jsdc.com.tw/webgis/dguidewalks/assets/";
+export const baseUrl = 'https://map.jsdc.com.tw/webgis/dguidewalks/assets/'
 
 export const legend = {
   人文地景: {
@@ -51,16 +51,16 @@ export const legend = {
     default: `${baseUrl}legends/icon-l-12-g.svg`,
     active: `${baseUrl}legends/icon-l-12.svg`,
   },
-};
+}
 
 export const counter = range(0, 10).reduce(
   (obj, value) => {
-    const key = String(value);
-    obj[key] = `${baseUrl}counter/${value}.svg`;
-    return obj;
+    const key = String(value)
+    obj[key] = `${baseUrl}counter/${value}.svg`
+    return obj
   },
   {} as { [k: string]: string },
-);
+)
 
 export const activable = {
   layer: `${baseUrl}menu_icons/layer.svg`,
@@ -75,20 +75,20 @@ export const activable = {
   aboutActive: `${baseUrl}menu_icons/about_active.svg`,
   locationMappin: `${baseUrl}menu_icons/location-mappin.svg`,
   locationMappinActive: `${baseUrl}menu_icons/location-mappin_active.svg`,
-};
+}
 
 export const credit = {
   qrcode: `${baseUrl}credit/fb_qrcode.png`,
   logo: `${baseUrl}credit/main-logo.svg`,
-};
+}
 
 export const others = {
   processing: `${baseUrl}others/processing.gif`,
-};
+}
 
 export default {
   activable,
   legend,
   credit,
   others,
-};
+}

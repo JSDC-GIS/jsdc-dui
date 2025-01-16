@@ -1,15 +1,15 @@
 import MenuItemWithDialog, {
   IMenuItemWithDialogProps,
-} from "../..//LeftMenuBar/MenuList/MenuItemWithDialog";
-import icon from "../../../icon";
-import React from "react";
+} from '../..//LeftMenuBar/MenuList/MenuItemWithDialog'
+import icon from '../../../icon'
+import React from 'react'
 import LayerDialogContent, {
   ILayerDialogContentProps,
-} from "./LayerDialogContent";
-import Layer from "../../Icons/Layer";
+} from './LayerDialogContent'
+import Layer from '../../Icons/Layer'
 
 export interface ILayerMenuItemProps
-  extends Omit<IMenuItemWithDialogProps, "title" | "Icon" | "children">,
+  extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
     ILayerDialogContentProps {}
 
 const LayerMenuItem: React.FC<ILayerMenuItemProps> = (
@@ -19,7 +19,7 @@ const LayerMenuItem: React.FC<ILayerMenuItemProps> = (
     <MenuItemWithDialog {...props} title="地圖圖層" Icon={Layer}>
       <LayerDialogContent {...props} />
     </MenuItemWithDialog>
-  );
-};
-LayerMenuItem.displayName = "LayerMenuItem";
-export default LayerMenuItem;
+  )
+}
+LayerMenuItem.displayName = 'LayerMenuItem'
+export default LayerMenuItem

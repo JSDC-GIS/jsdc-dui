@@ -1,39 +1,39 @@
-import { uniqueId } from "lodash";
-import React, { useEffect, useRef, useState } from "react";
-import WeatherCard from "./WeatherCard";
-import { CountyName, getTwoDays } from "./src/api";
-import Weather from "./src/Weather";
-import "./WeatherDialogContent.scss";
-import icon from "../../../icon";
+import { uniqueId } from 'lodash'
+import React, { useEffect, useRef, useState } from 'react'
+import WeatherCard from './WeatherCard'
+import { CountyName, getTwoDays } from './src/api'
+import Weather from './src/Weather'
+import './WeatherDialogContent.scss'
+import icon from '../../../icon'
 
 class WeaherLocation {
-  county: CountyName;
-  town: string;
-  id: string;
+  county: CountyName
+  town: string
+  id: string
   constructor(county: CountyName, town: string) {
-    this.id = uniqueId();
-    this.county = county;
-    this.town = town;
+    this.id = uniqueId()
+    this.county = county
+    this.town = town
   }
   get fullName() {
-    return `${this.county} ${this.town}`;
+    return `${this.county} ${this.town}`
   }
 }
 
 type WeatherItem = {
-  time: any;
-  description: any;
-  unit: any;
-  value: any;
-  temp: any;
-  ci: any;
-  img: any;
-};
+  time: any
+  description: any
+  unit: any
+  value: any
+  temp: any
+  ci: any
+  img: any
+}
 
 export interface IWeatherDialogContentProps {
-  locations: Array<{ county: CountyName; town: string }>;
-  token: string;
-  onSelectLocation?: (latlng: [number, number]) => void;
+  locations: Array<{ county: CountyName; town: string }>
+  token: string
+  onSelectLocation?: (latlng: [number, number]) => void
 }
 
 const WeatherDialogContent: React.FC<IWeatherDialogContentProps> = ({
@@ -41,56 +41,56 @@ const WeatherDialogContent: React.FC<IWeatherDialogContentProps> = ({
   token,
   onSelectLocation = () => null,
 }: IWeatherDialogContentProps) => {
-  const selectElem = useRef<HTMLDivElement>(null);
-  const [loading, setloading] = useState(true);
-  const [showOption, setshowOption] = useState(false);
+  const selectElem = useRef<HTMLDivElement>(null)
+  const [loading, setloading] = useState(true)
+  const [showOption, setshowOption] = useState(false)
   const [weatherLocations] = useState<Array<WeaherLocation>>(
     locations.map((item) => new WeaherLocation(item.county, item.town)),
-  );
-  const [activeLocation, setactiveLocation] = useState(weatherLocations[0]);
-  const [weatherItems, setweatherItems] = useState<WeatherItem[]>([]);
+  )
+  const [activeLocation, setactiveLocation] = useState(weatherLocations[0])
+  const [weatherItems, setweatherItems] = useState<WeatherItem[]>([])
   const [locationInfoMap, setlocationInfoMap] = useState<{
-    [k: string]: WeatherItem[];
-  }>({});
-  const [weatherDatas, setweatherDatas] = useState<Array<Weather>>();
+    [k: string]: WeatherItem[]
+  }>({})
+  const [weatherDatas, setweatherDatas] = useState<Array<Weather>>()
 
   const setInfo = async () => {
-    let weathers: Array<Weather> = [];
-    let map: { [k: string]: WeatherItem[] } = {};
+    let weathers: Array<Weather> = []
+    let map: { [k: string]: WeatherItem[] } = {}
     for (let location of weatherLocations) {
-      const resp = await getTwoDays(location.county, location.town, token);
-      const weather = new Weather(location.id, resp);
-      weathers.push(weather);
-      const wx = weather.wx.getElements();
-      const temp = weather.temp.getElements();
-      const ci = weather.ci.getElements();
+      const resp = await getTwoDays(location.county, location.town, token)
+      const weather = new Weather(location.id, resp)
+      weathers.push(weather)
+      const wx = weather.wx.getElements()
+      const temp = weather.temp.getElements()
+      const ci = weather.ci.getElements()
       map[location.id] = wx.map((item, index) => {
-        let result: any = { ...item };
-        result.temp = temp[index].description;
-        result.ci = ci[index].value;
-        return result as WeatherItem;
-      });
+        let result: any = { ...item }
+        result.temp = temp[index].description
+        result.ci = ci[index].value
+        return result as WeatherItem
+      })
     }
-    setlocationInfoMap(map);
-    setweatherDatas(weathers);
-    setweatherItems(map[activeLocation.id]);
-    setloading(false);
-  };
+    setlocationInfoMap(map)
+    setweatherDatas(weathers)
+    setweatherItems(map[activeLocation.id])
+    setloading(false)
+  }
 
   const handleLocationSelect = (location: WeaherLocation) => {
-    setactiveLocation(location);
-    setweatherItems(locationInfoMap[location.id]);
+    setactiveLocation(location)
+    setweatherItems(locationInfoMap[location.id])
     let targetWeather = weatherDatas?.find(
       (weather) => weather.name === location.id,
-    );
-    setshowOption(false);
-    if (!targetWeather) return;
-    onSelectLocation([targetWeather.location.lat, targetWeather.location.lon]);
-  };
+    )
+    setshowOption(false)
+    if (!targetWeather) return
+    onSelectLocation([targetWeather.location.lat, targetWeather.location.lon])
+  }
 
   useEffect(() => {
-    setInfo();
-  }, []);
+    setInfo()
+  }, [])
   return (
     <div className="dui-WeatherDialogContent">
       <div
@@ -102,7 +102,7 @@ const WeatherDialogContent: React.FC<IWeatherDialogContentProps> = ({
           {activeLocation.fullName}
           <div className="pointer">▼</div>
         </span>
-        <div className={`option ${showOption || "hide"}`}>
+        <div className={`option ${showOption || 'hide'}`}>
           {weatherLocations.map((location) => (
             <div
               key={location.fullName}
@@ -135,7 +135,7 @@ const WeatherDialogContent: React.FC<IWeatherDialogContentProps> = ({
         ))}
       </div>
     </div>
-  );
-};
-WeatherDialogContent.displayName = "WeatherDialogContent";
-export default WeatherDialogContent;
+  )
+}
+WeatherDialogContent.displayName = 'WeatherDialogContent'
+export default WeatherDialogContent
