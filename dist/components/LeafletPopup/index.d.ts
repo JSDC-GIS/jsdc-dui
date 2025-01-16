@@ -4,7 +4,7 @@ import { ILeafletPopupTableProps } from './Table';
 import { renderToString } from 'react-dom/server';
 import Dguidewalks from '../../JSDC/Dguidewalks';
 export declare type BindPopupWithComponentOptions<P> = {
-    Component: (props: P) => JSX.Element;
+    Component: (props: P) => JSX.Element | null;
     props: P;
     onLayerClick?: () => void;
 };

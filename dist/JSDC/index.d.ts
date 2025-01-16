@@ -1,7 +1,7 @@
-import ViewerPromise from "./module/ViewerPromise";
+import ViewerPromise from './module/ViewerPromise';
 import Leaflet, { LatLngBounds, Map } from 'leaflet';
-import Controller from "./Controller";
-import Event from "./utils/Event";
+import Controller from './Controller';
+import Event from './utils/Event';
 declare class JSDC {
     id: string;
     viewer: Map | undefined;

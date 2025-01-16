@@ -1,5 +1,5 @@
-import { Map } from "leaflet";
-import { IController } from "./IController";
+import { Map } from 'leaflet';
+import { IController } from './IController';
 export default abstract class AbstractController implements IController {
     viewer: Map | undefined;
     name: string;

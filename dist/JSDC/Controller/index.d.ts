@@ -1,6 +1,6 @@
-import { Map } from "leaflet";
-import AbstractController from "./AbstractController";
-import LayerController from "./LayerController";
+import { Map } from 'leaflet';
+import AbstractController from './AbstractController';
+import LayerController from './LayerController';
 declare const STORE: {
     Layer: LayerController;
 };

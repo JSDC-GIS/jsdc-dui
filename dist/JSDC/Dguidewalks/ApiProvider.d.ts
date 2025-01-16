@@ -1,5 +1,5 @@
-import { LineString, MultiLineString, MultiPolygon, Point, Polygon } from "geojson";
-import ConfigProvider from "./ConfigProvider";
+import { LineString, MultiLineString, MultiPolygon, Point, Polygon } from 'geojson';
+import ConfigProvider from './ConfigProvider';
 interface LayerApiRespBase {
     updatedAt: string;
     createdAt: string;
@@ -20,14 +20,14 @@ export declare type LayerApiRespLineFeature = LayerApiRespVectorType<LineString 
 export declare type LayerApiRespPointFeature = LayerApiRespVectorType<Point>;
 export declare type LayerApiRespPolygonFeature = LayerApiRespVectorType<Polygon | MultiPolygon>;
 export interface LayerApiRespBasemap extends LayerApiRespBase {
-    url: "https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}";
+    url: 'https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}';
 }
 export interface BasemapApiRespItem {
     createdAt: string;
     id: number;
     name: string;
     options: null | {};
-    type: "xyz" | string;
+    type: 'xyz' | string;
     updatedAt: string;
     url: string;
 }
