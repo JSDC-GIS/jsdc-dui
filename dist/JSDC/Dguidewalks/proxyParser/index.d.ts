@@ -12,10 +12,16 @@ declare class ArticleProxyParser extends AbsctractArticleProxyParser implements 
         link: string;
     }>;
     getArticlesFromHTML(dom: Document): SummaryArticleType[];
+    getArticlesFromAPI(): Promise<SummaryArticleType[]>;
     getExternalDetailFromHTML(dom: Document): {
         subtitle: string;
         ref: string;
         content: string;
     };
+    getExternalDetailFromAPI(title: string): Promise<{
+        subtitle: string;
+        ref: string;
+        content: string;
+    }>;
 }
 export default ArticleProxyParser;
