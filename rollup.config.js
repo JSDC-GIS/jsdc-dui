@@ -80,5 +80,5 @@ export default {
             exclude: "node_modules/**",
         })
     ],
-    external: ["react", "react-dom", "style-inject"]
+    external: ["react", "react-dom", "style-inject", "axios"]
 }
