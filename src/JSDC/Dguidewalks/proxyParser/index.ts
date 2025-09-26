@@ -2,6 +2,7 @@ import { SummaryArticleType, IArticleProxyParser } from './@types'
 import AbsctractArticleProxyParser, {
   AbsctractArticleProxyParserContructor,
 } from './AbsctractArticleProxyParser'
+import axios from "axios";
 
 class ArticleProxyParser
   extends AbsctractArticleProxyParser
@@ -13,9 +14,9 @@ class ArticleProxyParser
 
   async getAll(refresh?: boolean | undefined): Promise<SummaryArticleType[]> {
     if (this.cache.hasArticles()) return this.cache.articles
-    const htmlString = await this.proxyFetcher(this.url)
-    const dom = this.parseHTML(htmlString)
-    const articles = this.getArticlesFromHTML(dom)
+    // const htmlString = await this.proxyFetcher(this.url)
+    // const dom = this.parseHTML(htmlString)
+    const articles = this.getArticlesFromAPI()
     const cache = this.cache
     cache.summaryMap = articles.reduce(
       (obj, article) => {
@@ -39,9 +40,9 @@ class ArticleProxyParser
     if (hasArticle) {
       if (hasExternal) return { ...article, ...externalProps }
 
-      const htmlString = await this.proxyFetcher(article.link)
-      const dom = this.parseHTML(htmlString)
-      const externalDetail = this.getExternalDetailFromHTML(dom)
+      // const htmlString = await this.proxyFetcher(article.link)
+      // const dom = this.parseHTML(htmlString)
+      const externalDetail = this.getExternalDetailFromAPI(title)
 
       this.cache.externalMap[title] = externalDetail
       return { ...article, ...externalDetail }
@@ -64,6 +65,61 @@ class ArticleProxyParser
     return result
   }
 
+  async getArticlesFromAPI(): Promise<SummaryArticleType[]> {
+    try {
+      const response = await axios.get(
+        "https://dguidedwalks.no1tree.tw/jsonapi/node/listing"
+      );
+      // 只取得此走讀的景點
+      // 使用 title 前綴的數字來排序景點
+      const data = response.data.data
+        .filter((item: any) =>
+          item.attributes.path?.alias.includes(this.cmsPath)
+        )
+        .sort((itemA: any, itemB: any) => {
+          const numA = parseInt(
+            itemA.attributes.title.match(/^\d+/)?.[0] || "0"
+          );
+          const numB = parseInt(
+            itemB.attributes.title.match(/^\d+/)?.[0] || "0"
+          );
+          return numA - numB;
+        });
+
+      const result: SummaryArticleType[] = await Promise.all(
+        data.map(async (item: any) => {
+          const title: string = item.attributes.title || "null";
+          let content: string = item.attributes.body?.summary || "null";
+          if (content.length > 34) {
+            content = content.substring(0, 34) + "......";
+          }
+          const link: string = `https://dguidedwalks.no1tree.tw/zh-hant${
+            item.attributes.path?.alias || ""
+          }`;
+
+          let imgSrc: string = "null";
+          if (item.relationships?.field_listing_image?.links?.related?.href) {
+            try {
+              const imgResponse = await axios.get(
+                item.relationships.field_listing_image.links.related.href
+              );
+              imgSrc = `https://dguidedwalks.no1tree.tw/${imgResponse.data.data.attributes.uri.url}`;
+            } catch (error) {
+              console.error("Error fetching image:", error);
+            }
+          }
+
+          return { title, content, imgSrc, link };
+        })
+      );
+
+      return result;
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+      return [];
+    }
+  }
+
   getExternalDetailFromHTML(dom: Document) {
     const newContent = (
       dom.querySelector('.sppb-addon-content p.d-h3') as HTMLHeadingElement
@@ -77,6 +133,37 @@ class ArticleProxyParser
       ) as HTMLSpanElement
     )?.innerText
     return { subtitle, ref, content: newContent }
+  }
+
+  async getExternalDetailFromAPI(title: string): Promise<{
+    subtitle: string;
+    ref: string;
+    content: string;
+  }> {
+    try {
+      const response = await axios.get(
+        "https://dguidedwalks.no1tree.tw/jsonapi/node/listing"
+      );
+      const data = response.data.data;
+
+      const item = data.find(
+        (element: any) => element.attributes.title === title
+      );
+
+      if (item) {
+        const subtitle: string = item.attributes.title || "null";
+        const ref: string =
+          `撰稿者：${item.attributes.field_listing_author}` || "null";
+        const content: string = item.attributes.body?.summary || "null";
+
+        return { subtitle, ref, content };
+      }
+
+      return { subtitle: "null", ref: "null", content: "null" };
+    } catch (error) {
+      console.error("Error fetching external detail:", error);
+      return { subtitle: "null", ref: "null", content: "null" };
+    }
   }
 }
 
