@@ -2,6 +2,7 @@ import { ArticleExternalProps, DetailArticleType, SummaryArticleType } from './@
 export declare type AbsctractArticleProxyParserContructor = {
     proxyFetcher: (url: string) => Promise<string>;
     cmsPath: string;
+    apiUrls?: string[];
 };
 declare class ArticleCache {
     summaryMap: {
@@ -24,6 +25,7 @@ declare class ArticleCache {
 declare abstract class AbsctractArticleProxyParser {
     proxyFetcher: AbsctractArticleProxyParserContructor['proxyFetcher'];
     cmsPath: AbsctractArticleProxyParserContructor['cmsPath'];
+    apiUrls: string[];
     cache: ArticleCache;
     constructor(options: AbsctractArticleProxyParserContructor);
     get url(): string;
