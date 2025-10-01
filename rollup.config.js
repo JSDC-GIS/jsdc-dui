@@ -1,6 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 import babel from "@rollup/plugin-babel";
 import { terser } from 'rollup-plugin-terser';
 import external from 'rollup-plugin-peer-deps-external';
@@ -33,6 +34,7 @@ export default {
         external(),
         resolve(),
         commonjs(),
+        json(),
         typescript({
             tsconfig: './tsconfig.json',
             declaration: true,
@@ -78,5 +80,5 @@ export default {
             exclude: "node_modules/**",
         })
     ],
-    external: ["react", "react-dom", "style-inject"]
+    external: ["react", "react-dom", "style-inject", "axios"]
 }
