@@ -8,6 +8,7 @@ import {
 export type AbsctractArticleProxyParserContructor = {
   proxyFetcher: (url: string) => Promise<string>
   cmsPath: string
+  apiUrls?: string[]
 }
 
 class ArticleCache {
@@ -32,11 +33,15 @@ class ArticleCache {
 abstract class AbsctractArticleProxyParser {
   proxyFetcher: AbsctractArticleProxyParserContructor['proxyFetcher']
   cmsPath: AbsctractArticleProxyParserContructor['cmsPath']
+  apiUrls: string[]
   cache = new ArticleCache()
 
   constructor(options: AbsctractArticleProxyParserContructor) {
     this.proxyFetcher = options.proxyFetcher
     this.cmsPath = options.cmsPath
+    this.apiUrls = options.apiUrls || [
+      'https://dguidedwalks.no1tree.tw/jsonapi/node/listing',
+    ]
   }
 
   get url() {

@@ -67,12 +67,20 @@ class ArticleProxyParser
 
   async getArticlesFromAPI(): Promise<SummaryArticleType[]> {
     try {
-      const response = await axios.get(
-        'https://dguidedwalks.no1tree.tw/jsonapi/node/listing',
+      // 從所有 API URL 取得資料
+      const responses = await Promise.all(
+        this.apiUrls.map((url) =>
+          axios.get(url).catch((error) => {
+            console.error(`Error fetching from ${url}:`, error)
+            return null
+          }),
+        ),
       )
-      // 只取得此走讀的景點
-      // 使用 title 前綴的數字來排序景點
-      const data = response.data.data
+
+      // 合併所有回應的資料
+      const allData = responses
+        .filter((response) => response !== null)
+        .flatMap((response) => response!.data.data)
         .filter((item: any) =>
           item.attributes.path?.alias.includes(this.cmsPath),
         )
@@ -87,7 +95,7 @@ class ArticleProxyParser
         })
 
       const result: SummaryArticleType[] = await Promise.all(
-        data.map(async (item: any) => {
+        allData.map(async (item: any) => {
           const title: string = item.attributes.title || 'null'
           let content: string = item.attributes.body?.summary || 'null'
           if (content.length > 34) {
@@ -141,12 +149,22 @@ class ArticleProxyParser
     content: string
   }> {
     try {
-      const response = await axios.get(
-        'https://dguidedwalks.no1tree.tw/jsonapi/node/listing',
+      // 從所有 API URL 取得資料
+      const responses = await Promise.all(
+        this.apiUrls.map((url) =>
+          axios.get(url).catch((error) => {
+            console.error(`Error fetching from ${url}:`, error)
+            return null
+          }),
+        ),
       )
-      const data = response.data.data
 
-      const item = data.find(
+      // 合併所有回應的資料並尋找符合的項目
+      const allData = responses
+        .filter((response) => response !== null)
+        .flatMap((response) => response!.data.data)
+
+      const item = allData.find(
         (element: any) => element.attributes.title === title,
       )
 
