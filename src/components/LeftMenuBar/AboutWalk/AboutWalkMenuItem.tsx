@@ -6,6 +6,7 @@ import AboutWalkDialogContent, {
   IAboutWalkDialogContentProps,
 } from './AboutWalkDialogContent'
 import About from '../../Icons/About'
+import { useTranslation } from 'react-i18next'
 
 export interface IAboutWalkMenuItemProps
   extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
@@ -14,8 +15,9 @@ export interface IAboutWalkMenuItemProps
 const AboutWalkMenuItem: React.FC<IAboutWalkMenuItemProps> = (
   props: IAboutWalkMenuItemProps,
 ) => {
+  const { t } = useTranslation()
   return (
-    <MenuItemWithDialog {...props} title="路線介紹" Icon={About}>
+    <MenuItemWithDialog {...props} title={t('menu.routeIntro')} Icon={About}>
       <AboutWalkDialogContent {...props} />
     </MenuItemWithDialog>
   )

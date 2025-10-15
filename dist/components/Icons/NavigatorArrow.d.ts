@@ -1,6 +1,5 @@
-/// <reference types="react" />
 interface INavigatorArrowProps {
     color?: string;
 }
-declare const NavigatorArrow: ({ color, }: INavigatorArrowProps) => JSX.Element;
+declare const NavigatorArrow: ({ color, }: INavigatorArrowProps) => any;
 export default NavigatorArrow;

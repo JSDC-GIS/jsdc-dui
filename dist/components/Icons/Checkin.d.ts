@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { IActivableProps } from './types';
-declare const Checkin: ({ active }: IActivableProps) => JSX.Element;
+declare const Checkin: ({ active }: IActivableProps) => any;
 export default Checkin;

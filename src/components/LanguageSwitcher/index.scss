@@ -1,0 +1,30 @@
+.dui-LanguageSwitcher {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .lang-btn {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    &.active {
+      background-color: var(--dui-primary, #007bff);
+      color: white;
+      border-color: var(--dui-primary, #007bff);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+  }
+}

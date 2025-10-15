@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { IActivableProps } from './types';
-declare const About: ({ active }: IActivableProps) => JSX.Element;
+declare const About: ({ active }: IActivableProps) => any;
 export default About;

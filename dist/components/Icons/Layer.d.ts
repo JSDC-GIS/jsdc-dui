@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { IActivableProps } from './types';
-declare const Layer: ({ active }: IActivableProps) => JSX.Element;
+declare const Layer: ({ active }: IActivableProps) => any;
 export default Layer;

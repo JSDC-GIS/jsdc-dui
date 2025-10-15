@@ -7,6 +7,7 @@ import WeatherDialogContent, {
   IWeatherDialogContentProps,
 } from './WeatherDialogContent'
 import Weather from '../../Icons/Weather'
+import { useTranslation } from 'react-i18next'
 
 export interface IWeatherMenuItemProps
   extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
@@ -15,8 +16,9 @@ export interface IWeatherMenuItemProps
 const WeatherMenuItem: React.FC<IWeatherMenuItemProps> = (
   props: IWeatherMenuItemProps,
 ) => {
+  const { t } = useTranslation()
   return (
-    <MenuItemWithDialog {...props} title="氣象預測" Icon={Weather}>
+    <MenuItemWithDialog {...props} title={t('menu.weatherForecast')} Icon={Weather}>
       <WeatherDialogContent {...props} />
     </MenuItemWithDialog>
   )

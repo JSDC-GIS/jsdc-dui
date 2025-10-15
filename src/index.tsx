@@ -3,6 +3,7 @@ import reportWebVitals from './reportWebVitals'
 import React, { useContext, useEffect, useState } from 'react'
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC'
+import './i18n/config'
 import ApiProvider, {
   LayerApiRespVectorProps,
 } from './JSDC/Dguidewalks/ApiProvider'

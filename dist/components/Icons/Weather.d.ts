@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { IActivableProps } from './types';
-declare const Weather: ({ active }: IActivableProps) => JSX.Element;
+declare const Weather: ({ active }: IActivableProps) => any;
 export default Weather;
