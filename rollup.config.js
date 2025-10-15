@@ -21,6 +21,9 @@ export default {
         ...getFiles('./src/style', extensions),
         ...getFiles('./src/utils', extensions),
         ...getFiles('./src/hooks', extensions),
+        ...getFiles('./src/i18n', extensions),
+        './src/i18n/locales/zh-TW.json',
+        './src/i18n/locales/en.json',
     ],
     output: {
         format: 'esm',
