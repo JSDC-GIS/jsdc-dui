@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
@@ -89,6 +90,8 @@
   border: 0;
   border-radius: 5px;
 }
+=======
+>>>>>>> 6886ffc (chore: tsconfig add resolveJsonModule)
 .dui-LeafletPopupTable-name {
   margin-bottom: 10px;
   font-weight: bold;
@@ -204,6 +207,50 @@
 .dui-LanguageSwitcher .lang-btn:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b9c1c7;
+}
+::-webkit-scrollbar-track {
+  background: fff0;
+}
+:root * {
+  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
+  scrollbar-width: thin !important;
+}
+.dui-MapViewContainer .leaflet-touch .leaflet-bar,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
+  border-radius: 3px;
+}
+.dui-MapViewContainer .leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--dui-bg-primary);
+}
+.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
+  text-shadow: 0 0 1px #000;
+}
+.dui-MapViewContainer .leaflet-right .leaflet-control {
+  margin-right: 0px;
+}
+.dui-MapViewContainer .leaflet-top .leaflet-control {
+  margin-top: 8px;
+}
+.dui-MapViewContainer .leaflet-bottom {
+  bottom: 8px;
+}
+.dui-MapViewContainer .leaflet-right {
+  right: 8px;
+}
+.dui-button {
+  background-color: var(--dui-primary);
+  padding: 5px;
+  border: 0;
+  border-radius: 5px;
 }
 .dui-Dialog {
   position: fixed;
@@ -388,6 +435,25 @@
     max-width: 90vw;
     max-height: 90vh;
   }
+}
+.dui-VisitorCount {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  margin-right: 12px;
+  bottom: 8px;
+  z-index: 400;
+  pointer-events: none;
+  user-select: none;
+}
+.dui-VisitorCount-title {
+  color: #3c3c3c;
+  font-size: 12px;
+}
+.dui-VisitorCount-display {
+  display: flex;
+  gap: 1px;
 }
 ::-webkit-scrollbar {
   width: 3px;
@@ -721,6 +787,7 @@
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ::-webkit-scrollbar {
   width: 3px;
@@ -982,6 +1049,8 @@
   opacity: 0.7;
   line-height: 25px;
 }
+=======
+>>>>>>> 6886ffc (chore: tsconfig add resolveJsonModule)
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
@@ -1125,23 +1194,6 @@
   font-size: 18px;
   margin-right: 15px;
 }
-.dui-LegendDialogContent {
-  overflow: auto;
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  padding: 15px 30px;
-  margin: 0px 5px;
-  height: inherit;
-}
-.dui-LegendDialogContent .legend-item {
-  padding: 20px;
-}
-.dui-LegendDialogContent .legend-item .icon {
-  max-width: 50px;
-}
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
@@ -1265,6 +1317,7 @@
   }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 7c49023 (feat: rollup i18n)
 =======
 .dui-LayerItem {
@@ -1272,74 +1325,82 @@
   display: inline-flex;
   align-items: center;
   min-height: fit-content;
+=======
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+>>>>>>> 6886ffc (chore: tsconfig add resolveJsonModule)
 }
-.dui-LayerItem:hover {
-  background: rgba(151, 151, 151, 0.1215686275);
+::-webkit-scrollbar-thumb {
+  background: #b9c1c7;
 }
-.dui-LayerItem-content {
-  cursor: pointer;
-  padding: 5px;
-  flex: 1;
+::-webkit-scrollbar-track {
+  background: fff0;
 }
-.dui-LayerItem-content > span {
-  text-align: justify;
-  display: inline-flex;
-  text-justify: auto;
+:root * {
+  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
+  scrollbar-width: thin !important;
 }
-.dui-LayerItem-opacity-config {
-  max-height: 0px;
-  transition: max-height 0.3s;
-  overflow: hidden;
+.dui-MapViewContainer .leaflet-touch .leaflet-bar,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
+  border-radius: 3px;
 }
-.dui-LayerItem-opacity-config.open {
-  max-height: 50px;
+.dui-MapViewContainer .leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--dui-bg-primary);
 }
-.dui-LayerDialogContent {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
+  text-shadow: 0 0 1px #000;
+}
+.dui-MapViewContainer .leaflet-right .leaflet-control {
+  margin-right: 0px;
+}
+.dui-MapViewContainer .leaflet-top .leaflet-control {
+  margin-top: 8px;
+}
+.dui-MapViewContainer .leaflet-bottom {
+  bottom: 8px;
+}
+.dui-MapViewContainer .leaflet-right {
+  right: 8px;
+}
+.dui-AboutWalkDialogContent {
+  overflow: auto;
   margin: 0px 5px;
   padding: 0px 25px;
-  overflow: auto;
+  flex: unset;
+  display: unset;
 }
-.dui-WeatherCard {
+.dui-AboutWalkDialogContent-img {
   display: flex;
-  flex-direction: column;
-  margin: 15px;
-  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.4);
-  border-radius: 3px;
-  transition: 0.3s all;
-  width: 250px;
+  justify-content: center;
+}
+.dui-AboutWalkDialogContent-img img {
+  max-height: 400px;
+  max-height: 400px;
   min-height: 200px;
+  object-fit: contain;
+  max-width: 400px;
+  width: 100%;
+  height: auto;
 }
-.dui-WeatherCard:hover {
-  background: rgba(212, 233, 255, 0.8509803922);
-  border: 1px solid #fff;
+.dui-AboutWalkDialogContent-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 15px 0px;
+  text-align: center;
+  display: grid;
+  gap: 3px;
+  color: var(--dui-accent);
 }
-.dui-WeatherCard .time {
-  color: rgba(0, 0, 0, 0.5803921569);
+.dui-AboutWalkDialogContent-content {
+  font-size: 18px !important;
+  padding: 0 20px;
+  text-align: justify;
   font-size: smaller;
-  padding: 0.5rem;
-}
-.dui-WeatherCard .description {
-  display: flex;
-  padding: 0.5rem;
-  flex-wrap: wrap;
-  font-size: 1.4rem;
-}
-.dui-WeatherCard .description p {
-  margin: 0px 5px;
-}
-.dui-WeatherCard .main-info {
-  display: flex;
-  justify-content: space-around;
-}
-.dui-WeatherCard .main-info .degree {
-  padding: 0.5rem;
-  font-size: xx-large;
-}
-.dui-WeatherCard .main-info img {
-  height: 100px;
+  opacity: 0.7;
+  line-height: 25px;
 }
 >>>>>>> dbce1be (feat: build)
 ::-webkit-scrollbar {
@@ -2186,74 +2247,40 @@
   align-items: flex-end;
   min-height: 70px;
 }
-.dui-WeatherDialogContent {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  overflow: hidden;
-}
-.dui-WeatherDialogContent .select {
-  margin: 10px 20px;
-  position: relative;
-}
-.dui-WeatherDialogContent .select .selected {
-  background: var(--dui-bg-accent);
-  color: #fff;
-  border: 0px;
-  padding: 5px;
-  display: flex;
-  cursor: pointer;
-}
-.dui-WeatherDialogContent .select .selected .pointer {
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-}
-.dui-WeatherDialogContent .select .option {
-  background: var(--dui-secondary--brighten-70);
-  box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.3490196078);
-  max-height: 200px;
-  overflow: auto;
-  position: absolute;
-  width: 100%;
-  transition: 0.3s all;
-  z-index: 2;
-  cursor: pointer;
-}
-.dui-WeatherDialogContent .select .option.hide {
-  max-height: 0px;
-  overflow: hidden;
-}
-.dui-WeatherDialogContent .select .option .item {
-  padding: 10px 8px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.158);
-}
-.dui-WeatherDialogContent .weather-card-container {
-  display: flex;
-  flex-direction: column;
+.dui-LayerItem {
+  margin: 0px 5px;
+  display: inline-flex;
   align-items: center;
-  height: 100%;
-  overflow: auto;
+  min-height: fit-content;
+}
+.dui-LayerItem:hover {
+  background: rgba(151, 151, 151, 0.1215686275);
+}
+.dui-LayerItem-content {
+  cursor: pointer;
+  padding: 5px;
+  flex: 1;
+}
+.dui-LayerItem-content > span {
+  text-align: justify;
+  display: inline-flex;
+  text-justify: auto;
+}
+.dui-LayerItem-opacity-config {
+  max-height: 0px;
+  transition: max-height 0.3s;
+  overflow: hidden;
+}
+.dui-LayerItem-opacity-config.open {
+  max-height: 50px;
+}
+.dui-LayerDialogContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   margin: 0px 5px;
   padding: 0px 25px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-.dui-WeatherDialogContent .scroll-tab {
-  flex-wrap: nowrap !important;
-  white-space: nowrap;
-  overflow-x: auto;
-  padding: 5px 0px;
-  position: absolute;
-  width: -webkit-fill-available;
-  z-index: 10;
-}
-.dui-WeatherDialogContent .loading {
-  left: 50%;
-  position: relative;
-  transform: translate(-50%, 0px);
+  overflow: auto;
 }
 ::-webkit-scrollbar {
   width: 3px;
@@ -2759,4 +2786,129 @@
 .dui-MenuDialog .header .action .close-btn:hover {
   font-weight: bolder;
 >>>>>>> fea6046 (feat: automatically generate .d.ts when rollup building)
+}
+.dui-LegendDialogContent {
+  overflow: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 15px 30px;
+  margin: 0px 5px;
+  height: inherit;
+}
+.dui-LegendDialogContent .legend-item {
+  padding: 20px;
+}
+.dui-LegendDialogContent .legend-item .icon {
+  max-width: 50px;
+}
+.dui-WeatherCard {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  transition: 0.3s all;
+  width: 250px;
+  min-height: 200px;
+}
+.dui-WeatherCard:hover {
+  background: rgba(212, 233, 255, 0.8509803922);
+  border: 1px solid #fff;
+}
+.dui-WeatherCard .time {
+  color: rgba(0, 0, 0, 0.5803921569);
+  font-size: smaller;
+  padding: 0.5rem;
+}
+.dui-WeatherCard .description {
+  display: flex;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 1.4rem;
+}
+.dui-WeatherCard .description p {
+  margin: 0px 5px;
+}
+.dui-WeatherCard .main-info {
+  display: flex;
+  justify-content: space-around;
+}
+.dui-WeatherCard .main-info .degree {
+  padding: 0.5rem;
+  font-size: xx-large;
+}
+.dui-WeatherCard .main-info img {
+  height: 100px;
+}
+.dui-WeatherDialogContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  overflow: hidden;
+}
+.dui-WeatherDialogContent .select {
+  margin: 10px 20px;
+  position: relative;
+}
+.dui-WeatherDialogContent .select .selected {
+  background: var(--dui-bg-accent);
+  color: #fff;
+  border: 0px;
+  padding: 5px;
+  display: flex;
+  cursor: pointer;
+}
+.dui-WeatherDialogContent .select .selected .pointer {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+.dui-WeatherDialogContent .select .option {
+  background: var(--dui-secondary--brighten-70);
+  box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.3490196078);
+  max-height: 200px;
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  transition: 0.3s all;
+  z-index: 2;
+  cursor: pointer;
+}
+.dui-WeatherDialogContent .select .option.hide {
+  max-height: 0px;
+  overflow: hidden;
+}
+.dui-WeatherDialogContent .select .option .item {
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.158);
+}
+.dui-WeatherDialogContent .weather-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  overflow: auto;
+  margin: 0px 5px;
+  padding: 0px 25px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.dui-WeatherDialogContent .scroll-tab {
+  flex-wrap: nowrap !important;
+  white-space: nowrap;
+  overflow-x: auto;
+  padding: 5px 0px;
+  position: absolute;
+  width: -webkit-fill-available;
+  z-index: 10;
+}
+.dui-WeatherDialogContent .loading {
+  left: 50%;
+  position: relative;
+  transform: translate(-50%, 0px);
 }
