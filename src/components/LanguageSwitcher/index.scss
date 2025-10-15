@@ -2,6 +2,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-content: center;
 
   .lang-btn {
     padding: 6px 12px;
@@ -11,6 +12,7 @@
     border-radius: 4px;
     font-size: 14px;
     transition: all 0.3s ease;
+    height: 36px;
 
     &:hover {
       background-color: #f0f0f0;
