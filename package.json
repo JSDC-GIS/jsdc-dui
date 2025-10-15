@@ -2,6 +2,7 @@
   "name": "jsdc-dui",
   "version": "1.7.2",
   "module": "dist",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/60723005l/jsdc-dui.git"
