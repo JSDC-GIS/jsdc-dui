@@ -11,5 +11,8 @@
     "text": "版權所有 Ⓒ {{year}}",
     "maintenance": "平台內容維護｜智紳數位文化事業有限公司/",
     "design": "Design by someDesign"
+  },
+  "visitorCount": {
+    "title": "瀏覽人次"
   }
 }
