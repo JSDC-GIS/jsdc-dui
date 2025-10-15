@@ -2,10 +2,10 @@
   "menu": {
     "mapLayer": "Map Layers",
     "sceneIntro": "Attractions",
-    "weatherForecast": "Weather Forecast",
+    "weatherForecast": "Forecast",
     "legendDescription": "Legend",
-    "routeIntro": "Route Introduction",
-    "aboutPlatform": "About Platform"
+    "routeIntro": "Introduction",
+    "aboutPlatform": "About"
   },
   "copyright": {
     "text": "Copyright Ⓒ {{year}}",
