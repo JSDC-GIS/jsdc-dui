@@ -23,7 +23,7 @@ const LanguageSwitcher: React.FC<ILanguageSwitcherProps> = ({
         className={`lang-btn ${i18n.language === 'zh-TW' ? 'active' : ''}`}
         onClick={() => changeLanguage('zh-TW')}
       >
-        中文
+        繁體中文
       </button>
       <button
         className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
