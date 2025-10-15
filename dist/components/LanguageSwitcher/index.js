@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import e from 'react'
 import { useTranslation as a } from '../../node_modules/react-i18next/dist/es/useTranslation.js'
 var n = function (n) {
@@ -35,4 +36,7 @@ var n = function (n) {
 }
 n.displayName = 'LanguageSwitcher'
 export { n as default }
+=======
+import e from"react";import{useTranslation as a}from"../../node_modules/react-i18next/dist/es/useTranslation.js";var n=function(n){var t=n.className,c=void 0===t?"":t,i=n.style,r=a().i18n,l=function(e){r.changeLanguage(e)};return e.createElement("div",{className:"dui-LanguageSwitcher ".concat(c),style:i},e.createElement("button",{className:"lang-btn ".concat("zh-TW"===r.language?"active":""),onClick:function(){return l("zh-TW")}},"繁體中文"),e.createElement("button",{className:"lang-btn ".concat("en"===r.language?"active":""),onClick:function(){return l("en")}},"English"))};n.displayName="LanguageSwitcher";export{n as default};
+>>>>>>> 891d6a0 (feat: build)
 //# sourceMappingURL=index.js.map
