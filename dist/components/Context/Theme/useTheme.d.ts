@@ -8,7 +8,7 @@ export declare const defaultStyle: {
     '--dui-text-primary': string;
     '--dui-text-gray': string;
 };
-export declare type StyleType = Partial<typeof defaultStyle & {
+export type StyleType = Partial<typeof defaultStyle & {
     [k: string]: string;
 }>;
 declare const useTheme: (style: StyleType) => void;

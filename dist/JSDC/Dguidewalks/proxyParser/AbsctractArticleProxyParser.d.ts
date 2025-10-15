@@ -1,5 +1,5 @@
 import { ArticleExternalProps, DetailArticleType, SummaryArticleType } from './@types';
-export declare type AbsctractArticleProxyParserContructor = {
+export type AbsctractArticleProxyParserContructor = {
     proxyFetcher: (url: string) => Promise<string>;
     cmsPath: string;
     apiUrls?: string[];

@@ -1,4 +1,4 @@
-export declare type ConfigProviderOptions = {
+export type ConfigProviderOptions = {
     baseApiUrl?: string;
     eventId: string;
     cmsPath?: string;

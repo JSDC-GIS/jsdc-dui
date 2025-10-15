@@ -4,7 +4,7 @@ import Dguidewalks from '..';
 import ConfigProvider from '../ConfigProvider';
 import { IArticleProxyParser } from '../proxyParser/@types';
 import useGeolocation from '../../../hooks/useGeolocation';
-export declare type DguidewalksContextType = {
+export type DguidewalksContextType = {
     dgw: Dguidewalks;
     geolocation: ReturnType<typeof useGeolocation>;
 };
