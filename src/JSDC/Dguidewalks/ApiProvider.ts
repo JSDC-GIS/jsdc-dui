@@ -75,11 +75,11 @@ export interface ApiGetVisitorCountResponse {
 export default class ApiProvider {
   readonly baseUrl: string
   readonly eventId: string
-  readonly cmsPath: string
+  readonly cmsPath: string[]
   constructor(configProvider: ConfigProvider) {
     this.baseUrl = configProvider.baseApiUrl
     this.eventId = configProvider.eventId
-    this.cmsPath = configProvider.cmsPath || ''
+    this.cmsPath = configProvider.cmsPath || []
   }
 
   get layersApiUrl() {

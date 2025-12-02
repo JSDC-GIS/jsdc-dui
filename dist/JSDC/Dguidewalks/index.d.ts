@@ -3,7 +3,7 @@ import ApiProvider from './ApiProvider';
 import ConfigProvider from './ConfigProvider';
 import Event from '../utils/Event';
 import { IArticleProxyParser } from './proxyParser/@types';
-export declare type DguidewalksOptions = {
+export type DguidewalksOptions = {
     config: ConfigProvider;
     layerNameOrder?: string[];
     articleParser: IArticleProxyParser;

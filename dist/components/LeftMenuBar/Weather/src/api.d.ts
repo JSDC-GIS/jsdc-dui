@@ -24,11 +24,11 @@ declare const COUNTY_MAP: {
     金門市: string;
     金門縣: string;
 };
-export declare type CountyName = keyof typeof COUNTY_MAP;
-export declare type GetTwoDaysApiParam = {
+export type CountyName = keyof typeof COUNTY_MAP;
+export type GetTwoDaysApiParam = {
     county: CountyName;
 };
-export declare type GetTwoDaysApiQuery = {
+export type GetTwoDaysApiQuery = {
     Authorization: string;
     locationName: string;
 };

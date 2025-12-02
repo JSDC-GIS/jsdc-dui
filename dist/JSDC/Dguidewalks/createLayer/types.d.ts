@@ -1,2 +1,2 @@
 import { LayerApiRespItem } from '../ApiProvider';
-export declare type CommonProps = Omit<LayerApiRespItem, 'Basemap' | 'LineFeatures' | 'PointFeatures' | 'PolygonFeatures'>;
+export type CommonProps = Omit<LayerApiRespItem, 'Basemap' | 'LineFeatures' | 'PointFeatures' | 'PolygonFeatures'>;

@@ -1,4 +1,4 @@
-export declare type StyleType = {
+export type StyleType = {
     [k: string]: string;
 };
 declare const useCssVariable: (style: StyleType) => StyleType;

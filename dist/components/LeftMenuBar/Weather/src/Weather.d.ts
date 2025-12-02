@@ -1,4 +1,4 @@
-declare type Dict = {
+type Dict = {
     [k: string]: any;
 };
 declare class WeatherElement {

@@ -1,8 +1,8 @@
 import { Map, MarkerClusterGroupOptions } from 'leaflet';
 import JSDCGeoJSONLayer from '../../Layer/JSDCGeoJSONLayer';
 import JSDCMarkersLayer from '../../Layer/JSDCMarkersLayer';
-export declare type UseClusterValidLayer = JSDCGeoJSONLayer | JSDCMarkersLayer;
-export declare type UseClusterParams = {
+export type UseClusterValidLayer = JSDCGeoJSONLayer | JSDCMarkersLayer;
+export type UseClusterParams = {
     layers?: Array<UseClusterValidLayer>;
     config?: MarkerClusterGroupOptions;
 };

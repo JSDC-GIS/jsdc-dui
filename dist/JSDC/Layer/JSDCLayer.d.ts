@@ -4,7 +4,7 @@ import { Layer, Map, TileLayer, GeoJSON } from 'leaflet';
 import JSDCLayerBehavior, { JSDCLayerDescription } from './@types';
 export interface JSDCLayerConstructorOptions extends Pick<JSDCLayerBehavior, 'id' | 'description'> {
 }
-declare type ValidationParam = {
+type ValidationParam = {
     strictMode?: boolean;
 };
 declare class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P> {
