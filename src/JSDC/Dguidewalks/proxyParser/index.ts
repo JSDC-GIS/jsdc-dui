@@ -82,7 +82,9 @@ class ArticleProxyParser
         .filter((response) => response !== null)
         .flatMap((response) => response!.data.data)
         .filter((item: any) =>
-          item.attributes.path?.alias.includes(this.cmsPath),
+          this.cmsPath.some((path) =>
+            item.attributes.path?.alias.includes(path),
+          ),
         )
         .sort((itemA: any, itemB: any) => {
           const numA = parseInt(
