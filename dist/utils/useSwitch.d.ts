@@ -1,4 +1,4 @@
-declare type SwitchData = {
+type SwitchData = {
     id: string;
 };
 declare const useSwitch: <T extends SwitchData>(switchDatas: T[]) => {

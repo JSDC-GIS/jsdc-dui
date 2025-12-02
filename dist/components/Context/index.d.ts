@@ -8,16 +8,16 @@ export declare const defaultMenuItems: {
     id: string;
     name: string;
 }[];
-export declare type WeatherConfig = {
+export type WeatherConfig = {
     disabled?: boolean;
     token: string | undefined;
     locations: IWeatherDialogContentProps['locations'];
 };
-export declare type LegendConfig = {
+export type LegendConfig = {
     disabled?: boolean;
     activeLegends: ILegendDialogContentProps['activeLegends'];
 };
-export declare type DuiContextType = {
+export type DuiContextType = {
     sidebarTitle: string;
     sidebarSubtitle: string;
     aboutWalkImgSrc: string;
@@ -41,7 +41,7 @@ export declare type DuiContextType = {
 };
 export declare const initialDuiContext: {};
 declare const DuiContext: React.Context<DuiContextType>;
-declare type MenuItemType = {
+type MenuItemType = {
     id: string;
     name: string;
 };

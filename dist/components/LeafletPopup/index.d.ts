@@ -3,13 +3,13 @@ import { Layer } from 'leaflet';
 import { ILeafletPopupTableProps } from './Table';
 import { renderToString } from 'react-dom/server';
 import Dguidewalks from '../../JSDC/Dguidewalks';
-export declare type BindPopupWithComponentOptions<P> = {
+export type BindPopupWithComponentOptions<P> = {
     Component: (props: P) => JSX.Element | null;
     props: P;
     onLayerClick?: () => void;
 };
 export declare function bindPopupWithComponent<P>(layer: Layer, stringRenderer: typeof renderToString, { Component, props, onLayerClick }: BindPopupWithComponentOptions<P>): void;
-export declare type BindPopupWithSceneCardOptions = {
+export type BindPopupWithSceneCardOptions = {
     dgw: Dguidewalks;
     title: string;
 };
