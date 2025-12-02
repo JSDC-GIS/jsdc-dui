@@ -15,7 +15,7 @@ export declare const BASEMAPS: {
     '1904-\u65E5\u6CBB\u81FA\u7063\u5821\u5716(\u660E\u6CBB\u7248)': string;
     '1897-\u65E5\u6CBB\u81FA\u7063\u5047\u88FD\u4E8C\u5341\u842C\u5206\u4E00\u5716\t': string;
 };
-export declare type BasemapName = keyof typeof BASEMAPS;
+export type BasemapName = keyof typeof BASEMAPS;
 declare class BasemapProvider {
     private _basemaps;
     activeMaps: Array<BasemapName>;

@@ -271,7 +271,10 @@ function App() {
   )
 }
 
-const cmsPath = '數位走讀地圖/北部景點/大嵙崁溪河階/2022三層·內柵·三坑情' // '數位走讀地圖/南部景點/牡丹社事件'
+const cmsPath = [
+  '數位走讀地圖/北部景點/大嵙崁溪河階/2022三層·內柵·三坑情',
+  // '數位走讀地圖/南部景點/牡丹社事件'
+]
 const eventId = 'n0004'
 
 const config = new ConfigProvider({

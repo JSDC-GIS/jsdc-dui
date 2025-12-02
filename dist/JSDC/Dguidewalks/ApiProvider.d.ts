@@ -16,9 +16,9 @@ export interface LayerApiRespVectorProps {
 export interface LayerApiRespVectorType<T = {}> extends LayerApiRespBase, LayerApiRespVectorProps {
     geometry: T;
 }
-export declare type LayerApiRespLineFeature = LayerApiRespVectorType<LineString | MultiLineString>;
-export declare type LayerApiRespPointFeature = LayerApiRespVectorType<Point>;
-export declare type LayerApiRespPolygonFeature = LayerApiRespVectorType<Polygon | MultiPolygon>;
+export type LayerApiRespLineFeature = LayerApiRespVectorType<LineString | MultiLineString>;
+export type LayerApiRespPointFeature = LayerApiRespVectorType<Point>;
+export type LayerApiRespPolygonFeature = LayerApiRespVectorType<Polygon | MultiPolygon>;
 export interface LayerApiRespBasemap extends LayerApiRespBase {
     url: 'https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}';
 }
@@ -53,7 +53,7 @@ export interface ApiGetVisitorCountResponse {
 export default class ApiProvider {
     readonly baseUrl: string;
     readonly eventId: string;
-    readonly cmsPath: string;
+    readonly cmsPath: string[];
     constructor(configProvider: ConfigProvider);
     get layersApiUrl(): string;
     get basemapsUrl(): string;

@@ -1,4 +1,4 @@
-export declare type JSDCLayerDescription = {
+export type JSDCLayerDescription = {
     name: string;
     type: string;
     [k: string]: any;

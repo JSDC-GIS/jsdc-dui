@@ -9,11 +9,11 @@ export interface ILayerEvent {
 export interface IonChangeEvent extends ILayerEvent {
     type: 'add' | 'remove';
 }
-export declare type LayerInfo = Pick<JSDCLayer, 'id' | 'description' | 'show'>;
-export declare type RemoveOptions = {
+export type LayerInfo = Pick<JSDCLayer, 'id' | 'description' | 'show'>;
+export type RemoveOptions = {
     removeFromMap?: boolean;
 };
-export declare type AddOptions = {
+export type AddOptions = {
     hidden?: boolean;
     addToMap?: boolean;
 };

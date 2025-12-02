@@ -7,7 +7,7 @@ import {
 
 export type AbsctractArticleProxyParserContructor = {
   proxyFetcher: (url: string) => Promise<string>
-  cmsPath: string
+  cmsPath: string[]
   apiUrls?: string[]
 }
 
@@ -44,9 +44,10 @@ abstract class AbsctractArticleProxyParser {
     ]
   }
 
+  // 以前爬蟲使用，改用 API 後無使用
   get url() {
     const baseCmsUrl = 'https://dguidedwalks.tw/'
-    return baseCmsUrl + encodeURI(this.cmsPath)
+    return baseCmsUrl + encodeURI(this.cmsPath[0] || '')
   }
 
   parseHTML(htmlString: string) {

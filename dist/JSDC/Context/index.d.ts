@@ -1,7 +1,7 @@
 import JSDC from '../';
 import { LayerInfo } from '../Controller/LayerController';
 import React from 'react';
-export declare type JSDCContextType = {
+export type JSDCContextType = {
     Jsdc: JSDC;
     layerInfos: LayerInfo[];
 };

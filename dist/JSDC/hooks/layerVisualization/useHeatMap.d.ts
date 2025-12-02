@@ -1,7 +1,7 @@
 import { LatLng, Layer, Map } from 'leaflet';
 import JSDCMarkersLayer from '../../Layer/JSDCMarkersLayer';
 import JSDCGeoJSONLayer from '../../Layer/JSDCGeoJSONLayer';
-export declare type HeatMapOverLayParam = {
+export type HeatMapOverLayParam = {
     /**
      * radius should be small ONLY if scaleRadius is true (or small radius is intended)
      * if scaleRadius is false it will be the constant radius used in pixels
@@ -38,11 +38,11 @@ export interface IHeatMapOverLay extends Layer {
     }) => void;
     addData: (param: LatLng[]) => void;
 }
-export declare type HeatMapOverLay = {
+export type HeatMapOverLay = {
     new (param: HeatMapOverLayParam): IHeatMapOverLay;
 };
-export declare type UseHeatMapValidLayer = JSDCMarkersLayer | JSDCGeoJSONLayer;
-export declare type UseHeatMapParams = {
+export type UseHeatMapValidLayer = JSDCMarkersLayer | JSDCGeoJSONLayer;
+export type UseHeatMapParams = {
     layers?: Array<UseHeatMapValidLayer>;
     config?: HeatMapOverLayParam;
 };
