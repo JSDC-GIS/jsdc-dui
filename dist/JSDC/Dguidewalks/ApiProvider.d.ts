@@ -53,7 +53,7 @@ export interface ApiGetVisitorCountResponse {
 export default class ApiProvider {
     readonly baseUrl: string;
     readonly eventId: string;
-    readonly cmsPath: string;
+    readonly cmsPath: string[];
     constructor(configProvider: ConfigProvider);
     get layersApiUrl(): string;
     get basemapsUrl(): string;

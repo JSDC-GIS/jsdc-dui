@@ -1,7 +1,7 @@
 import { ArticleExternalProps, DetailArticleType, SummaryArticleType } from './@types';
 export type AbsctractArticleProxyParserContructor = {
     proxyFetcher: (url: string) => Promise<string>;
-    cmsPath: string;
+    cmsPath: string[];
     apiUrls?: string[];
 };
 declare class ArticleCache {
