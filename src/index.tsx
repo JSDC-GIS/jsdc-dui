@@ -355,6 +355,10 @@ const AppWrapper = () => {
           ]}
           layerNameOrder={['牡丹社路線']}
           config={config}
+          layerLegendImages={{
+            '臺灣通用電子地圖(灰階)':
+              'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
+          }}
         >
           <DuiContextProvider
             {...duiConfigProps}

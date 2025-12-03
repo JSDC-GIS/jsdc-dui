@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import LayerItem, { ILayerItemProps } from './LayerItem'
 import './LayerDialogContent.scss'
+import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
 
 export interface ILayerDialogContentProps {
   layerInfos: Omit<ILayerItemProps, 'onToggleShow' | 'onOpacityChange'>[]
@@ -13,6 +14,8 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
   onToggleShow,
   onOpacityChange,
 }) => {
+  const { layerLegendImages } = useContext(DguidewalksContext)
+
   return (
     <div className="dui-LayerDialogContent">
       {layerInfos.map((item) => (
@@ -21,6 +24,7 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
           {...item}
           onToggleShow={(show) => onToggleShow(item.id, show)}
           onOpacityChange={(value) => onOpacityChange(item.id, value)}
+          legendImageUrl={layerLegendImages[item.name]}
         />
       ))}
     </div>

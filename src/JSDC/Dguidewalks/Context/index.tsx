@@ -8,6 +8,7 @@ import useGeolocation from '../../../hooks/useGeolocation'
 export type DguidewalksContextType = {
   dgw: Dguidewalks
   geolocation: ReturnType<typeof useGeolocation>
+  layerLegendImages: Record<string, string>
 }
 
 const InitialDguidewalksContext = {}
@@ -24,6 +25,7 @@ export interface IDguidewalksProviderProps {
   layerNameOrder?: Array<string>
   articleParser: IArticleProxyParser
   config: ConfigProvider
+  layerLegendImages?: Record<string, string>
 }
 
 const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
@@ -34,6 +36,7 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   layerNameOrder = [],
   articleParser,
   config,
+  layerLegendImages = {},
 }) => {
   const [dgw] = useState(
     new Dguidewalks({
@@ -63,6 +66,7 @@ const DguidewalksProvider: React.FC<IDguidewalksProviderProps> = ({
   const value = {
     dgw,
     geolocation,
+    layerLegendImages,
   }
   return (
     <DguidewalksContext.Provider value={value}>

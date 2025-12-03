@@ -18,6 +18,15 @@
     }
   }
 
+  &-legend-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 0;
+    flex-shrink: 0;
+  }
+
   &-opacity-config {
     max-height: 0px;
     transition: max-height 0.3s;
