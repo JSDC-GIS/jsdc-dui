@@ -7,6 +7,7 @@ export interface ILayerItemProps {
     show: boolean;
     onToggleShow: (show: boolean) => void;
     onOpacityChange: (value: number) => void;
+    legendImageUrl?: string;
 }
 declare const LayerItem: React.FC<ILayerItemProps>;
 export default LayerItem;

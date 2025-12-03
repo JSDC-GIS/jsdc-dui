@@ -1,3 +1,47 @@
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b9c1c7;
+}
+::-webkit-scrollbar-track {
+  background: fff0;
+}
+:root * {
+  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
+  scrollbar-width: thin !important;
+}
+.dui-MapViewContainer .leaflet-touch .leaflet-bar,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
+  border-radius: 3px;
+}
+.dui-MapViewContainer .leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--dui-bg-primary);
+}
+.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
+  text-shadow: 0 0 1px #000;
+}
+.dui-MapViewContainer .leaflet-right .leaflet-control {
+  margin-right: 0px;
+}
+.dui-MapViewContainer .leaflet-top .leaflet-control {
+  margin-top: 8px;
+}
+.dui-MapViewContainer .leaflet-bottom {
+  bottom: 8px;
+}
+.dui-MapViewContainer .leaflet-right {
+  right: 8px;
+}
+.dui-button {
+  background-color: var(--dui-primary);
+  padding: 5px;
+  border: 0;
+  border-radius: 5px;
+}
 .dui-LeafletPopupTable-name {
   margin-bottom: 10px;
   font-weight: bold;
@@ -86,49 +130,24 @@
   color: #fff;
   font-size: smaller;
 }
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-::-webkit-scrollbar-thumb {
-  background: #b9c1c7;
-}
-::-webkit-scrollbar-track {
-  background: fff0;
-}
-:root * {
-  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
-  scrollbar-width: thin !important;
-}
-.dui-MapViewContainer .leaflet-touch .leaflet-bar,
-.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
-.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
-  border-radius: 3px;
-}
-.dui-MapViewContainer .leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background: var(--dui-bg-primary);
-}
-.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
-  text-shadow: 0 0 1px #000;
-}
-.dui-MapViewContainer .leaflet-right .leaflet-control {
-  margin-right: 0px;
-}
-.dui-MapViewContainer .leaflet-top .leaflet-control {
-  margin-top: 8px;
-}
-.dui-MapViewContainer .leaflet-bottom {
+.dui-VisitorCount {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  margin-right: 12px;
   bottom: 8px;
+  z-index: 400;
+  pointer-events: none;
+  user-select: none;
 }
-.dui-MapViewContainer .leaflet-right {
-  right: 8px;
+.dui-VisitorCount-title {
+  color: #3c3c3c;
+  font-size: 12px;
 }
-.dui-button {
-  background-color: var(--dui-primary);
-  padding: 5px;
-  border: 0;
-  border-radius: 5px;
+.dui-VisitorCount-display {
+  display: flex;
+  gap: 1px;
 }
 ::-webkit-scrollbar {
   width: 3px;
@@ -460,100 +479,6 @@
   width: 100%;
   bottom: 0px;
 }
-.dui-VisitorCount {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  right: 0;
-  margin-right: 12px;
-  bottom: 8px;
-  z-index: 400;
-  pointer-events: none;
-  user-select: none;
-}
-.dui-VisitorCount-title {
-  color: #3c3c3c;
-  font-size: 12px;
-}
-.dui-VisitorCount-display {
-  display: flex;
-  gap: 1px;
-}
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-::-webkit-scrollbar-thumb {
-  background: #b9c1c7;
-}
-::-webkit-scrollbar-track {
-  background: fff0;
-}
-:root * {
-  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
-  scrollbar-width: thin !important;
-}
-.dui-MapViewContainer .leaflet-touch .leaflet-bar,
-.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
-.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
-  border-radius: 3px;
-}
-.dui-MapViewContainer .leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background: var(--dui-bg-primary);
-}
-.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
-  text-shadow: 0 0 1px #000;
-}
-.dui-MapViewContainer .leaflet-right .leaflet-control {
-  margin-right: 0px;
-}
-.dui-MapViewContainer .leaflet-top .leaflet-control {
-  margin-top: 8px;
-}
-.dui-MapViewContainer .leaflet-bottom {
-  bottom: 8px;
-}
-.dui-MapViewContainer .leaflet-right {
-  right: 8px;
-}
-.dui-AboutWalkDialogContent {
-  overflow: auto;
-  margin: 0px 5px;
-  padding: 0px 25px;
-  flex: unset;
-  display: unset;
-}
-.dui-AboutWalkDialogContent-img {
-  display: flex;
-  justify-content: center;
-}
-.dui-AboutWalkDialogContent-img img {
-  max-height: 400px;
-  max-height: 400px;
-  min-height: 200px;
-  object-fit: contain;
-  max-width: 400px;
-  width: 100%;
-  height: auto;
-}
-.dui-AboutWalkDialogContent-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 15px 0px;
-  text-align: center;
-  display: grid;
-  gap: 3px;
-  color: var(--dui-accent);
-}
-.dui-AboutWalkDialogContent-content {
-  font-size: 18px !important;
-  padding: 0 20px;
-  text-align: justify;
-  font-size: smaller;
-  opacity: 0.7;
-  line-height: 25px;
-}
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
@@ -743,61 +668,164 @@
 .dui-MapViewContainer .leaflet-right {
   right: 8px;
 }
-.dui-CreditDialogContent {
-  margin: 0px 5px;
-  padding: 0px 20px;
-  padding-bottom: 45px;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.dui-AboutWalkDialogContent {
   overflow: auto;
-  gap: 15px;
+  margin: 0px 5px;
+  padding: 0px 25px;
+  flex: unset;
+  display: unset;
 }
-.dui-CreditDialogContent .title {
+.dui-AboutWalkDialogContent-img {
+  display: flex;
+  justify-content: center;
+}
+.dui-AboutWalkDialogContent-img img {
+  max-height: 400px;
+  max-height: 400px;
+  min-height: 200px;
+  object-fit: contain;
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+.dui-AboutWalkDialogContent-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 15px 0px;
+  text-align: center;
+  display: grid;
+  gap: 3px;
+  color: var(--dui-accent);
+}
+.dui-AboutWalkDialogContent-content {
+  font-size: 18px !important;
+  padding: 0 20px;
+  text-align: justify;
+  font-size: smaller;
+  opacity: 0.7;
+  line-height: 25px;
+}
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b9c1c7;
+}
+::-webkit-scrollbar-track {
+  background: fff0;
+}
+:root * {
+  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
+  scrollbar-width: thin !important;
+}
+.dui-MapViewContainer .leaflet-touch .leaflet-bar,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
+  border-radius: 3px;
+}
+.dui-MapViewContainer .leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--dui-bg-primary);
+}
+.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
+  text-shadow: 0 0 1px #000;
+}
+.dui-MapViewContainer .leaflet-right .leaflet-control {
+  margin-right: 0px;
+}
+.dui-MapViewContainer .leaflet-top .leaflet-control {
+  margin-top: 8px;
+}
+.dui-MapViewContainer .leaflet-bottom {
+  bottom: 8px;
+}
+.dui-MapViewContainer .leaflet-right {
+  right: 8px;
+}
+.dui-MenuList {
   display: flex;
   flex-direction: column;
-  color: var(--dui-primary);
+  background: var(--dui-bg-primary);
+  height: 100vh;
+  min-width: 208px;
+  overflow: hidden;
+  max-height: 100%;
+}
+@media all and (max-width: 480px) {
+  .dui-MenuList {
+    flex-direction: row;
+    position: fixed;
+    height: auto;
+    z-index: 600;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.384);
+    min-width: auto;
+    max-height: auto;
+    border-radius: 5px;
+    margin: 10px;
+  }
+}
+.dui-MenuList .header-img {
+  margin-top: 20px;
+  background: #fff;
+  border-top: 0px solid #4ba549;
+  background-color: var(--dui-bg-accent);
+  height: 80px;
+  background-image: var(--header-img);
+  background-size: cover;
+  background-position: center;
+}
+@media all and (max-width: 480px) {
+  .dui-MenuList .header-img {
+    display: none;
+  }
+}
+.dui-MenuList .title {
+  color: var(--dui-accent);
+  display: flex;
+  flex-direction: column;
   align-items: center;
   font-weight: bolder;
   font-size: 15px;
   margin: 15px 0px;
 }
-.dui-CreditDialogContent-content {
-  text-justify: inter-ideograph;
-  text-align: justify;
-  font-size: 18px;
+@media all and (max-width: 480px) {
+  .dui-MenuList .title {
+    display: none;
+  }
 }
-.dui-CreditDialogContent-content .qr-code {
-  display: block;
-  margin-top: 20px;
-  width: 71.3px;
-  height: 71.3px;
-}
-.dui-CreditDialogContent .final {
+.dui-MenuList .content {
   flex: 1;
+  margin-bottom: 10px;
   display: flex;
-  margin: 10px 0px;
-  white-space: pre-line;
-  align-items: flex-end;
-  min-height: 70px;
-}
-.dui-LegendDialogContent {
+  flex-direction: column;
+  justify-content: space-between;
   overflow: auto;
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  padding: 15px 30px;
-  margin: 0px 5px;
-  height: inherit;
 }
-.dui-LegendDialogContent .legend-item {
-  padding: 20px;
+@media all and (max-width: 480px) {
+  .dui-MenuList .content {
+    max-height: 45px;
+    flex-direction: row;
+    margin: 0px;
+    max-width: calc(100vw - 65px);
+    overflow: auto;
+  }
 }
-.dui-LegendDialogContent .legend-item .icon {
-  max-width: 50px;
+@media all and (max-width: 480px) {
+  .dui-MenuList .content .main-content {
+    display: flex;
+    flex-direction: row;
+  }
+}
+.dui-MenuList .content .end-content {
+  padding-top: 1rem;
+}
+@media all and (max-width: 480px) {
+  .dui-MenuList .content .end-content {
+    display: flex;
+    flex-direction: row;
+    padding-top: 0px;
+  }
 }
 ::-webkit-scrollbar {
   width: 3px;
@@ -920,6 +948,124 @@
   color: #fff;
   cursor: pointer;
 }
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+::-webkit-scrollbar-thumb {
+  background: #b9c1c7;
+}
+::-webkit-scrollbar-track {
+  background: fff0;
+}
+:root * {
+  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
+  scrollbar-width: thin !important;
+}
+.dui-MapViewContainer .leaflet-touch .leaflet-bar,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
+.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
+  border-radius: 3px;
+}
+.dui-MapViewContainer .leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--dui-bg-primary);
+}
+.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
+  text-shadow: 0 0 1px #000;
+}
+.dui-MapViewContainer .leaflet-right .leaflet-control {
+  margin-right: 0px;
+}
+.dui-MapViewContainer .leaflet-top .leaflet-control {
+  margin-top: 8px;
+}
+.dui-MapViewContainer .leaflet-bottom {
+  bottom: 8px;
+}
+.dui-MapViewContainer .leaflet-right {
+  right: 8px;
+}
+.dui-MenuDialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--dui-bg-primary);
+  border-radius: 10px 10px 0px 0px;
+  pointer-events: auto;
+  overflow: hidden;
+}
+@media all and (max-width: 480px) {
+  .dui-MenuDialog {
+    width: unset;
+    border-radius: 10px 10px 0px 0px;
+  }
+}
+.dui-MenuDialog .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dui-MenuDialog .header .title {
+  color: #000;
+  opacity: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.dui-MenuDialog .header .title .icon {
+  display: flex;
+  margin: 0px 10px;
+}
+.dui-MenuDialog .header .title .icon > * {
+  height: 32px;
+  width: auto;
+}
+.dui-MenuDialog .header .title .text {
+  opacity: 0.7;
+  font-size: 20px;
+}
+.dui-MenuDialog .header .action {
+  display: flex;
+  justify-content: flex-end;
+}
+.dui-MenuDialog .header .action .close-btn {
+  cursor: pointer;
+  font-size: large;
+  margin-right: 20px;
+}
+@media all and (max-width: 480px) {
+  .dui-MenuDialog .header .action .close-btn {
+    border: 1px solid;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.dui-MenuDialog .header .action .close-btn:hover {
+  font-weight: bolder;
+}
+.dui-LegendDialogContent {
+  overflow: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  padding: 15px 30px;
+  margin: 0px 5px;
+  height: inherit;
+}
+.dui-LegendDialogContent .legend-item {
+  padding: 20px;
+}
+.dui-LegendDialogContent .legend-item .icon {
+  max-width: 50px;
+}
 .dui-LayerItem {
   margin: 0px 5px;
   display: inline-flex;
@@ -938,6 +1084,14 @@
   text-align: justify;
   display: inline-flex;
   text-justify: auto;
+}
+.dui-LayerItem-legend-btn {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 0;
+  flex-shrink: 0;
 }
 .dui-LayerItem-opacity-config {
   max-height: 0px;
@@ -1067,6 +1221,45 @@
     }
   }
 }
+.dui-WeatherCard {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  transition: 0.3s all;
+  width: 250px;
+  min-height: 200px;
+}
+.dui-WeatherCard:hover {
+  background: rgba(212, 233, 255, 0.8509803922);
+  border: 1px solid #fff;
+}
+.dui-WeatherCard .time {
+  color: rgba(0, 0, 0, 0.5803921569);
+  font-size: smaller;
+  padding: 0.5rem;
+}
+.dui-WeatherCard .description {
+  display: flex;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 1.4rem;
+}
+.dui-WeatherCard .description p {
+  margin: 0px 5px;
+}
+.dui-WeatherCard .main-info {
+  display: flex;
+  justify-content: space-around;
+}
+.dui-WeatherCard .main-info .degree {
+  padding: 0.5rem;
+  font-size: xx-large;
+}
+.dui-WeatherCard .main-info img {
+  height: 100px;
+}
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
@@ -1105,68 +1298,44 @@
 .dui-MapViewContainer .leaflet-right {
   right: 8px;
 }
-.dui-MenuDialog {
+.dui-CreditDialogContent {
+  margin: 0px 5px;
+  padding: 0px 20px;
+  padding-bottom: 45px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background: var(--dui-bg-primary);
-  border-radius: 10px 10px 0px 0px;
-  pointer-events: auto;
-  overflow: hidden;
+  flex: 1;
+  overflow: auto;
+  gap: 15px;
 }
-@media all and (max-width: 480px) {
-  .dui-MenuDialog {
-    width: unset;
-    border-radius: 10px 10px 0px 0px;
-  }
-}
-.dui-MenuDialog .header {
+.dui-CreditDialogContent .title {
   display: flex;
+  flex-direction: column;
+  color: var(--dui-primary);
   align-items: center;
-  justify-content: space-between;
-}
-.dui-MenuDialog .header .title {
-  color: #000;
-  opacity: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.dui-MenuDialog .header .title .icon {
-  display: flex;
-  margin: 0px 10px;
-}
-.dui-MenuDialog .header .title .icon > * {
-  height: 32px;
-  width: auto;
-}
-.dui-MenuDialog .header .title .text {
-  opacity: 0.7;
-  font-size: 20px;
-}
-.dui-MenuDialog .header .action {
-  display: flex;
-  justify-content: flex-end;
-}
-.dui-MenuDialog .header .action .close-btn {
-  cursor: pointer;
-  font-size: large;
-  margin-right: 20px;
-}
-@media all and (max-width: 480px) {
-  .dui-MenuDialog .header .action .close-btn {
-    border: 1px solid;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-.dui-MenuDialog .header .action .close-btn:hover {
   font-weight: bolder;
+  font-size: 15px;
+  margin: 15px 0px;
+}
+.dui-CreditDialogContent-content {
+  text-justify: inter-ideograph;
+  text-align: justify;
+  font-size: 18px;
+}
+.dui-CreditDialogContent-content .qr-code {
+  display: block;
+  margin-top: 20px;
+  width: 71.3px;
+  height: 71.3px;
+}
+.dui-CreditDialogContent .final {
+  flex: 1;
+  display: flex;
+  margin: 10px 0px;
+  white-space: pre-line;
+  align-items: flex-end;
+  min-height: 70px;
 }
 .dui-WeatherDialogContent {
   width: 100%;
@@ -1236,165 +1405,4 @@
   left: 50%;
   position: relative;
   transform: translate(-50%, 0px);
-}
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-::-webkit-scrollbar-thumb {
-  background: #b9c1c7;
-}
-::-webkit-scrollbar-track {
-  background: fff0;
-}
-:root * {
-  scrollbar-color: #b9c1c7 rgba(255, 255, 255, 0);
-  scrollbar-width: thin !important;
-}
-.dui-MapViewContainer .leaflet-touch .leaflet-bar,
-.dui-MapViewContainer .leaflet-touch .leaflet-control-attribution,
-.dui-MapViewContainer .leaflet-touch .leaflet-control-layers {
-  border-radius: 3px;
-}
-.dui-MapViewContainer .leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-  background: var(--dui-bg-primary);
-}
-.dui-MapViewContainer .leaflet-container a.leaflet-popup-close-button {
-  text-shadow: 0 0 1px #000;
-}
-.dui-MapViewContainer .leaflet-right .leaflet-control {
-  margin-right: 0px;
-}
-.dui-MapViewContainer .leaflet-top .leaflet-control {
-  margin-top: 8px;
-}
-.dui-MapViewContainer .leaflet-bottom {
-  bottom: 8px;
-}
-.dui-MapViewContainer .leaflet-right {
-  right: 8px;
-}
-.dui-MenuList {
-  display: flex;
-  flex-direction: column;
-  background: var(--dui-bg-primary);
-  height: 100vh;
-  min-width: 208px;
-  overflow: hidden;
-  max-height: 100%;
-}
-@media all and (max-width: 480px) {
-  .dui-MenuList {
-    flex-direction: row;
-    position: fixed;
-    height: auto;
-    z-index: 600;
-    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.384);
-    min-width: auto;
-    max-height: auto;
-    border-radius: 5px;
-    margin: 10px;
-  }
-}
-.dui-MenuList .header-img {
-  margin-top: 20px;
-  background: #fff;
-  border-top: 0px solid #4ba549;
-  background-color: var(--dui-bg-accent);
-  height: 80px;
-  background-image: var(--header-img);
-  background-size: cover;
-  background-position: center;
-}
-@media all and (max-width: 480px) {
-  .dui-MenuList .header-img {
-    display: none;
-  }
-}
-.dui-MenuList .title {
-  color: var(--dui-accent);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-weight: bolder;
-  font-size: 15px;
-  margin: 15px 0px;
-}
-@media all and (max-width: 480px) {
-  .dui-MenuList .title {
-    display: none;
-  }
-}
-.dui-MenuList .content {
-  flex: 1;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: auto;
-}
-@media all and (max-width: 480px) {
-  .dui-MenuList .content {
-    max-height: 45px;
-    flex-direction: row;
-    margin: 0px;
-    max-width: calc(100vw - 65px);
-    overflow: auto;
-  }
-}
-@media all and (max-width: 480px) {
-  .dui-MenuList .content .main-content {
-    display: flex;
-    flex-direction: row;
-  }
-}
-.dui-MenuList .content .end-content {
-  padding-top: 1rem;
-}
-@media all and (max-width: 480px) {
-  .dui-MenuList .content .end-content {
-    display: flex;
-    flex-direction: row;
-    padding-top: 0px;
-  }
-}
-.dui-WeatherCard {
-  display: flex;
-  flex-direction: column;
-  margin: 15px;
-  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.4);
-  border-radius: 3px;
-  transition: 0.3s all;
-  width: 250px;
-  min-height: 200px;
-}
-.dui-WeatherCard:hover {
-  background: rgba(212, 233, 255, 0.8509803922);
-  border: 1px solid #fff;
-}
-.dui-WeatherCard .time {
-  color: rgba(0, 0, 0, 0.5803921569);
-  font-size: smaller;
-  padding: 0.5rem;
-}
-.dui-WeatherCard .description {
-  display: flex;
-  padding: 0.5rem;
-  flex-wrap: wrap;
-  font-size: 1.4rem;
-}
-.dui-WeatherCard .description p {
-  margin: 0px 5px;
-}
-.dui-WeatherCard .main-info {
-  display: flex;
-  justify-content: space-around;
-}
-.dui-WeatherCard .main-info .degree {
-  padding: 0.5rem;
-  font-size: xx-large;
-}
-.dui-WeatherCard .main-info img {
-  height: 100px;
 }
