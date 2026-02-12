@@ -40,7 +40,7 @@ abstract class AbsctractArticleProxyParser {
     this.proxyFetcher = options.proxyFetcher
     this.cmsPath = options.cmsPath
     this.apiUrls = options.apiUrls || [
-      'https://dguidedwalks.no1tree.tw/jsonapi/node/listing',
+      'https://dguidedwalks.tw/jsonapi/node/listing',
     ]
   }
 
