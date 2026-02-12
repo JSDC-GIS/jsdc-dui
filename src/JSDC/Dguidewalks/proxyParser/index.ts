@@ -103,7 +103,7 @@ class ArticleProxyParser
           if (content.length > 34) {
             content = content.substring(0, 34) + '......'
           }
-          const link: string = `https://dguidedwalks.no1tree.tw/zh-hant${
+          const link: string = `https://dguidedwalks.tw${
             item.attributes.path?.alias || ''
           }`
 
@@ -113,7 +113,7 @@ class ArticleProxyParser
               const imgResponse = await axios.get(
                 item.relationships.field_listing_image.links.related.href,
               )
-              imgSrc = `https://dguidedwalks.no1tree.tw/${imgResponse.data.data.attributes.uri.url}`
+              imgSrc = `https://dguidedwalks.tw${imgResponse.data.data.attributes.uri.url}`
             } catch (error) {
               console.error('Error fetching image:', error)
             }
