@@ -1,4 +1,4 @@
-declare type MenuItemType = {
+type MenuItemType = {
     id: string;
     name: string;
 };
@@ -11,7 +11,7 @@ export declare const menuItemKeys: {
     readonly 關於圖臺: "menu.aboutPlatform";
 };
 export declare const useTranslatedMenuItems: (menuItems: MenuItemType[]) => {
-    name: any;
+    name: string;
     id: string;
 }[];
 export {};
