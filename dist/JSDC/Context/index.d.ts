@@ -7,7 +7,7 @@ export type JSDCContextType = {
 };
 declare const JSDCContext: React.Context<JSDCContextType>;
 export interface IJSDCProviderProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     Jsdc: JSDC;
 }
 declare const JSDCProvider: React.FC<IJSDCProviderProps>;
