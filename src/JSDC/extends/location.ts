@@ -62,8 +62,8 @@ export default Control.extend<{
           handlePositionError,
           {
             enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 3000,
+            timeout: 30000,
+            maximumAge: 5000,
           },
         )
       } else {
