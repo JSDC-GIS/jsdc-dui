@@ -66,6 +66,9 @@ export default Control.extend<{
             maximumAge: 5000,
           },
         )
+        if (marker) {
+          map.flyTo(marker.getLatLng(), 17, { duration: 2 })
+        }
       } else {
         navigator.geolocation.clearWatch(watchId)
         watchId = null
