@@ -36,6 +36,7 @@ export default Control.extend<{
     container.style.cursor = 'pointer'
 
     let marker: Marker | undefined
+    let watchId: number | null = null
 
     const handlePositionChange: PositionCallback = ({ coords }) => {
       const { latitude, longitude } = coords
@@ -54,18 +55,25 @@ export default Control.extend<{
     const handlePositionError: PositionErrorCallback = () =>
       console.warn('failed to get geolocation')
 
-    navigator.geolocation.watchPosition(
-      handlePositionChange,
-      handlePositionError,
-      {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 3000,
-      },
-    )
-
     container.onclick = () => {
-      marker && map.flyTo(marker?.getLatLng()!, 17, { duration: 2 })
+      if (watchId === null) {
+        watchId = navigator.geolocation.watchPosition(
+          handlePositionChange,
+          handlePositionError,
+          {
+            enableHighAccuracy: true,
+            timeout: 30000,
+            maximumAge: 5000,
+          },
+        )
+      } else {
+        navigator.geolocation.clearWatch(watchId)
+        watchId = null
+        if (marker) {
+          marker.remove()
+          marker = undefined
+        }
+      }
     }
     return container
   },
