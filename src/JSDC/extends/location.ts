@@ -37,6 +37,8 @@ export default Control.extend<{
 
     let marker: Marker | undefined
     let watchId: number | null = null
+    let isFirstPosition = true
+    let isFlyingTo = false
 
     const handlePositionChange: PositionCallback = ({ coords }) => {
       const { latitude, longitude } = coords
@@ -50,7 +52,16 @@ export default Control.extend<{
         })
         marker.addTo(map)
       }
-      map.setView(position)
+      if (isFirstPosition) {
+        isFirstPosition = false
+        isFlyingTo = true
+        map.flyTo(position, 17, { duration: 2 })
+        map.once('moveend', () => {
+          isFlyingTo = false
+        })
+      } else if (!isFlyingTo) {
+        map.setView(position)
+      }
     }
     const handlePositionError: PositionErrorCallback = () =>
       console.warn('failed to get geolocation')
@@ -69,6 +80,8 @@ export default Control.extend<{
       } else {
         navigator.geolocation.clearWatch(watchId)
         watchId = null
+        isFirstPosition = true
+        isFlyingTo = false
         if (marker) {
           marker.remove()
           marker = undefined
