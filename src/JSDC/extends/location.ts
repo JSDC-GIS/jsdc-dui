@@ -43,12 +43,13 @@ export default Control.extend<{
       this.options.Jsdc?.userGeolocationUpdateEvent.raise(position)
       if (marker) {
         marker.setLatLng(position)
-        return
+      } else {
+        marker = new Marker(position, {
+          icon: new Icon({ iconUrl: markerBase64, iconSize: [35, 35] }),
+        })
+        marker.addTo(map)
       }
-      marker = new Marker(position, {
-        icon: new Icon({ iconUrl: markerBase64, iconSize: [35, 35] }),
-      })
-      marker.addTo(map)
+      map.setView(position)
     }
     const handlePositionError: PositionErrorCallback = () =>
       console.warn('failed to get geolocation')
