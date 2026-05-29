@@ -30,16 +30,11 @@ const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
   const handleShare = async () => {
     if (!shareUrl) return
     try {
-      if (typeof navigator.share === 'function') {
-        await navigator.share({ url: shareUrl })
-        return
-      }
       await navigator.clipboard.writeText(shareUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     } catch (err) {
-      if ((err as DOMException)?.name === 'AbortError') return
-      console.warn('[ResponsiveDialog] share failed', err)
+      console.warn('[ResponsiveDialog] copy failed', err)
     }
   }
   const displayStyle = keepAlive ? (open ? 'flex' : 'none') : 'flex'
