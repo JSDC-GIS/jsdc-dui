@@ -19,7 +19,7 @@ const useDeepLinkPoint = ({
   onResolve,
   paramKey = 'id',
   flyToZoom = 17,
-  flyToDuration = 2,
+  flyToDuration = 4,
   delayMs = 3000,
 }: UseDeepLinkPointOptions) => {
   const { Jsdc } = useContext(JSDCContext)
@@ -38,15 +38,16 @@ const useDeepLinkPoint = ({
 
       let targetMarker: Marker | undefined
       let targetProps: LayerApiRespVectorProps | undefined
-      layer.forEachLayerAsGeoJSON<Marker, LayerApiRespVectorProps & { id?: string }>(
-        (l, props) => {
-          const featureId = (l as any).feature?.id ?? props.id
-          if (String(featureId) === targetId) {
-            targetMarker = l
-            targetProps = props
-          }
-        },
-      )
+      layer.forEachLayerAsGeoJSON<
+        Marker,
+        LayerApiRespVectorProps & { id?: string }
+      >((l, props) => {
+        const featureId = (l as any).feature?.id ?? props.id
+        if (String(featureId) === targetId) {
+          targetMarker = l
+          targetProps = props
+        }
+      })
       if (!targetMarker || !targetProps) {
         console.warn(
           `[useDeepLinkPoint] no feature with id="${targetId}" in layer "${layerName}"`,
