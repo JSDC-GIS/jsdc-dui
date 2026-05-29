@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import React from 'react'
+import React, { useState } from 'react'
 import './index.scss'
 
 export interface IResponsiveDialogProps {
@@ -11,6 +11,7 @@ export interface IResponsiveDialogProps {
   onClose: () => void
   disabledFixedPosition?: boolean
   keepAlive?: boolean
+  shareUrl?: string
 }
 
 const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
@@ -22,7 +23,20 @@ const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
   disabledFixedPosition = false,
   keepAlive = false,
   onClose = () => null,
+  shareUrl,
 }: IResponsiveDialogProps) => {
+  const [copied, setCopied] = useState(false)
+
+  const handleShare = async () => {
+    if (!shareUrl) return
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch (err) {
+      console.warn('[ResponsiveDialog] copy failed', err)
+    }
+  }
   const displayStyle = keepAlive ? (open ? 'flex' : 'none') : 'flex'
 
   if (!keepAlive && !open) return null
@@ -44,6 +58,31 @@ const ResponsiveDialog: React.FC<IResponsiveDialogProps> = ({
           <div className="text">{title}</div>
         </div>
         <div className="action">
+          {shareUrl && (
+            <div
+              className="share-btn"
+              onClick={handleShare}
+              title="複製此地點連結"
+            >
+              {copied ? (
+                <p>✓</p>
+              ) : (
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+              )}
+            </div>
+          )}
           <div className="close-btn" onClick={() => onClose()}>
             <p>✕</p>
           </div>

@@ -67,17 +67,28 @@ class ArticleProxyParser
 
   async getArticlesFromAPI(): Promise<SummaryArticleType[]> {
     try {
-      // 從所有 API URL 取得資料
+      const withInclude = (url: string) =>
+        url +
+        (url.includes('?') ? '&' : '?') +
+        'include=field_listing_image'
+
       const responses = await Promise.all(
         this.apiUrls.map((url) =>
-          axios.get(url).catch((error) => {
+          axios.get(withInclude(url)).catch((error) => {
             console.error(`Error fetching from ${url}:`, error)
             return null
           }),
         ),
       )
 
-      // 合併所有回應的資料
+      const includedById = new Map<string, any>()
+      for (const response of responses) {
+        if (!response) continue
+        for (const item of response.data.included ?? []) {
+          includedById.set(item.id, item)
+        }
+      }
+
       const allData = responses
         .filter((response) => response !== null)
         .flatMap((response) => response!.data.data)
@@ -96,32 +107,26 @@ class ArticleProxyParser
           return numA - numB
         })
 
-      const result: SummaryArticleType[] = await Promise.all(
-        allData.map(async (item: any) => {
-          const title: string = item.attributes.title || 'null'
-          let content: string = item.attributes.body?.summary || 'null'
-          if (content.length > 34) {
-            content = content.substring(0, 34) + '......'
-          }
-          const link: string = `https://dguidedwalks.tw${
-            item.attributes.path?.alias || ''
-          }`
+      const result: SummaryArticleType[] = allData.map((item: any) => {
+        const title: string = item.attributes.title || 'null'
+        let content: string = item.attributes.body?.summary || 'null'
+        if (content.length > 34) {
+          content = content.substring(0, 34) + '......'
+        }
+        const link: string = `https://dguidedwalks.tw${
+          item.attributes.path?.alias || ''
+        }`
 
-          let imgSrc: string = 'null'
-          if (item.relationships?.field_listing_image?.links?.related?.href) {
-            try {
-              const imgResponse = await axios.get(
-                item.relationships.field_listing_image.links.related.href,
-              )
-              imgSrc = `https://dguidedwalks.tw${imgResponse.data.data.attributes.uri.url}`
-            } catch (error) {
-              console.error('Error fetching image:', error)
-            }
-          }
+        const imageId = item.relationships?.field_listing_image?.data?.id
+        const imageUrl = imageId
+          ? includedById.get(imageId)?.attributes?.uri?.url
+          : undefined
+        const imgSrc: string = imageUrl
+          ? `https://dguidedwalks.tw${imageUrl}`
+          : 'null'
 
-          return { title, content, imgSrc, link }
-        }),
-      )
+        return { title, content, imgSrc, link }
+      })
 
       return result
     } catch (error) {

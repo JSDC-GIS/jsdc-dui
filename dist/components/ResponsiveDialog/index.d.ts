@@ -9,6 +9,7 @@ export interface IResponsiveDialogProps {
     onClose: () => void;
     disabledFixedPosition?: boolean;
     keepAlive?: boolean;
+    shareUrl?: string;
 }
 declare const ResponsiveDialog: React.FC<IResponsiveDialogProps>;
 export default ResponsiveDialog;
