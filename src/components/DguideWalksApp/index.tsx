@@ -10,6 +10,7 @@ import { JSDCContext } from '../../JSDC/Context'
 import { latLng } from 'leaflet'
 import SceneMenuItem from '../LeftMenuBar/Scene/SceneMenuItem'
 import AboutWalkMenuItem from '../LeftMenuBar/AboutWalk/AboutWalkMenuItem'
+import SettingMenuItem from '../LeftMenuBar/Setting/SettingMenuItem'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
 import VisitorCount from '../VisitorCount'
 import { mapKeys, omit, pick } from 'lodash'
@@ -123,6 +124,10 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                 activeLegends={dui.legendConfig.activeLegends}
               />
             }
+            <SettingMenuItem
+              active={dui.activeMenuId === '工具設定'}
+              {...dui.menuSwitcherAction('工具設定')}
+            />
             {mainMenuChildren}
           </>
         </MenuList>

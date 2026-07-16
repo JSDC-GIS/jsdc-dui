@@ -5,7 +5,9 @@
     "weatherForecast": "Forecast",
     "legendDescription": "Legend",
     "routeIntro": "Introduction",
-    "aboutPlatform": "About"
+    "aboutPlatform": "About",
+    "toolSettings": "Tool Settings",
+    "pathColor": "Route Colors"
   },
   "copyright": {
     "text": "Copyright Ⓒ {{year}}",

@@ -1,0 +1,2 @@
+import{__assign as t}from"tslib";import e from"react";import{useTranslation as r}from"react-i18next";import i from"../MenuList/MenuItemWithDialog.js";import o from"../../Icons/Setting.js";import m from"../../LanguageSwitcher/index.js";var n=function(n){var a=r().t;return e.createElement(i,t({},n,{title:a("menu.toolSettings"),Icon:o}),e.createElement(m,null))};n.displayName="SettingMenuItem";export{n as default};
+//# sourceMappingURL=SettingMenuItem.js.map
