@@ -26,6 +26,10 @@ export const defaultMenuItems = [
     name: '圖例說明',
   },
   {
+    id: '工具設定',
+    name: '工具設定',
+  },
+  {
     id: '路線介紹',
     name: '路線介紹',
   },
