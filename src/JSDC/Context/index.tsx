@@ -16,7 +16,7 @@ const initialJSDCValue: JSDCContextType = {
 const JSDCContext = createContext<JSDCContextType>(initialJSDCValue)
 
 export interface IJSDCProviderProps {
-  children: React.ReactNode
+  children?: React.ReactNode
   Jsdc: JSDC
 }
 

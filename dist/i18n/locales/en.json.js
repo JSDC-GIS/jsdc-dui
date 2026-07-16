@@ -1,0 +1,2 @@
+var t={mapLayer:"Map Layers",sceneIntro:"Attractions",weatherForecast:"Forecast",legendDescription:"Legend",routeIntro:"Introduction",aboutPlatform:"About"},e={text:"Copyright Ⓒ {{year}}",maintenance:"Platform Maintenance | JRSHEN Digital Culture Co., Ltd. /",design:"Design by someDesign"},o={title:"Visitor Count"},n={menu:t,copyright:e,visitorCount:o};export{e as copyright,n as default,t as menu,o as visitorCount};
+//# sourceMappingURL=en.json.js.map

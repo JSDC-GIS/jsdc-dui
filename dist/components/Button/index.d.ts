@@ -4,5 +4,5 @@ export interface IButtonProps extends React.HTMLProps<HTMLButtonElement> {
     children: React.ReactNode;
     type?: 'button' | 'submit' | 'reset' | undefined;
 }
-declare const Button: (props: IButtonProps) => JSX.Element;
+declare const Button: (props: IButtonProps) => any;
 export default Button;

@@ -1,0 +1,18 @@
+{
+  "menu": {
+    "mapLayer": "Map Layers",
+    "sceneIntro": "Attractions",
+    "weatherForecast": "Forecast",
+    "legendDescription": "Legend",
+    "routeIntro": "Introduction",
+    "aboutPlatform": "About"
+  },
+  "copyright": {
+    "text": "Copyright Ⓒ {{year}}",
+    "maintenance": "Platform Maintenance | JRSHEN Digital Culture Co., Ltd. /",
+    "design": "Design by someDesign"
+  },
+  "visitorCount": {
+    "title": "Visitor Count"
+  }
+}

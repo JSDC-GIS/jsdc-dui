@@ -1,6 +1,7 @@
 import MapView, { IMapViewProps } from '../MapView'
 import React from 'react'
 import useCssVariable from '../../utils/useCssVariable'
+import { useTranslation } from 'react-i18next'
 import './index.scss'
 
 export interface IMapViewContainerProps {
@@ -10,17 +11,19 @@ export interface IMapViewContainerProps {
   Jsdc: IMapViewProps['Jsdc']
 }
 
-const credit = `版權所有 Ⓒ ${new Date().getFullYear()}\n 平台內容維護｜智紳數位文化事業有限公司/<a href="https://somedesign.com.tw" target='_blank'>Design by someDesign</a>.`
-
 const MapViewContainer: React.FC<IMapViewContainerProps> = ({
   headerImgSrc,
   menuChildren,
   mapChildren,
   Jsdc,
 }: IMapViewContainerProps) => {
+  const { t } = useTranslation()
   const style = useCssVariable({
     '--header-mb-img': `url(${headerImgSrc})`,
   })
+
+  const credit = `${t('copyright.text', { year: new Date().getFullYear() })}\n ${t('copyright.maintenance')}<a href="https://somedesign.com.tw" target='_blank'>${t('copyright.design')}</a>.`
+
   return (
     <div className="dui-MapViewContainer" style={style}>
       <div className="header-img-mb"></div>

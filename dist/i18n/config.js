@@ -1,0 +1,2 @@
+import e from"../node_modules/i18next/dist/esm/i18next.js";export{default}from"../node_modules/i18next/dist/esm/i18next.js";import o from"./locales/zh-TW.json.js";import t from"./locales/en.json.js";import{initReactI18next as s}from"../node_modules/react-i18next/dist/es/initReactI18next.js";e.use(s).init({resources:{"zh-TW":{translation:o},en:{translation:t}},lng:"zh-TW",fallbackLng:"zh-TW",interpolation:{escapeValue:!1}});
+//# sourceMappingURL=config.js.map

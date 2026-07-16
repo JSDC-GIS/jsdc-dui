@@ -7,6 +7,7 @@ import CreditDialogContent, {
   ICreditDialogContentProps,
 } from './CreditDialogContent'
 import Info from '../../Icons/Info'
+import { useTranslation } from 'react-i18next'
 
 export interface ICreditMenuItemProps
   extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
@@ -17,8 +18,9 @@ const CreditMenuItem: React.FC<ICreditMenuItemProps> = ({
   description,
   ...props
 }: ICreditMenuItemProps) => {
+  const { t } = useTranslation()
   return (
-    <MenuItemWithDialog {...props} title="關於圖臺" Icon={Info}>
+    <MenuItemWithDialog {...props} title={t('menu.aboutPlatform')} Icon={Info}>
       <CreditDialogContent description={description} herf={herf} />
     </MenuItemWithDialog>
   )

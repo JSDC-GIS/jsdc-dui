@@ -6,7 +6,7 @@ export interface IResponsiveDialogProps {
   Icon?: React.ReactNode
   title?: string
   open: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
   kanbanImgSrc?: string
   onClose: () => void
   disabledFixedPosition?: boolean

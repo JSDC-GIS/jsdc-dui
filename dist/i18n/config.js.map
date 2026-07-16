@@ -1,0 +1,1 @@
+{"version":3,"file":"config.js","sources":["../../src/i18n/config.ts"],"sourcesContent":[null],"names":["i18n","use","initReactI18next","init","resources","translation","zhTW","en","lng","fallbackLng","interpolation","escapeValue"],"mappings":"oSAKAA,EACGC,IAAIC,GACJC,KAAK,CACJC,UAAW,CACT,QAAS,CACPC,YAAaC,GAEfC,GAAI,CACFF,YAAaE,IAGjBC,IAAK,QACLC,YAAa,QACbC,cAAe,CACbC,aAAa"}

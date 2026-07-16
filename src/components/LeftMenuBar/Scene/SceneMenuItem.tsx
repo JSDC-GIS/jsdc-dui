@@ -7,6 +7,7 @@ import SceneDialogContent, {
   ISceneDialogContentProps,
 } from './SceneDialogContent'
 import Mappin from '../../Icons/Mappin'
+import { useTranslation } from 'react-i18next'
 
 export interface ISceneMenuItemProps
   extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
@@ -18,8 +19,9 @@ const SceneMenuItem: React.FC<ISceneMenuItemProps> = ({
   cardsReducer,
   ...props
 }: ISceneMenuItemProps) => {
+  const { t } = useTranslation()
   return (
-    <MenuItemWithDialog {...props} title="景點介紹" Icon={Mappin}>
+    <MenuItemWithDialog {...props} title={t('menu.sceneIntro')} Icon={Mappin}>
       <SceneDialogContent
         onTarget={onTarget}
         onNavigate={onNavigate}

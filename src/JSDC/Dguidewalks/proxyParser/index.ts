@@ -68,9 +68,7 @@ class ArticleProxyParser
   async getArticlesFromAPI(): Promise<SummaryArticleType[]> {
     try {
       const withInclude = (url: string) =>
-        url +
-        (url.includes('?') ? '&' : '?') +
-        'include=field_listing_image'
+        url + (url.includes('?') ? '&' : '?') + 'include=field_listing_image'
 
       const responses = await Promise.all(
         this.apiUrls.map((url) =>

@@ -7,6 +7,7 @@ import LayerDialogContent, {
   ILayerDialogContentProps,
 } from './LayerDialogContent'
 import Layer from '../../Icons/Layer'
+import { useTranslation } from 'react-i18next'
 
 export interface ILayerMenuItemProps
   extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'>,
@@ -15,8 +16,9 @@ export interface ILayerMenuItemProps
 const LayerMenuItem: React.FC<ILayerMenuItemProps> = (
   props: ILayerMenuItemProps,
 ) => {
+  const { t } = useTranslation()
   return (
-    <MenuItemWithDialog {...props} title="地圖圖層" Icon={Layer}>
+    <MenuItemWithDialog {...props} title={t('menu.mapLayer')} Icon={Layer}>
       <LayerDialogContent {...props} />
     </MenuItemWithDialog>
   )
