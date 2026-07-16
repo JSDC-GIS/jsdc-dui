@@ -1,2 +1,2 @@
-import"./config.js";export{default as i18n}from"../node_modules/i18next/dist/esm/i18next.js";export{useTranslation}from"../node_modules/react-i18next/dist/es/useTranslation.js";
+import"./config.js";export{useTranslation}from"react-i18next";export{default as i18n}from"i18next";
 //# sourceMappingURL=index.js.map

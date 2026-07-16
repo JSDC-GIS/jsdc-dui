@@ -12,6 +12,7 @@ import { getFiles } from './scripts/getFiles'
 const packageJson = require('./package.json')
 
 const extensions = ['.js', '.ts', '.jsx', '.tsx']
+const testExtensions = ['.test.tsx', '.test.ts', '.test.jsx', '.test.js']
 
 // Custom plugin to generate .d.ts files for JSON modules
 const jsonDeclarations = () => ({
@@ -44,13 +45,13 @@ export default translations;
 
 export default {
   input: [
-    ...getFiles('./src/components', extensions),
-    ...getFiles('./src/icon', extensions),
-    ...getFiles('./src/JSDC', extensions),
-    ...getFiles('./src/style', extensions),
-    ...getFiles('./src/utils', extensions),
-    ...getFiles('./src/hooks', extensions),
-    ...getFiles('./src/i18n', extensions),
+    ...getFiles('./src/components', extensions, testExtensions),
+    ...getFiles('./src/icon', extensions, testExtensions),
+    ...getFiles('./src/JSDC', extensions, testExtensions),
+    ...getFiles('./src/style', extensions, testExtensions),
+    ...getFiles('./src/utils', extensions, testExtensions),
+    ...getFiles('./src/hooks', extensions, testExtensions),
+    ...getFiles('./src/i18n', extensions, testExtensions),
     './src/i18n/locales/zh-TW.json',
     './src/i18n/locales/en.json',
   ],
@@ -63,7 +64,7 @@ export default {
     preserveModulesRoot: 'src',
   },
   plugins: [
-    external(),
+    external({ includeDependencies: true }),
     resolve(),
     commonjs(),
     json(),

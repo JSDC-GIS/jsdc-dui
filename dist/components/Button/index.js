@@ -1,2 +1,2 @@
-import{__assign as t}from"../../node_modules/tslib/tslib.es6.mjs.js";import e from"react";var r=function(r){var a=r.children,o=r.className;return e.createElement("button",t({},r,{className:"".concat(o," dui-button")}),a)};export{r as default};
+import{__assign as t}from"tslib";import r from"react";var a=function(a){var e=a.children,o=a.className;return r.createElement("button",t({},a,{className:"".concat(o," dui-button")}),e)};export{a as default};
 //# sourceMappingURL=index.js.map

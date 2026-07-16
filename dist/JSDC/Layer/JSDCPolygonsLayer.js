@@ -1,2 +1,2 @@
-import{__extends as t}from"../../node_modules/tslib/tslib.es6.mjs.js";import{LayerGroup as o}from"leaflet";import r from"./JSDCLayer.js";var n=function(r){function n(t){var n=r.call(this,t)||this;return n.instance=new o,n}return t(n,r),n.prototype.addPolygon=function(t){var o;null===(o=this.instance)||void 0===o||o.addLayer(t)},n}(r);export{n as default};
+import{__extends as t}from"tslib";import{LayerGroup as r}from"leaflet";import n from"./JSDCLayer.js";var o=function(n){function o(t){var o=n.call(this,t)||this;return o.instance=new r,o}return t(o,n),o.prototype.addPolygon=function(t){var r;null===(r=this.instance)||void 0===r||r.addLayer(t)},o}(n);export{o as default};
 //# sourceMappingURL=JSDCPolygonsLayer.js.map
