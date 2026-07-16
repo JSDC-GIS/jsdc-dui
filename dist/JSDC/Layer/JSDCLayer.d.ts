@@ -24,7 +24,7 @@ declare class JSDCLayer<P extends Layer = Layer> implements JSDCLayerBehavior<P>
         instance: TileLayer;
     });
     isGeoJSON(validOptions?: ValidationParam): false | (JSDCLayer<P> & {
-        instance: GeoJSON<any>;
+        instance: GeoJSON<any, import("geojson").Geometry>;
     });
     setOpacity(opacity: number): void;
     addToMap(viewer: Map): void;
