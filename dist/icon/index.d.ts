@@ -1,54 +1,25 @@
 export declare const baseUrl = "https://map.jsdc.com.tw/webgis/dguidewalks/assets/";
-export declare const legend: {
-    人文地景: {
-        default: string;
-        active: string;
-    };
-    歷史建物: {
-        default: string;
-        active: string;
-    };
-    聚落: {
-        default: string;
-        active: string;
-    };
-    自然地景: {
-        default: string;
-        active: string;
-    };
-    田園景色: {
-        default: string;
-        active: string;
-    };
-    資訊站: {
-        default: string;
-        active: string;
-    };
-    紀念指標: {
-        default: string;
-        active: string;
-    };
-    展覽場館: {
-        default: string;
-        active: string;
-    };
-    水利工程: {
-        default: string;
-        active: string;
-    };
-    工作站: {
-        default: string;
-        active: string;
-    };
-    裝置藝術: {
-        default: string;
-        active: string;
-    };
-    商店: {
-        default: string;
-        active: string;
-    };
+export declare const legendFilenames: {
+    人文地景: string;
+    歷史建物: string;
+    聚落: string;
+    自然地景: string;
+    田園景色: string;
+    資訊站: string;
+    紀念指標: string;
+    展覽場館: string;
+    水利工程: string;
+    工作站: string;
+    裝置藝術: string;
+    商店: string;
 };
+export type LegendName = keyof typeof legendFilenames;
+export interface ILegendIcon {
+    default: string;
+    active: string;
+}
+export declare const getLegend: (lng?: string) => Record<LegendName, ILegendIcon>;
+export declare const legend: Record<"人文地景" | "歷史建物" | "聚落" | "自然地景" | "田園景色" | "資訊站" | "紀念指標" | "展覽場館" | "水利工程" | "工作站" | "裝置藝術" | "商店", ILegendIcon>;
 export declare const counter: {
     [k: string]: string;
 };
@@ -88,56 +59,7 @@ declare const _default: {
         locationMappin: string;
         locationMappinActive: string;
     };
-    legend: {
-        人文地景: {
-            default: string;
-            active: string;
-        };
-        歷史建物: {
-            default: string;
-            active: string;
-        };
-        聚落: {
-            default: string;
-            active: string;
-        };
-        自然地景: {
-            default: string;
-            active: string;
-        };
-        田園景色: {
-            default: string;
-            active: string;
-        };
-        資訊站: {
-            default: string;
-            active: string;
-        };
-        紀念指標: {
-            default: string;
-            active: string;
-        };
-        展覽場館: {
-            default: string;
-            active: string;
-        };
-        水利工程: {
-            default: string;
-            active: string;
-        };
-        工作站: {
-            default: string;
-            active: string;
-        };
-        裝置藝術: {
-            default: string;
-            active: string;
-        };
-        商店: {
-            default: string;
-            active: string;
-        };
-    };
+    legend: Record<"人文地景" | "歷史建物" | "聚落" | "自然地景" | "田園景色" | "資訊站" | "紀念指標" | "展覽場館" | "水利工程" | "工作站" | "裝置藝術" | "商店", ILegendIcon>;
     credit: {
         qrcode: string;
         logo: string;

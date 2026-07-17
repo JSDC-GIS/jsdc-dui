@@ -14,16 +14,24 @@ import SettingMenuItem from '../LeftMenuBar/Setting/SettingMenuItem'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
 import VisitorCount from '../VisitorCount'
 import { mapKeys, omit, pick } from 'lodash'
+import { useTranslation } from 'react-i18next'
 
 export interface IDguideWalksAppProps {
   mainMenuChildren?: React.ReactNode
   endMenuChildren?: React.ReactNode
+  /**
+   * 初次訪客的預設語言（如 'en'）。僅在使用者尚未手動切換過（localStorage 無偏好）時套用；
+   * 使用者用語言切換器切換後，其選擇會被持久化並在往後造訪勝出。
+   */
+  defaultLanguage?: string
 }
 
 const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
   mainMenuChildren,
   endMenuChildren,
+  defaultLanguage,
 }) => {
+  const { i18n } = useTranslation()
   const {
     dgw: { layerNameOrder, apiProvider },
   } = useContext(DguidewalksContext)
@@ -37,6 +45,17 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
     const restInfos = Object.values(omit(layerInfoMap, layerNameOrder))
     return [...matchedInfos, ...restInfos]
   }, [layerInfos, layerNameOrder])
+
+  useEffect(() => {
+    if (!defaultLanguage || typeof window === 'undefined') return
+    // 不能用 i18nextLng 判斷「使用者是否選過」——language detector 在 init 時就會把
+    // 解析後的語言（含 fallback zh-TW）寫進 i18nextLng，故改用獨立旗標只在「本瀏覽器
+    // 第一次進站」時套用預設語言；日後使用者用切換器選擇會經 detector 持久化並自然勝出。
+    const APPLIED_KEY = 'dui-i18n-default-applied'
+    if (window.localStorage.getItem(APPLIED_KEY)) return
+    window.localStorage.setItem(APPLIED_KEY, '1')
+    i18n.changeLanguage(defaultLanguage)
+  }, [])
 
   useEffect(() => {
     ;(async () => {
