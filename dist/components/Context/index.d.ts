@@ -17,6 +17,12 @@ export type LegendConfig = {
     disabled?: boolean;
     activeLegends: ILegendDialogContentProps['activeLegends'];
 };
+export type SettingConfig = {
+    /** 隱藏整個「工具設定」選單項目 */
+    disabled?: boolean;
+    /** 保留「工具設定」，但隱藏其中的語言切換器 */
+    languageSwitcherDisabled?: boolean;
+};
 export type DuiContextType = {
     sidebarTitle: string;
     sidebarSubtitle: string;
@@ -35,6 +41,7 @@ export type DuiContextType = {
     menuSwitchEvent: Event<string | undefined>;
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
+    settingConfig: SettingConfig;
     onSceneTargetClick: (title: string) => void;
     onSceneNavigate: (title: string) => void;
     sceneCardsReducer: ISceneMenuItemProps['cardsReducer'];
@@ -58,6 +65,7 @@ export interface IDuiContextProviderProps {
     menuSwitchItems: Array<MenuItemType>;
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
+    settingConfig?: SettingConfig;
     themeConfig?: StyleType;
     onSceneTargetClick?: (title: string) => void;
     onSceneNavigate?: (title: string) => void;

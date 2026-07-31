@@ -2,7 +2,11 @@ import { SummaryArticleType, IArticleProxyParser } from './@types';
 import AbsctractArticleProxyParser, { AbsctractArticleProxyParserContructor } from './AbsctractArticleProxyParser';
 declare class ArticleProxyParser extends AbsctractArticleProxyParser implements IArticleProxyParser {
     constructor(options: AbsctractArticleProxyParserContructor);
-    getAll(refresh?: boolean | undefined): Promise<SummaryArticleType[]>;
+    pickContent(attributes: any): {
+        text: string;
+        isEnglish: boolean;
+    };
+    getAll(refresh?: boolean | undefined, language?: string): Promise<SummaryArticleType[]>;
     getDetailByTitle(title: string, fallbackUrl?: string | null | undefined): Promise<{
         content: string;
         subtitle: string;

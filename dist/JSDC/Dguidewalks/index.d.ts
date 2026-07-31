@@ -20,6 +20,6 @@ export default class Dguidewalks {
     get configProvider(): ConfigProvider;
     get apiProvider(): ApiProvider;
     loadGisData(): Promise<JSDCLayer<import("leaflet").Layer>[]>;
-    getSceneArticles(): Promise<import("./proxyParser/@types").SummaryArticleType[]>;
+    getSceneArticles(language?: string): Promise<import("./proxyParser/@types").SummaryArticleType[]>;
     getSceneDetailArticleByTitle(title: string, fallbackUrl?: string | null): Promise<import("./proxyParser/@types").DetailArticleType>;
 }

@@ -27,7 +27,10 @@ declare abstract class AbsctractArticleProxyParser {
     cmsPath: AbsctractArticleProxyParserContructor['cmsPath'];
     apiUrls: string[];
     cache: ArticleCache;
+    language: string;
     constructor(options: AbsctractArticleProxyParserContructor);
+    get isEnglish(): boolean;
+    setLanguage(language?: string): void;
     get url(): string;
     parseHTML(htmlString: string): Document;
     isArticleDetailComplete(detail: DetailArticleType): string;
