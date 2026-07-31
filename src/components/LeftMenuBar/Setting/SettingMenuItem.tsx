@@ -7,15 +7,19 @@ import Setting from '../../Icons/Setting'
 import LanguageSwitcher from '../../LanguageSwitcher'
 
 export interface ISettingMenuItemProps
-  extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'> {}
+  extends Omit<IMenuItemWithDialogProps, 'title' | 'Icon' | 'children'> {
+  /** 隱藏 dialog 內的語言切換器（選單項目本身仍保留） */
+  languageSwitcherDisabled?: boolean
+}
 
-const SettingMenuItem: React.FC<ISettingMenuItemProps> = (
-  props: ISettingMenuItemProps
-) => {
+const SettingMenuItem: React.FC<ISettingMenuItemProps> = ({
+  languageSwitcherDisabled,
+  ...props
+}: ISettingMenuItemProps) => {
   const { t } = useTranslation()
   return (
     <MenuItemWithDialog {...props} title={t('menu.toolSettings')} Icon={Setting}>
-      <LanguageSwitcher />
+      {languageSwitcherDisabled || <LanguageSwitcher />}
     </MenuItemWithDialog>
   )
 }

@@ -143,10 +143,15 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                 activeLegends={dui.legendConfig.activeLegends}
               />
             }
-            <SettingMenuItem
-              active={dui.activeMenuId === '工具設定'}
-              {...dui.menuSwitcherAction('工具設定')}
-            />
+            {dui.settingConfig.disabled || (
+              <SettingMenuItem
+                active={dui.activeMenuId === '工具設定'}
+                languageSwitcherDisabled={
+                  dui.settingConfig.languageSwitcherDisabled
+                }
+                {...dui.menuSwitcherAction('工具設定')}
+              />
+            )}
             {mainMenuChildren}
           </>
         </MenuList>
