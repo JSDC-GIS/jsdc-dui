@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import LayerItem, { ILayerItemProps } from './LayerItem'
 import './LayerDialogContent.scss'
 import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
@@ -14,7 +15,12 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
   onToggleShow,
   onOpacityChange,
 }) => {
-  const { layerLegendImages } = useContext(DguidewalksContext)
+  const { layerLegendImages, layerNames } = useContext(DguidewalksContext)
+  const { i18n } = useTranslation()
+
+  // item.name 仍是各種查找（legend、hidden、order）的 key，只有顯示用的名稱換語系。
+  const displayName = (name: string) =>
+    (i18n.language.startsWith('en') && layerNames[name]?.en) || name
 
   return (
     <div className="dui-LayerDialogContent">
@@ -22,6 +28,7 @@ const LayerDialogContent: React.FC<ILayerDialogContentProps> = ({
         <LayerItem
           key={item.id}
           {...item}
+          name={displayName(item.name)}
           onToggleShow={(show) => onToggleShow(item.id, show)}
           onOpacityChange={(value) => onOpacityChange(item.id, value)}
           legendImageUrl={layerLegendImages[item.name]}
