@@ -35,6 +35,7 @@ abstract class AbsctractArticleProxyParser {
   cmsPath: AbsctractArticleProxyParserContructor['cmsPath']
   apiUrls: string[]
   cache = new ArticleCache()
+  language = 'zh-TW'
 
   constructor(options: AbsctractArticleProxyParserContructor) {
     this.proxyFetcher = options.proxyFetcher
@@ -42,6 +43,18 @@ abstract class AbsctractArticleProxyParser {
     this.apiUrls = options.apiUrls || [
       'https://dguidedwalks.tw/jsonapi/node/listing',
     ]
+  }
+
+  get isEnglish() {
+    return this.language.startsWith('en')
+  }
+
+  // 快取只以 title 為 key，並無語系概念，故換語言時必須整個丟掉重抓，
+  // 否則 getAll 會在 hasArticles() 直接 early return 而回傳舊語系內容。
+  setLanguage(language?: string) {
+    if (!language || language === this.language) return
+    this.language = language
+    this.cache = new ArticleCache()
   }
 
   // 以前爬蟲使用，改用 API 後無使用

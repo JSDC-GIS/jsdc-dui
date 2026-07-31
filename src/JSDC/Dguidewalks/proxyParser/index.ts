@@ -1,4 +1,8 @@
-import { SummaryArticleType, IArticleProxyParser } from './@types'
+import {
+  SummaryArticleType,
+  IArticleProxyParser,
+  ListingTextField,
+} from './@types'
 import AbsctractArticleProxyParser, {
   AbsctractArticleProxyParserContructor,
 } from './AbsctractArticleProxyParser'
@@ -12,7 +16,23 @@ class ArticleProxyParser
     super(options)
   }
 
-  async getAll(refresh?: boolean | undefined): Promise<SummaryArticleType[]> {
+  // 英文內文放在 field_english_text.value；CMS 尚未補齊的節點該欄位為空，
+  // 此時 fallback 回中文的 body.summary。
+  pickContent(attributes: any): { text: string; isEnglish: boolean } {
+    const englishText = (
+      attributes.field_english_text as ListingTextField | undefined
+    )?.value?.trim()
+    if (this.isEnglish && englishText) {
+      return { text: englishText, isEnglish: true }
+    }
+    return { text: attributes.body?.summary || 'null', isEnglish: false }
+  }
+
+  async getAll(
+    refresh?: boolean | undefined,
+    language?: string,
+  ): Promise<SummaryArticleType[]> {
+    this.setLanguage(language)
     if (this.cache.hasArticles()) return this.cache.articles
     // const htmlString = await this.proxyFetcher(this.url)
     // const dom = this.parseHTML(htmlString)
@@ -107,9 +127,12 @@ class ArticleProxyParser
 
       const result: SummaryArticleType[] = allData.map((item: any) => {
         const title: string = item.attributes.title || 'null'
-        let content: string = item.attributes.body?.summary || 'null'
-        if (content.length > 34) {
-          content = content.substring(0, 34) + '......'
+        const { text, isEnglish } = this.pickContent(item.attributes)
+        // 34 是為中文排版調的；英文字元窄很多，放寬到 90 才有相近的視覺長度。
+        const limit = isEnglish ? 90 : 34
+        let content: string = text
+        if (content.length > limit) {
+          content = content.substring(0, limit) + '......'
         }
         const link: string = `https://dguidedwalks.tw${
           item.attributes.path?.alias || ''
@@ -177,7 +200,7 @@ class ArticleProxyParser
         const subtitle: string = item.attributes.title || 'null'
         const ref: string =
           `撰稿者：${item.attributes.field_listing_author}` || 'null'
-        const content: string = item.attributes.body?.summary || 'null'
+        const content: string = this.pickContent(item.attributes).text
 
         return { subtitle, ref, content }
       }

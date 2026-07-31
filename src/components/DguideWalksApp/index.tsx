@@ -32,9 +32,8 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
   defaultLanguage,
 }) => {
   const { i18n } = useTranslation()
-  const {
-    dgw: { layerNameOrder, apiProvider },
-  } = useContext(DguidewalksContext)
+  const { dgw } = useContext(DguidewalksContext)
+  const { layerNameOrder, apiProvider } = dgw
   const dui = useContext(DuiContext)
   const { Jsdc, layerInfos } = useContext(JSDCContext)
   const [visitors, setVisitors] = useState(0)
@@ -56,6 +55,12 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
     window.localStorage.setItem(APPLIED_KEY, '1')
     i18n.changeLanguage(defaultLanguage)
   }, [])
+
+  // 地圖 popup 的 click handler 在 React 之外綁定（見 LeafletPopup），若使用者沒開過
+  // 「景點介紹」就直接點圖徵，parser 還會停在預設語系，故在此同步一次。
+  useEffect(() => {
+    dgw.articleProxyParser.setLanguage(i18n.language)
+  }, [dgw, i18n.language])
 
   useEffect(() => {
     ;(async () => {

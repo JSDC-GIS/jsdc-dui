@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import './SceneDialogContent.scss'
 import { DguidewalksContext } from '../../../JSDC/Dguidewalks/Context'
 import { Article } from '../../../JSDC/Dguidewalks/proxyParser/@types'
@@ -17,12 +18,13 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
   cardsReducer = (data: Article[]) => data,
 }: ISceneDialogContentProps) => {
   const { dgw } = useContext(DguidewalksContext)
+  const { i18n } = useTranslation()
   const [_articles, setArticles] = useState<Article[]>([])
 
   const articles = cardsReducer(_articles)
 
   const fetchArticles = async () => {
-    setArticles(await dgw.getSceneArticles())
+    setArticles(await dgw.getSceneArticles(i18n.language))
   }
 
   const padNumber = (d: number) => {
@@ -31,7 +33,7 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
 
   useEffect(() => {
     fetchArticles()
-  }, [])
+  }, [i18n.language])
   return (
     <div className="dui-SceneDialogContent">
       {articles.map((article, index) => (

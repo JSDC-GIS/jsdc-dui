@@ -76,8 +76,8 @@ export default class Dguidewalks {
     return [...results]
   }
 
-  async getSceneArticles() {
-    return await this.articleProxyParser.getAll()
+  async getSceneArticles(language?: string) {
+    return await this.articleProxyParser.getAll(undefined, language)
   }
 
   async getSceneDetailArticleByTitle(
