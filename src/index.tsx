@@ -42,6 +42,7 @@ import {
   SummaryArticleType,
 } from './JSDC/Dguidewalks/proxyParser/@types'
 import ArticleProxyParser from './JSDC/Dguidewalks/proxyParser'
+import { normalizeTitle } from './JSDC/utils/normalizeTitle'
 import DaKeKanRiver2022Parser from './JSDC/Dguidewalks/proxyParser/DaKeKanRiver2022Parser'
 import { AbsctractArticleProxyParserContructor } from './JSDC/Dguidewalks/proxyParser/AbsctractArticleProxyParser'
 import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider'
@@ -309,14 +310,27 @@ const AppWrapper = () => {
       ?.isGeoJSON()
     if (!targetFeature) return
     const layers = targetFeature.instance.getLayers() as Marker[]
-    for (const layer of layers) {
-      const layerName = layer.feature?.properties.name
-      if (!layerName) continue
-      if (title.includes(String(layerName))) {
-        cb(layer)
-        break
-      }
-    }
+
+    // Drupal 的 title 與圖層 properties.name 是兩套人工維護的字串，
+    // 先正規化（大小寫/空白/換行/全半形）再比，否則點列表定位鈕會靜默失效。
+    const target = normalizeTitle(title)
+    const candidates = layers
+      .map((layer) => ({
+        layer,
+        name: normalizeTitle(String(layer.feature?.properties.name ?? '')),
+      }))
+      .filter((candidate) => candidate.name)
+
+    const hit =
+      // 先求完全相同，避免「三坑」誤中「三坑老街」
+      candidates.find((candidate) => candidate.name === target) ??
+      // 再退到雙向 contains，吃掉 CMS title 的編號前綴（01遇見雞母嶺 vs 遇見雞母嶺）
+      candidates.find(
+        (candidate) =>
+          target.includes(candidate.name) || candidate.name.includes(target),
+      )
+
+    if (hit) cb(hit.layer)
   }
 
   const handleSceneTagetClick = (title: string) => {
