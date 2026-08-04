@@ -7,6 +7,7 @@ import AbsctractArticleProxyParser, {
   AbsctractArticleProxyParserContructor,
 } from './AbsctractArticleProxyParser'
 import axios from 'axios'
+import { normalizeTitle } from '../../utils/normalizeTitle'
 
 class ArticleProxyParser
   extends AbsctractArticleProxyParser
@@ -37,14 +38,7 @@ class ArticleProxyParser
     // const htmlString = await this.proxyFetcher(this.url)
     // const dom = this.parseHTML(htmlString)
     const articles = await this.getArticlesFromAPI()
-    const cache = this.cache
-    cache.summaryMap = articles.reduce(
-      (obj, article) => {
-        obj[article.title] = article
-        return obj
-      },
-      {} as typeof cache.summaryMap,
-    )
+    this.cache.setSummaries(articles)
     return articles
   }
 
@@ -52,19 +46,23 @@ class ArticleProxyParser
     title: string,
     fallbackUrl?: string | null | undefined,
   ) {
-    const article = this.cache.summaryMap[title]
-    const externalProps = this.cache.externalMap[title]
-    const hasArticle = !!article
-    const hasExternal = this.cache.hasExternalKey(title)
+    // 傳進來的 title 可能與 CMS 的寫法有大小寫/空白/換行差異，
+    // 先解析出 canonical key，之後所有 cache 讀寫都用它，
+    // 否則同一景點的不同寫法會在 externalMap 灌成多筆。
+    const key = this.cache.resolveKey(title)
+    const article = key ? this.cache.summaryMap[key] : undefined
 
-    if (hasArticle) {
-      if (hasExternal) return { ...article, ...externalProps }
+    if (key && article) {
+      const externalProps = this.cache.externalMap[key]
+      if (this.cache.hasExternalKey(key)) {
+        return { ...article, ...externalProps }
+      }
 
       // const htmlString = await this.proxyFetcher(article.link)
       // const dom = this.parseHTML(htmlString)
-      const externalDetail = await this.getExternalDetailFromAPI(title)
+      const externalDetail = await this.getExternalDetailFromAPI(key)
 
-      this.cache.externalMap[title] = externalDetail
+      this.cache.externalMap[key] = externalDetail
       return { ...article, ...externalDetail }
     }
 
@@ -192,8 +190,11 @@ class ArticleProxyParser
         .filter((response) => response !== null)
         .flatMap((response) => response!.data.data)
 
+      // 這批資料沒經過 cache 也沒套 cmsPath 過濾，自行正規化比對才不會 miss
+      const normalized = normalizeTitle(title)
       const item = allData.find(
-        (element: any) => element.attributes.title === title,
+        (element: any) =>
+          normalizeTitle(element.attributes.title ?? '') === normalized,
       )
 
       if (item) {

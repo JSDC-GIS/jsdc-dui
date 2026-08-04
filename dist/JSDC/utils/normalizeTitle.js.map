@@ -1,0 +1,1 @@
+{"version":3,"file":"normalizeTitle.js","sources":["../../../src/JSDC/utils/normalizeTitle.ts"],"sourcesContent":[null],"names":["normalizeTitle","title","normalize","replace","toLowerCase"],"mappings":"AAKO,IAAMA,EAAiB,SAACC,GAC7B,OAAAA,EACGC,UAAU,QACVC,QAAQ,WAAY,IACpBA,QAAQ,YAAa,IACrBC,aAJH"}

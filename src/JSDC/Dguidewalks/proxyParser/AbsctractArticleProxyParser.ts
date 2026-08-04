@@ -4,6 +4,7 @@ import {
   DetailArticleType,
   SummaryArticleType,
 } from './@types'
+import { normalizeTitle } from '../../utils/normalizeTitle'
 
 export type AbsctractArticleProxyParserContructor = {
   proxyFetcher: (url: string) => Promise<string>
@@ -11,15 +12,59 @@ export type AbsctractArticleProxyParserContructor = {
   apiUrls?: string[]
 }
 
-class ArticleCache {
+export class ArticleCache {
   summaryMap: { [k: string]: SummaryArticleType } = {}
   externalMap: { [k: string]: ArticleExternalProps } = {}
+  /** 正規化後的 title → summaryMap 的 canonical key */
+  normalizedMap: { [normalizedKey: string]: string } = {}
+
+  /**
+   * 一次建立 summaryMap 與 normalizedMap，兩份索引必須同時寫入才不會走鐘。
+   */
+  setSummaries(articles: SummaryArticleType[]) {
+    this.summaryMap = {}
+    this.normalizedMap = {}
+    for (const article of articles) {
+      this.summaryMap[article.title] = article
+      const normalizedKey = normalizeTitle(article.title)
+      if (!normalizedKey) continue
+      // 正規化後撞名時保留先進的那筆，避免靜默覆蓋
+      if (
+        Object.prototype.hasOwnProperty.call(this.normalizedMap, normalizedKey)
+      ) {
+        console.warn(
+          `duplicated normalized title: "${article.title}" collides with "${this.normalizedMap[normalizedKey]}"`,
+        )
+        continue
+      }
+      this.normalizedMap[normalizedKey] = article.title
+    }
+  }
+
+  /**
+   * 以任意寫法的 title 找出 summaryMap 的 canonical key：
+   * 先試字面精確命中，miss 再退到正規化比對（大小寫、空白、換行、全半形）。
+   */
+  resolveKey(title: string): string | undefined {
+    if (Object.prototype.hasOwnProperty.call(this.summaryMap, title)) {
+      return title
+    }
+    // 兩份索引都是 plain object，必須用 hasOwnProperty 擋掉
+    // 'constructor'、'toString' 這類 prototype 屬性名的誤判
+    const normalizedKey = normalizeTitle(title)
+    return Object.prototype.hasOwnProperty.call(
+      this.normalizedMap,
+      normalizedKey,
+    )
+      ? this.normalizedMap[normalizedKey]
+      : undefined
+  }
 
   hasArticles() {
     return this.articles.length > 0
   }
   hasExternalKey(key: string) {
-    return !!this.externalMap[key]
+    return Object.prototype.hasOwnProperty.call(this.externalMap, key)
   }
   get articles() {
     const remap = map(this.summaryMap, (value, key) => ({
