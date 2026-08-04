@@ -11,7 +11,7 @@ declare const COUNTY_MAP: {
     臺東縣: string;
     花蓮縣: string;
     澎湖縣: string;
-    基隆縣: string;
+    基隆市: string;
     新竹市: string;
     嘉義市: string;
     臺北市: string;
@@ -19,9 +19,7 @@ declare const COUNTY_MAP: {
     新北市: string;
     臺中市: string;
     臺南市: string;
-    連江市: string;
     連江縣: string;
-    金門市: string;
     金門縣: string;
 };
 export type CountyName = keyof typeof COUNTY_MAP;
