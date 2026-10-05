@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import React from 'react'
 import { latLng } from 'leaflet'
 import { JSDCContext } from '../JSDC/Context'
@@ -158,5 +158,78 @@ describe('useSceneController 的定位與導航', () => {
     setup(true, { navigationMessage: false })
     postMessage('121.29,24.89')
     expect(openSpy).not.toHaveBeenCalled()
+  })
+})
+
+describe('useSceneController 的集章卡片內文', () => {
+  const setupCard = () => {
+    const markers = getSceneMarkers(createSceneLayer(features))
+    const getSceneDetailArticle = jest.fn(async (feature: SceneFeature) => ({
+      title: feature.properties.title,
+      subtitle: feature.properties.title,
+      content: `內文：${feature.id}`,
+      imgSrc: '',
+      link: '',
+      ref: '',
+    }))
+    const dgw = {
+      eventId: 'n0004',
+      gisDataLoadEvent: new Event(),
+      sceneLayer: undefined,
+      findSceneById: (id: string) => findSceneById(markers, id),
+      getSceneDetailArticle,
+    }
+    const Jsdc = {
+      viewer: { flyTo: jest.fn() },
+      asyncViewer: new Promise(() => undefined),
+    }
+    const ref: { current?: SceneController } = {}
+    const Probe = () => {
+      ref.current = useSceneController({ deepLink: false })
+      return null
+    }
+    render(
+      <JSDCContext.Provider value={{ Jsdc, layerInfos: [] } as any}>
+        <DguidewalksContext.Provider
+          value={{ dgw, geolocation: { latLng: undefined } } as any}
+        >
+          <Probe />
+        </DguidewalksContext.Provider>
+      </JSDCContext.Provider>,
+    )
+    return { ref, markers, getSceneDetailArticle }
+  }
+
+  // 深連結會延遲 1.5 秒才開卡片；使用者若在這之前先點了同一個 marker，
+  // 等於同一個景點被開兩次，卡片不能因此卡在 loading。
+  it('同一個景點再開一次，內文還在', async () => {
+    const { ref, markers, getSceneDetailArticle } = setupCard()
+    const [first] = markers
+
+    act(() => ref.current!.openSceneCard(first))
+    await waitFor(() =>
+      expect(ref.current!.cardProps.mainTextContent).toBe('內文：doc-street'),
+    )
+
+    act(() => ref.current!.openSceneCard(first))
+    expect(ref.current!.cardProps.mainTextContent).toBe('內文：doc-street')
+    expect(getSceneDetailArticle).toHaveBeenCalledTimes(1)
+  })
+
+  it('換到另一個景點：先顯示 placeholder，再換成新內文', async () => {
+    const { ref, markers } = setupCard()
+    const [first, second] = markers
+
+    act(() => ref.current!.openSceneCard(first))
+    await waitFor(() =>
+      expect(ref.current!.cardProps.mainTextContent).toBe('內文：doc-street'),
+    )
+
+    act(() => ref.current!.openSceneCard(second))
+    // 新內文回來前不能殘留上一個景點的內容
+    expect(ref.current!.cardProps.mainTextContent).toBeUndefined()
+    await waitFor(() =>
+      expect(ref.current!.cardProps.mainTextContent).toBe('內文：doc-entrance'),
+    )
   })
 })

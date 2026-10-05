@@ -74,15 +74,22 @@ const useSceneController = (config: SceneConfig = {}) => {
   const { walkTo } = useGoogleNavigator()
 
   const [marker, setMarker] = useState<SceneMarker>()
-  const [detail, setDetail] = useState<DetailArticleType>()
+  // 內文要記住它屬於哪個景點：同一個景點被再開一次時（例如深連結延遲開卡片前，
+  // 使用者已經先點了同一個 marker），marker 沒變、抓內文的 effect 不會重跑，
+  // 如果開卡片時先把內文清掉，卡片就會永遠停在 loading。
+  const [detailState, setDetailState] = useState<{
+    id: string
+    detail: DetailArticleType
+  }>()
+  const detail =
+    marker && detailState?.id === marker.feature.id
+      ? detailState.detail
+      : undefined
   const [checkinSrc, setCheckinSrc] = useState<string>()
   const [debugUrl, setDebugUrl] = useState(() => window.location.href)
 
-  const openSceneCard = (target: SceneMarker) => {
-    // 先清掉上一個景點的內文，卡片在新內容回來前顯示 placeholder
-    setDetail(undefined)
-    setMarker(target)
-  }
+  // 換景點時內文對不上 id，卡片自然顯示 placeholder，不需要在這裡清
+  const openSceneCard = (target: SceneMarker) => setMarker(target)
   const closeSceneCard = () => setMarker(undefined)
   const closeCheckin = () => setCheckinSrc(undefined)
 
@@ -116,7 +123,10 @@ const useSceneController = (config: SceneConfig = {}) => {
           ref: '',
         }
       })
-      .then((result) => cancelled || setDetail(result))
+      .then(
+        (result) =>
+          cancelled || setDetailState({ id: feature.id, detail: result }),
+      )
     return () => {
       cancelled = true
     }
