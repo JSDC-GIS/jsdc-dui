@@ -216,6 +216,14 @@ describe('useSceneController 的集章卡片內文', () => {
     expect(getSceneDetailArticle).toHaveBeenCalledTimes(1)
   })
 
+  it('來源沒給撰稿者（ref 為空）時，卡片顯示「撰稿者：未知」', async () => {
+    const { ref, markers } = setupCard()
+    act(() => ref.current!.openSceneCard(markers[0]))
+    await waitFor(() =>
+      expect(ref.current!.cardProps.credit).toBe('撰稿者：未知'),
+    )
+  })
+
   it('換到另一個景點：先顯示 placeholder，再換成新內文', async () => {
     const { ref, markers } = setupCard()
     const [first, second] = markers

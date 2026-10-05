@@ -166,11 +166,11 @@ describe('StrapiArticleParser.getDetailByFeature', () => {
     )
   })
 
-  it('沒有內文、沒有撰稿者時是空字串', () => {
+  it('沒有內文時是空字串；沒有撰稿者時顯示「撰稿者：未知」', () => {
     const { parser } = createParser()
     const detail = parser.getDetailByFeature(byId('03沒有內文'))
     expect(detail.content).toBe('')
-    expect(detail.ref).toBe('')
+    expect(detail.ref).toBe('撰稿者：未知')
   })
 
   it('詳細圖片：coverImage 優先，沒有才用 coverThumb，都沒有是空字串', () => {

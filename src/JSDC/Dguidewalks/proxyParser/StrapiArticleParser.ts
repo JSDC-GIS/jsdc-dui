@@ -79,7 +79,8 @@ class StrapiArticleParser implements IArticleProxyParser {
       content: this.pickContent(feature).text,
       imgSrc: coverImage ?? coverThumb ?? '',
       link: pageUrl,
-      ref: contributors ? `撰稿者：${contributors}` : '',
+      // 沒有撰稿者時仍保留「撰稿者：」前綴，卡片才不會只剩孤零零的「未知」
+      ref: `撰稿者：${contributors?.trim() || '未知'}`,
     }
   }
 
