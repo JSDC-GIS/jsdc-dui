@@ -99,7 +99,21 @@ if (hit) cb(hit.layer)
 "jsdc-dui": "github:jsdc-gis/jsdc-dui#1.10.2"
 ```
 
-升版後重裝（Yarn Berry 專案記得 `yarn install`），確認 `node_modules/jsdc-dui/dist/JSDC/utils/normalizeTitle.js` 存在再改 code。
+升版後重裝（Yarn Berry 專案記得 `yarn install`），確認 `node_modules/jsdc-dui/dist/JSDC/utils/normalizeTitle.js` 存在再 build。
+
+### 套用狀態（2026-08-04）
+
+`jsdc-dgw-frontend-main` 底下**所有 1.9.5 以上的專案（共 50 個）＋ n0021** 的 `App.tsx` 已批次套用上面的 import 與 `forExactLayerName` 修正，n0028 另外已 commit（`fd07641`）。
+
+但**這些專案的 `package.json` 還釘在 1.9.5 / 1.10.1，尚未升到 1.10.2**，在升版重裝之前 build 會出：
+
+```
+TS2307: Cannot find module 'jsdc-dui/dist/JSDC/utils/normalizeTitle'
+```
+
+這是唯一的錯誤（其餘程式碼已驗證可通過型別檢查）。升版時注意 1.9.5 → 1.10.x 帶進 `i18next@25`，**需要下游 TypeScript ≥ 5**，還在 TS4 的專案會連鎖出 `TS2339` / `TS1139`，詳見 `I18N.md`。
+
+未套用：`n0002`（釘 `^1.5.9`）、`itrail` / `twrna` / `jsdc-old-tree-frontend`（釘 `^1.6.0`）。
 
 ## 驗證方式
 
