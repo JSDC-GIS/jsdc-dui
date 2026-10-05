@@ -33,8 +33,11 @@ export declare class ArticleCache {
         title: string;
         imgSrc: string;
         link: string;
+        id?: string | undefined;
+        feature?: import("..").SceneFeature | undefined;
     }[];
 }
+/** @deprecated 舊的 Drupal 來源，見 `ArticleProxyParser`。 */
 declare abstract class AbsctractArticleProxyParser {
     proxyFetcher: AbsctractArticleProxyParserContructor['proxyFetcher'];
     cmsPath: AbsctractArticleProxyParserContructor['cmsPath'];

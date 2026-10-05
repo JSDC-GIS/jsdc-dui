@@ -1,2 +1,2 @@
-var e=function(e){return e.normalize("NFKC").replace(/\\[nrt]/g,"").replace(/[\s　​﻿]+/g,"").toLowerCase()};export{e as default,e as normalizeTitle};
+var n=function(n){return n.normalize("NFKC").replace(/\\[nrt]/g,"").replace(/[\s　​﻿]+/g,"").toLowerCase()},e=function(e,r,t){var i,u=n(t);if(u){var a=e.map(function(e){var t;return{item:e,name:n(String(null!==(t=r(e))&&void 0!==t?t:""))}}).filter(function(n){return n.name}),l=null!==(i=a.find(function(n){return n.name===u}))&&void 0!==i?i:a.find(function(n){return u.includes(n.name)||n.name.includes(u)});return null==l?void 0:l.item}};export{n as default,e as findByTitle,n as normalizeTitle};
 //# sourceMappingURL=normalizeTitle.js.map

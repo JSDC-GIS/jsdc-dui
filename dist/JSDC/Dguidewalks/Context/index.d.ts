@@ -24,7 +24,8 @@ export interface IDguidewalksProviderProps {
     layersHiddenFromUI: Array<string>;
     layersShowOnMapByDefault: Array<string>;
     layerNameOrder?: Array<string>;
-    articleParser: IArticleProxyParser;
+    /** 不傳就用內建的 Strapi 景點文章來源。舊的 Drupal parser 仍可傳入。 */
+    articleParser?: IArticleProxyParser;
     config: ConfigProvider;
     layerLegendImages?: Record<string, string>;
     layerNames?: LayerNames;

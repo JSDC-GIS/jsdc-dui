@@ -4,6 +4,10 @@ import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogCon
 import { StyleType } from './Theme/useTheme';
 import Event from '../../JSDC/utils/Event';
 import { ISceneMenuItemProps } from '../LeftMenuBar/Scene/SceneMenuItem';
+import { SceneConfig, SceneController } from '../../hooks/useSceneController';
+import { SceneMarker } from '../../JSDC/Dguidewalks/scene';
+import { SceneFeature } from '../../JSDC/Dguidewalks/ApiProvider';
+export type { SceneConfig, SceneController };
 export declare const defaultMenuItems: {
     id: string;
     name: string;
@@ -42,9 +46,14 @@ export type DuiContextType = {
     weatherConfig: WeatherConfig;
     legendConfig: LegendConfig;
     settingConfig: SettingConfig;
-    onSceneTargetClick: (title: string) => void;
-    onSceneNavigate: (title: string) => void;
+    onSceneTargetClick: (feature: SceneFeature) => void;
+    onSceneNavigate: (feature: SceneFeature) => void;
     sceneCardsReducer: ISceneMenuItemProps['cardsReducer'];
+    /** 景點內建行為的狀態，給 `SceneCheckin` 渲染用。 */
+    scene: SceneController;
+    /** 開啟指定景點的集章卡片（不經過 `sceneConfig.onSceneClick`）。 */
+    openSceneCard: (marker: SceneMarker) => void;
+    closeSceneCard: () => void;
 };
 export declare const initialDuiContext: {};
 declare const DuiContext: React.Context<DuiContextType>;
@@ -67,9 +76,17 @@ export interface IDuiContextProviderProps {
     legendConfig: LegendConfig;
     settingConfig?: SettingConfig;
     themeConfig?: StyleType;
-    onSceneTargetClick?: (title: string) => void;
-    onSceneNavigate?: (title: string) => void;
+    /**
+     * 景點列表的定位鈕。預設飛到該景點（縮放層級見 `sceneConfig.targetZoom`）。
+     * 參數是 Strapi 原樣的景點 feature（`feature.id`、`properties`、`geometry`），
+     * 只會收到有座標的景點；需要 marker 時用 `dgw.findSceneById(feature.id)`。
+     */
+    onSceneTargetClick?: (feature: SceneFeature) => void;
+    /** 景點列表、集章卡片的導航鈕。預設用 Google 步行導航到該景點。參數同上。 */
+    onSceneNavigate?: (feature: SceneFeature) => void;
     sceneCardsReducer?: ISceneMenuItemProps['cardsReducer'];
+    /** 景點圖層的內建行為（點擊開卡片、cluster、集章、深連結）。不傳就是全部預設。 */
+    sceneConfig?: SceneConfig;
 }
 declare const DuiContextProvider: React.FC<IDuiContextProviderProps>;
 export { DuiContextProvider, DuiContext };

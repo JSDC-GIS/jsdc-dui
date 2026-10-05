@@ -37,6 +37,9 @@ export declare const activable: {
     locationMappin: string;
     locationMappinActive: string;
 };
+export declare const getSceneIconUrl: (category?: {
+    icon: string;
+} | null) => string;
 export declare const credit: {
     qrcode: string;
     logo: string;

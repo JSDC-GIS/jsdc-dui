@@ -11,5 +11,12 @@ export interface GoogleNavigatorOptions {
 }
 declare const useGoogleNavigator: () => {
     openNavigator: ({ origin, destination, type, }: GoogleNavigatorOptions) => void;
+    walkTo: (origin: {
+        lat: number;
+        lng: number;
+    } | undefined, destination: {
+        lat: number;
+        lng: number;
+    }) => void;
 };
 export default useGoogleNavigator;
