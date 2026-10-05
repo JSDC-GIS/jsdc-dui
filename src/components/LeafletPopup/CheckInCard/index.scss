@@ -20,6 +20,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    // 沒有圖片的景點（imgSrc 為空）這塊高度會是 0，疊在上面的距離提示與
+    // 集章按鈕會被卡片裁掉；留一個剛好放得下它們的高度。
+    min-height: 80px;
     img {
       width: 100%;
     }

@@ -3,12 +3,14 @@ import {
   IArticleProxyParser,
   ListingTextField,
 } from './@types'
+import type { SceneFeature } from '../ApiProvider'
 import AbsctractArticleProxyParser, {
   AbsctractArticleProxyParserContructor,
 } from './AbsctractArticleProxyParser'
 import axios from 'axios'
 import { normalizeTitle } from '../../utils/normalizeTitle'
 
+/** @deprecated 舊的 Drupal JSON:API 來源；預設已改用 `StrapiArticleParser`，不傳 `articleParser` 即可。 */
 class ArticleProxyParser
   extends AbsctractArticleProxyParser
   implements IArticleProxyParser
@@ -40,6 +42,15 @@ class ArticleProxyParser
     const articles = await this.getArticlesFromAPI()
     this.cache.setSummaries(articles)
     return articles
+  }
+
+  // Drupal 文章沒有景點 id，只能拿 feature 的 title 反查；
+  // title 比對只留在這個舊來源裡，不外漏到 jsdc-dui 的內部流程。
+  getDetailByFeature(feature: SceneFeature) {
+    return this.getDetailByTitle(
+      feature.properties.title,
+      feature.properties.pageUrl,
+    )
   }
 
   async getDetailByTitle(

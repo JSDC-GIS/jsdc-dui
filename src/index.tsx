@@ -4,53 +4,28 @@ import React, { useContext, useEffect, useState } from 'react'
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC'
 import './i18n/config'
-import ApiProvider, {
-  LayerApiRespVectorProps,
-} from './JSDC/Dguidewalks/ApiProvider'
-import Leaflet, { GeoJSON, latLng, latLngBounds, Marker } from 'leaflet'
+import { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider'
+import { GeoJSON, latLng, latLngBounds } from 'leaflet'
 import {
   IDuiContextProviderProps,
   DuiContext,
   DuiContextProvider,
 } from './components/Context'
 import DguideWalksApp from './components/DguideWalksApp'
-import Dialog from './components/Dialog'
 import MenuItemWithDialog from './components/LeftMenuBar/MenuList/MenuItemWithDialog'
-import { baseUrl } from './icon'
 import './style/index.css'
 import {
   DguidewalksContext,
   DguidewalksProvider,
 } from './JSDC/Dguidewalks/Context'
-import LeafletPopup, {
-  bindPopupWithSceneCard,
-  bindPopupWithComponent,
-} from './components/LeafletPopup'
 import Checkin from './components/Icons/Checkin'
-import { renderToString } from 'react-dom/server'
-import ResponsiveDialog from './components/ResponsiveDialog'
-import SceneCard, { ISceneCardProps } from './components/LeafletPopup/SceneCard'
-import useHeatMap from './JSDC/hooks/layerVisualization/useHeatMap'
-import JSDCGeoJSONLayer from './JSDC/Layer/JSDCGeoJSONLayer'
-import useCluster from './JSDC/hooks/layerVisualization/useCluster'
-import GeoNavigator, {
-  IGeoNavigatorProps,
-  Navigation,
-} from './components/GeoNavigator'
-import {
-  Article,
-  SummaryArticleType,
-} from './JSDC/Dguidewalks/proxyParser/@types'
-import ArticleProxyParser from './JSDC/Dguidewalks/proxyParser'
-import { normalizeTitle } from './JSDC/utils/normalizeTitle'
-import DaKeKanRiver2022Parser from './JSDC/Dguidewalks/proxyParser/DaKeKanRiver2022Parser'
-import { AbsctractArticleProxyParserContructor } from './JSDC/Dguidewalks/proxyParser/AbsctractArticleProxyParser'
 import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider'
-import CheckInCard from './components/LeafletPopup/CheckInCard'
-import useGeolocation from './hooks/useGeolocation'
-import useGoogleNavigator, {
-  GoogleNavigationType,
-} from './hooks/useGoogleNavigator'
+
+// 這個 demo 同時是「下游 App.tsx 遷移後應該長什麼樣」的範本：
+// 只有設定與線圖層樣式。景點的 icon、點擊開集章卡片、cluster、集章 key、
+// `?id=` 深連結、列表的定位與導航都由 jsdc-dui 內建，要調整時傳 `sceneConfig`。
+
+const EVENT_ID = 'n0004'
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -68,7 +43,7 @@ const duiConfigProps: IDuiContextProviderProps = {
     'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   headerDImgSrc:
     'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
-  menuSwitchItems: [{ id: '景點打卡', name: '景點打卡' }],
+  menuSwitchItems: [{ id: '數位集章', name: '數位集章' }],
   weatherConfig: {
     token: 'CWB-232A270E-12F1-4381-B9F2-DF2D2670A077',
     locations: [
@@ -100,291 +75,86 @@ const getRouteColorByType = (type: string) => {
   }
 }
 
-const getPOIIcon = (type: string) => {
-  return Leaflet.icon({
-    iconUrl: `${baseUrl}map_icons/type${type}.svg`,
-    iconSize: [30, 40],
-  })
-}
-
 function App() {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
-  const { dgw, geolocation } = useContext(DguidewalksContext)
-  const [open, setopen] = useState(false)
-  const [title, settitle] = useState<string>()
-  const [props, setProps] = useState<Partial<ISceneCardProps>>()
-  const [naviOD, setNaviOD] = useState<{
-    origin: [number, number]
-    destination: [number, number]
-    type: Navigation
-  }>()
-  const {
-    addLayer: addLayerToHeatMap,
-    toggleShowHeatMap,
-    show: showHeatMap,
-  } = useHeatMap(Jsdc.asyncViewer)
-  const {
-    addLayer: addLayerToCluster,
-    toggleShowCluster,
-    show: showCluster,
-  } = useCluster(Jsdc.asyncViewer)
-  const [data, setData] = useState<string>()
+  const { dgw } = useContext(DguidewalksContext)
 
-  const handleToggleHeatmap = () => {
-    toggleShowHeatMap()
-  }
-  const handleToggleCluster = () => {
-    toggleShowCluster()
+  const init = () => {
+    Jsdc.Controller.get('Layer')
+      .getByName<GeoJSON>(`${EVENT_ID}-line`)
+      ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
+        (layer, properties) =>
+          layer.setStyle({ color: getRouteColorByType(properties.type) }),
+      )
   }
 
-  const handleOpenNavigate = (type: Navigation) => {
-    setNaviOD({
-      origin: [24.980077143207907, 121.53545142928155],
-      destination: [24.998748116199845, 121.51991607604738],
-      type,
-    })
-  }
-
-  const init = async () => {
-    await Jsdc.asyncViewer
-    const layerController = Jsdc.Controller.get('Layer')
-    const layer1 = layerController.getByName<GeoJSON>(
-      '浸水營古道數位走讀示範路線',
-    ) as JSDCGeoJSONLayer
-    const layer2 = layerController.getByName<GeoJSON>(
-      'n0004-point',
-    ) as JSDCGeoJSONLayer
-
-    layer1?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
-      (layer, properties) =>
-        layer.setStyle({ color: getRouteColorByType(properties.type) }),
-    )
-    layer2?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
-      (layer: Marker, properties) => {
-        layer.setIcon(getPOIIcon(properties.type)!)
-        layer.on('click', async () => {
-          setProps({})
-          setopen(true)
-          const sceneData = await dgw.getSceneDetailArticleByTitle(
-            properties.name,
-            properties.url,
-          )
-          const props = {
-            sceneLatLng: layer.getLatLng(),
-            title: properties.name,
-            subtitle: sceneData.subtitle,
-            imgSrc: sceneData.imgSrc,
-            mainTextContent: sceneData.content,
-            credit: sceneData.ref,
-          }
-          setProps(props)
-        })
-        // const handleFetchArticle = async () => {
-        //   const actionLabel = '打卡集章'
-        //   const sceneData = await dgw.getSceneDetailArticleByTitle(properties.name, properties.url)
-        //   const props = {
-        //     title: properties.name,
-        //     subtitle: sceneData.subtitle,
-        //     imgSrc: sceneData.imgSrc,
-        //     mainTextContent: sceneData.content,
-        //     credit: sceneData.ref
-        //   }
-        //   const content = renderToString(LeafletPopup.SceneCard({ ...props }))
-        //   layer.bindPopup(content)
-
-        //   const button = document.getElementById(actionLabel)
-        //   button?.addEventListener('click', handleActionClick)
-        // }
-        // bindPopupWithSceneCard(layer, renderToString, {
-        //   dgw,
-        //   title: properties.name
-        // })
-
-        // bindPopupWithTable(layer, {
-        //   name: properties.name,
-        //   value: properties
-        // })
-
-        // bindPopupWithComponent(layer, {
-        //   Component: LeafletPopup.SceneCard,
-        //   props: {},
-        //   onLayerClick: handleFetchArticle
-        // })
-      },
-    )
-    layer2 && addLayerToHeatMap(layer2)
-    layer2 && addLayerToCluster(layer2)
-    dui.menuSwitchEvent.addEventListener(() => setopen(false))
-  }
   useEffect(() => {
     ;(window as any).JSDC = Jsdc
-    dgw.gisDataLoadEvent.addEventListener(init)
-    window.addEventListener('message', (e) => {
-      if (e.data.source === 'child') {
-        setData(JSON.stringify(e.data))
-      }
-    })
+    return dgw.gisDataLoadEvent.addEventListener(init)
   }, [])
+
   return (
-    <>
-      <DguideWalksApp
-        mainMenuChildren={
-          <MenuItemWithDialog
-            Icon={Checkin}
-            title="景點打卡"
-            active={dui.activeMenuId === '景點打卡'}
-            {...dui.menuSwitcherAction('景點打卡')}
-          >
-            <button
-              style={{ background: showHeatMap ? 'yellow' : 'white' }}
-              onClick={handleToggleHeatmap}
-            >
-              hopspot
-            </button>
-            <button
-              style={{ background: showCluster ? 'yellow' : 'white' }}
-              onClick={handleToggleCluster}
-            >
-              cluster
-            </button>
-            <button onClick={() => handleOpenNavigate(Navigation.Walk)}>
-              navigator walk
-            </button>
-            <button onClick={() => handleOpenNavigate(Navigation.MassTransit)}>
-              navigator MassTransit
-            </button>
-            <button onClick={() => handleOpenNavigate(Navigation.Car)}>
-              navigator Car
-            </button>
-            <button onClick={() => handleOpenNavigate(Navigation.Bike)}>
-              navigator Bike
-            </button>
-            <iframe src="./child.html"></iframe>
-            <span>render from parent: {data}</span>
-          </MenuItemWithDialog>
-        }
-      />
-      <ResponsiveDialog open={open} onClose={() => setopen(false)}>
-        <CheckInCard {...props} userLatLng={geolocation.latLng} />
-      </ResponsiveDialog>
-      {naviOD && <GeoNavigator {...naviOD} />}
-    </>
+    <DguideWalksApp
+      mainMenuChildren={
+        <MenuItemWithDialog
+          Icon={Checkin}
+          title="數位集章"
+          active={dui.activeMenuId === '數位集章'}
+          {...dui.menuSwitcherAction('數位集章')}
+        >
+          {dui.activeMenuId === '數位集章' && (
+            <iframe
+              title="數位集章"
+              style={{ height: '100%', border: 0, borderRadius: '5px' }}
+              src={`https://map.jsdc.com.tw/tools/checkin/${EVENT_ID}/showlist.php?a=${EVENT_ID}`}
+            ></iframe>
+          )}
+        </MenuItemWithDialog>
+      }
+    />
   )
 }
 
-const cmsPath = [
-  '數位走讀地圖/北部景點/大嵙崁溪河階/2022三層·內柵·三坑情',
-  // '數位走讀地圖/南部景點/牡丹社事件'
-]
-const eventId = 'n0004'
-
-const config = new ConfigProvider({
-  eventId,
-  cmsPath,
-  // baseApiUrl: 'http://localhost:8444/api/'
-})
-
-const defaultParser = new DaKeKanRiver2022Parser(eventId, {
-  cmsPath,
-  proxyFetcher: new ApiProvider(config).getProxyQuery,
-})
-
-console.log(defaultParser)
+const config = new ConfigProvider({ eventId: EVENT_ID })
 
 const AppWrapper = () => {
-  const { openNavigator } = useGoogleNavigator()
   const [Jsdc] = useState(
-    new JSDC(eventId, {
-      bound: latLngBounds(latLng(21.7927, 119.8553), latLng(22.9533, 121.7477)),
+    new JSDC(EVENT_ID, {
+      // n0004 walk 回應的 bbox
+      bound: latLngBounds(latLng(24.8426, 121.2727), latLng(24.8863, 121.2868)),
       maxZoom: 19,
     }),
   )
-  const forExactLayerName = (
-    layerName: string,
-    title: string,
-    cb: (layer: Marker) => void,
-  ) => {
-    const targetFeature = Jsdc.Controller.get('Layer')
-      .getByName(layerName)
-      ?.isGeoJSON()
-    if (!targetFeature) return
-    const layers = targetFeature.instance.getLayers() as Marker[]
-
-    // Drupal 的 title 與圖層 properties.name 是兩套人工維護的字串，
-    // 先正規化（大小寫/空白/換行/全半形）再比，否則點列表定位鈕會靜默失效。
-    const target = normalizeTitle(title)
-    const candidates = layers
-      .map((layer) => ({
-        layer,
-        name: normalizeTitle(String(layer.feature?.properties.name ?? '')),
-      }))
-      .filter((candidate) => candidate.name)
-
-    const hit =
-      // 先求完全相同，避免「三坑」誤中「三坑老街」
-      candidates.find((candidate) => candidate.name === target) ??
-      // 再退到雙向 contains，吃掉 CMS title 的編號前綴（01遇見雞母嶺 vs 遇見雞母嶺）
-      candidates.find(
-        (candidate) =>
-          target.includes(candidate.name) || candidate.name.includes(target),
-      )
-
-    if (hit) cb(hit.layer)
-  }
-
-  const handleSceneTagetClick = (title: string) => {
-    forExactLayerName('n0004-point', title, (layer) =>
-      Jsdc.viewer?.flyTo(layer.getLatLng(), 17),
-    )
-  }
-
-  const handleSceneNavigate = (title: string) => {
-    forExactLayerName('n0004-point', title, (layer) => {
-      const { lat: destLat, lng: destLng } = layer.getLatLng()
-      // const origin = location.latLng
-      // if (!origin) return
-
-      openNavigator({
-        origin: [24.906019424067743, 121.30963485844617],
-        destination: [destLat, destLng],
-        type: GoogleNavigationType.Walk,
-      })
-    })
-  }
-  const reduceSceneCards = (data: Article[]) => {
-    return data
-  }
   return (
-    <>
-      <JSDCProvider Jsdc={Jsdc}>
-        <DguidewalksProvider
-          Jsdc={Jsdc}
-          articleParser={defaultParser}
-          layersHiddenFromUI={['測試路線']}
-          layersShowOnMapByDefault={[
-            '臺灣通用電子地圖(灰階)',
-            'n0004-point',
-            'n0004-line',
-          ]}
-          layerNameOrder={['牡丹社路線']}
-          config={config}
-          layerLegendImages={{
-            '臺灣通用電子地圖(灰階)':
-              'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
+    <JSDCProvider Jsdc={Jsdc}>
+      <DguidewalksProvider
+        Jsdc={Jsdc}
+        layersHiddenFromUI={[`${EVENT_ID}-line`]}
+        layersShowOnMapByDefault={[
+          '臺灣通用電子地圖(灰階)',
+          `${EVENT_ID}-line`,
+        ]}
+        config={config}
+      >
+        <DuiContextProvider
+          {...duiConfigProps}
+          sceneConfig={{
+            checkinKanbanImgSrc: duiConfigProps.headerMBImgSrc,
+            // 以下都是預設值，列出來只是示範可以調什麼
+            // cluster: true,
+            // validDistance: 100,
+            // targetZoom: 18.5,
+            // onSceneClick: (marker, openDefault) => openDefault(),
           }}
+          // 列表的定位、導航鈕也能覆寫；參數是景點 feature（id、properties、geometry），不是 title
+          // onSceneTargetClick={(feature) => console.log(feature.id, feature.geometry)}
+          // onSceneNavigate={(feature) => console.log(feature.properties.title)}
         >
-          <DuiContextProvider
-            {...duiConfigProps}
-            onSceneTargetClick={handleSceneTagetClick}
-            sceneCardsReducer={reduceSceneCards}
-            onSceneNavigate={handleSceneNavigate}
-          >
-            <App />
-          </DuiContextProvider>
-        </DguidewalksProvider>
-      </JSDCProvider>
-    </>
+          <App />
+        </DuiContextProvider>
+      </DguidewalksProvider>
+    </JSDCProvider>
   )
 }
 

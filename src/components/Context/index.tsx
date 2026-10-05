@@ -5,6 +5,14 @@ import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogCon
 import useTheme, { defaultStyle, StyleType } from './Theme/useTheme'
 import Event from '../../JSDC/utils/Event'
 import { ISceneMenuItemProps } from '../LeftMenuBar/Scene/SceneMenuItem'
+import useSceneController, {
+  SceneConfig,
+  SceneController,
+} from '../../hooks/useSceneController'
+import { SceneMarker } from '../../JSDC/Dguidewalks/scene'
+import { SceneFeature } from '../../JSDC/Dguidewalks/ApiProvider'
+
+export type { SceneConfig, SceneController }
 
 // make sure they match menuItem components's props
 // these items should be same as DguidewalksApp component content
@@ -76,9 +84,14 @@ export type DuiContextType = {
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   settingConfig: SettingConfig
-  onSceneTargetClick: (title: string) => void
-  onSceneNavigate: (title: string) => void
+  onSceneTargetClick: (feature: SceneFeature) => void
+  onSceneNavigate: (feature: SceneFeature) => void
   sceneCardsReducer: ISceneMenuItemProps['cardsReducer']
+  /** 景點內建行為的狀態，給 `SceneCheckin` 渲染用。 */
+  scene: SceneController
+  /** 開啟指定景點的集章卡片（不經過 `sceneConfig.onSceneClick`）。 */
+  openSceneCard: (marker: SceneMarker) => void
+  closeSceneCard: () => void
 }
 
 export const initialDuiContext = {}
@@ -107,9 +120,17 @@ export interface IDuiContextProviderProps {
   legendConfig: LegendConfig
   settingConfig?: SettingConfig
   themeConfig?: StyleType
-  onSceneTargetClick?: (title: string) => void
-  onSceneNavigate?: (title: string) => void
+  /**
+   * 景點列表的定位鈕。預設飛到該景點（縮放層級見 `sceneConfig.targetZoom`）。
+   * 參數是 Strapi 原樣的景點 feature（`feature.id`、`properties`、`geometry`），
+   * 只會收到有座標的景點；需要 marker 時用 `dgw.findSceneById(feature.id)`。
+   */
+  onSceneTargetClick?: (feature: SceneFeature) => void
+  /** 景點列表、集章卡片的導航鈕。預設用 Google 步行導航到該景點。參數同上。 */
+  onSceneNavigate?: (feature: SceneFeature) => void
   sceneCardsReducer?: ISceneMenuItemProps['cardsReducer']
+  /** 景點圖層的內建行為（點擊開卡片、cluster、集章、深連結）。不傳就是全部預設。 */
+  sceneConfig?: SceneConfig
 }
 
 const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
@@ -127,11 +148,13 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   settingConfig = {},
   menuSwitchItems,
   themeConfig = defaultStyle,
-  onSceneTargetClick = () => null,
-  onSceneNavigate = () => null,
+  onSceneTargetClick,
+  onSceneNavigate,
   sceneCardsReducer,
+  sceneConfig,
 }) => {
   useTheme(themeConfig)
+  const scene = useSceneController(sceneConfig)
   const { switchById, activeId } = useSwitch<MenuItemType>([
     ...defaultMenuItems,
     ...menuSwitchItems,
@@ -168,9 +191,12 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     weatherConfig,
     legendConfig,
     settingConfig,
-    onSceneTargetClick,
+    onSceneTargetClick: onSceneTargetClick ?? scene.flyToScene,
     sceneCardsReducer,
-    onSceneNavigate,
+    onSceneNavigate: onSceneNavigate ?? scene.navigateToScene,
+    scene,
+    openSceneCard: scene.openSceneCard,
+    closeSceneCard: scene.closeSceneCard,
   }
   return <DuiContext.Provider value={value}>{children}</DuiContext.Provider>
 }

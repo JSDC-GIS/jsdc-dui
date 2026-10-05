@@ -10,4 +10,33 @@ export const normalizeTitle = (title: string): string =>
     .replace(/[\s　​﻿]+/g, '') // 換行/tab/半形全形空白/zero-width 全移除
     .toLowerCase()
 
+/**
+ * 用 title 從一組資料裡找出對應的那筆，兩段式比對，順序不能反：
+ * 1. 正規化後完全相同（避免「三坑」誤中「三坑老街」）
+ * 2. 正規化後雙向 contains（吃掉任一邊的編號前綴）
+ * 只給外部呼叫者用（例如下游用寫死的景點名稱找點）；jsdc-dui 內部一律用景點 id / feature 識別。
+ */
+export const findByTitle = <T>(
+  items: T[],
+  getTitle: (item: T) => string | null | undefined,
+  title: string,
+): T | undefined => {
+  const target = normalizeTitle(title)
+  if (!target) return undefined
+  const candidates = items
+    .map((item) => ({
+      item,
+      name: normalizeTitle(String(getTitle(item) ?? '')),
+    }))
+    .filter((candidate) => candidate.name)
+
+  const hit =
+    candidates.find((candidate) => candidate.name === target) ??
+    candidates.find(
+      (candidate) =>
+        target.includes(candidate.name) || candidate.name.includes(target),
+    )
+  return hit?.item
+}
+
 export default normalizeTitle

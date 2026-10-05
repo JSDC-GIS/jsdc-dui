@@ -32,8 +32,24 @@ const useGoogleNavigator = () => {
     const url = `https://www.google.com/maps/dir/${origin.join(',')}/${destination.join(',')}/data=${getNaviType(type)}`
     window.open(url)
   }
+  // 景點列表、集章卡片的導航鈕共用：從使用者位置步行到目的地，還沒有定位就提示並略過
+  const walkTo = (
+    origin: { lat: number; lng: number } | undefined,
+    destination: { lat: number; lng: number },
+  ) => {
+    if (!origin) {
+      alert('尚未取得GPS位置')
+      return
+    }
+    openNewTab({
+      origin: [origin.lat, origin.lng],
+      destination: [destination.lat, destination.lng],
+      type: GoogleNavigationType.Walk,
+    })
+  }
   return {
     openNavigator: openNewTab,
+    walkTo,
   }
 }
 

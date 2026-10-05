@@ -1,70 +1,63 @@
-import { useContext, useEffect } from 'react'
-import { GeoJSON, Marker } from 'leaflet'
+import { useContext, useEffect, useRef } from 'react'
 import { JSDCContext } from '../JSDC/Context'
 import { DguidewalksContext } from '../JSDC/Dguidewalks/Context'
-import JSDCGeoJSONLayer from '../JSDC/Layer/JSDCGeoJSONLayer'
-import { LayerApiRespVectorProps } from '../JSDC/Dguidewalks/ApiProvider'
+import { SceneMarker } from '../JSDC/Dguidewalks/scene'
 
 export interface UseDeepLinkPointOptions {
-  layerName: string
-  onResolve: (marker: Marker, properties: LayerApiRespVectorProps) => void
+  onResolve: (marker: SceneMarker) => void
   paramKey?: string
   flyToZoom?: number
   flyToDuration?: number
   delayMs?: number
+  /** false 時完全不處理深連結。hook 不能條件式呼叫，所以用參數關。 */
+  enabled?: boolean
 }
 
+/**
+ * 網址帶 `?id=` 時飛到該景點並回呼 `onResolve`。
+ * id 用 `dgw.findSceneById` 解析，同時接受 Strapi documentId 與舊的 GIS UUID（`legacyGisId`），
+ * 已經分享出去的舊連結才不會失效。
+ */
 const useDeepLinkPoint = ({
-  layerName,
   onResolve,
   paramKey = 'id',
   flyToZoom = 17,
   flyToDuration = 4,
   delayMs = 1500,
+  enabled = true,
 }: UseDeepLinkPointOptions) => {
   const { Jsdc } = useContext(JSDCContext)
   const { dgw } = useContext(DguidewalksContext)
+  // handler 只註冊一次，用 ref 才拿得到最新的 onResolve
+  const onResolveRef = useRef(onResolve)
+  onResolveRef.current = onResolve
 
   useEffect(() => {
+    if (!enabled || !dgw) return
     const handler = async () => {
       const params = new URLSearchParams(window.location.search)
       const targetId = params.get(paramKey)
       if (!targetId) return
 
-      const layer = Jsdc.Controller.get('Layer').getByName<GeoJSON>(
-        layerName,
-      ) as JSDCGeoJSONLayer | undefined
-      if (!layer) return
-
-      let targetMarker: Marker | undefined
-      let targetProps: LayerApiRespVectorProps | undefined
-      layer.forEachLayerAsGeoJSON<
-        Marker,
-        LayerApiRespVectorProps & { id?: string }
-      >((l, props) => {
-        const featureId = (l as any).feature?.id ?? props.id
-        if (String(featureId) === targetId) {
-          targetMarker = l
-          targetProps = props
-        }
-      })
-      if (!targetMarker || !targetProps) {
-        console.warn(
-          `[useDeepLinkPoint] no feature with id="${targetId}" in layer "${layerName}"`,
-        )
+      const marker = dgw.findSceneById(targetId)
+      if (!marker) {
+        console.warn(`[useDeepLinkPoint] no scene with id="${targetId}"`)
         return
       }
 
       const map = await Jsdc.asyncViewer
-      const marker = targetMarker
-      const props = targetProps
       map.flyTo(marker.getLatLng(), flyToZoom, { duration: flyToDuration })
       map.once('moveend', () => {
-        setTimeout(() => onResolve(marker, props), delayMs)
+        setTimeout(() => onResolveRef.current(marker), delayMs)
       })
     }
 
-    dgw.gisDataLoadEvent.addEventListener(handler)
+    // 景點圖層可能已經載完（事件早就發過），這時直接處理
+    if (dgw.sceneLayer) {
+      handler()
+      return
+    }
+    return dgw.gisDataLoadEvent.addEventListener(handler)
   }, [])
 }
 

@@ -68,6 +68,13 @@ export const activable = {
   locationMappinActive: `${baseUrl}menu_icons/location-mappin_active.svg`,
 }
 
+// 景點 marker 圖檔。編號直接取 Strapi 的 category.icon（'01'～'12'），
+// 檔名編號與它一致，不需要換算；沒有分類或編號無法解析時用 type1。
+export const getSceneIconUrl = (category?: { icon: string } | null) => {
+  const type = Number(category?.icon)
+  return `${baseUrl}map_icons/type${type > 0 ? type : 1}.svg`
+}
+
 export const credit = {
   qrcode: `${baseUrl}credit/fb_qrcode.png`,
   logo: `${baseUrl}credit/main-logo.svg`,

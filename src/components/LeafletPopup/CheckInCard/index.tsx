@@ -6,6 +6,8 @@ import useGeolocation from '../../../hooks/useGeolocation'
 import { JSDCContext } from '../../../JSDC/Context'
 import NavigatorArrow from '../../Icons/NavigatorArrow'
 import { DuiContext } from '../../Context'
+import { SceneFeature } from '../../../JSDC/Dguidewalks/ApiProvider'
+import useGoogleNavigator from '../../../hooks/useGoogleNavigator'
 
 export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   title: string
@@ -14,10 +16,20 @@ export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   mainTextContent: string
   credit: string
   sceneLatLng: LatLng
+  /**
+   * 這張卡片所屬的景點。有給時導航鈕走 `DuiContext.onSceneNavigate(feature)`（下游可覆寫）；
+   * 沒給（單獨使用這個元件）就直接從 `userLatLng` 步行導航到 `sceneLatLng`。
+   */
+  feature?: SceneFeature
   innerRef?: React.ForwardedRef<HTMLDivElement>
   onCheckin?: (src: string) => void
   userLatLng?: ReturnType<typeof useGeolocation>['latLng']
   checkinSrc?: string
+  /**
+   * 組集章 key 用的點名，與顯示用的 `title` 分開：少數舊點的集章 key 必須沿用
+   * GIS 原名（`legacyName`）。沒給時用 `title`。有傳 `checkinSrc` 時不會用到。
+   */
+  checkinName?: string
   validDistance?: number
 }
 function toCurrency(num: number) {
@@ -34,13 +46,16 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   credit = '　:　',
   innerRef,
   sceneLatLng,
+  feature,
   userLatLng: latLng,
   checkinSrc,
+  checkinName,
   validDistance = Infinity,
   onCheckin = () => null,
 }) => {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
+  const { walkTo } = useGoogleNavigator()
   const distance =
     latLng && sceneLatLng ? sceneLatLng.distanceTo(latLng) : Infinity
   const readableDistance =
@@ -52,8 +67,14 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
     if (!isCheckinValid) return
     const checkinIframeSrc =
       checkinSrc ||
-      `https://map.jsdc.com.tw/tools/checkin/${Jsdc.id}/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${title}`))}`
+      `https://map.jsdc.com.tw/tools/checkin/${Jsdc.id}/ci.php?s=${window.btoa(encodeURI(`${Jsdc.id}:${checkinName ?? title}`))}`
     onCheckin(checkinIframeSrc)
+  }
+
+  // 卡片本來就知道自己是哪個景點，不再用 title 回頭查
+  const handleNavigate = () => {
+    if (feature && dui.onSceneNavigate) return dui.onSceneNavigate(feature)
+    sceneLatLng && walkTo(latLng, sceneLatLng)
   }
 
   return (
@@ -91,10 +112,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
           </button>
         </div>
       </div>
-      <p
-        className="dui-CheckInPopup-geonavigator"
-        onClick={() => dui.onSceneNavigate(title)}
-      >
+      <p className="dui-CheckInPopup-geonavigator" onClick={handleNavigate}>
         <NavigatorArrow />
       </p>
       <div className="dui-CheckInPopup-artical">

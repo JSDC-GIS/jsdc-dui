@@ -75,6 +75,7 @@ export class ArticleCache {
   }
 }
 
+/** @deprecated 舊的 Drupal 來源，見 `ArticleProxyParser`。 */
 abstract class AbsctractArticleProxyParser {
   proxyFetcher: AbsctractArticleProxyParserContructor['proxyFetcher']
   cmsPath: AbsctractArticleProxyParserContructor['cmsPath']

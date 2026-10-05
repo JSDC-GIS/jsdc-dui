@@ -13,6 +13,7 @@ import AboutWalkMenuItem from '../LeftMenuBar/AboutWalk/AboutWalkMenuItem'
 import SettingMenuItem from '../LeftMenuBar/Setting/SettingMenuItem'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
 import VisitorCount from '../VisitorCount'
+import SceneCheckin from '../SceneCheckin'
 import { mapKeys, omit, pick } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
@@ -56,8 +57,8 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
     i18n.changeLanguage(defaultLanguage)
   }, [])
 
-  // 地圖 popup 的 click handler 在 React 之外綁定（見 LeafletPopup），若使用者沒開過
-  // 「景點介紹」就直接點圖徵，parser 還會停在預設語系，故在此同步一次。
+  // 下游可能直接呼叫 dgw.articleProxyParser（不經過列表或卡片），若使用者沒開過
+  // 「景點介紹」，parser 還會停在預設語系，故在此同步一次。
   useEffect(() => {
     dgw.articleProxyParser.setLanguage(i18n.language)
   }, [dgw, i18n.language])
@@ -74,94 +75,97 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
   }, [])
 
   return (
-    <MapViewContainer
-      Jsdc={Jsdc}
-      headerImgSrc={dui.headerMBImgSrc}
-      mapChildren={<VisitorCount value={visitors} />}
-      menuChildren={
-        <MenuList
-          title={dui.sidebarTitle}
-          subtitle={dui.sidebarSubtitle}
-          headerImg={dui.headerDImgSrc}
-          headerMBImg={dui.headerMBImgSrc}
-          endChildren={
-            <>
-              <AboutWalkMenuItem
-                imgSrc={dui.aboutWalkImgSrc}
-                title={dui.sidebarTitle}
-                subtitle={dui.sidebarSubtitle}
-                content={dui.aboutWalkContent}
-                active={dui.activeMenuId === '路線介紹'}
-                {...dui.menuSwitcherAction('路線介紹')}
-              />
-              <CreditMenuItem
-                active={dui.activeMenuId === '關於圖臺'}
-                {...dui.menuSwitcherAction('關於圖臺')}
-                herf={dui.creditHref}
-                description={dui.credit}
-              />
-              {endMenuChildren}
-            </>
-          }
-        >
-          <>
-            <LayerMenuItem
-              layerInfos={orderedLayerInfos.map((item) => ({
-                id: item.id,
-                type: item.description.type,
-                name: item.description.name,
-                show: item.show,
-              }))}
-              onToggleShow={(id, show) =>
-                (Jsdc.Controller.get('Layer').getById(id).show = show)
-              }
-              onOpacityChange={(id, opacity) =>
-                Jsdc.Controller.get('Layer')
-                  .getById(id)
-                  .setOpacity(Number(1 - opacity / 100))
-              }
-              active={dui.activeMenuId === '地圖圖層'}
-              {...dui.menuSwitcherAction('地圖圖層')}
-            />
-            <SceneMenuItem
-              onTarget={dui.onSceneTargetClick}
-              onNavigate={dui.onSceneNavigate}
-              cardsReducer={dui.sceneCardsReducer}
-              active={dui.activeMenuId === '景點介紹'}
-              {...dui.menuSwitcherAction('景點介紹')}
-            />
-            {dui.weatherConfig.disabled || (
-              <WeatherMenuItem
-                active={dui.activeMenuId === '氣象預測'}
-                {...dui.menuSwitcherAction('氣象預測')}
-                locations={dui.weatherConfig.locations}
-                token={dui.weatherConfig.token!}
-                onSelectLocation={([y, x]) =>
-                  Jsdc.viewer?.flyTo(latLng(y, x), 13)
-                }
-              />
-            )}
-            {
-              <LegendMenuItem
-                active={dui.activeMenuId === '圖例說明'}
-                {...dui.menuSwitcherAction('圖例說明')}
-                activeLegends={dui.legendConfig.activeLegends}
-              />
+    <>
+      <MapViewContainer
+        Jsdc={Jsdc}
+        headerImgSrc={dui.headerMBImgSrc}
+        mapChildren={<VisitorCount value={visitors} />}
+        menuChildren={
+          <MenuList
+            title={dui.sidebarTitle}
+            subtitle={dui.sidebarSubtitle}
+            headerImg={dui.headerDImgSrc}
+            headerMBImg={dui.headerMBImgSrc}
+            endChildren={
+              <>
+                <AboutWalkMenuItem
+                  imgSrc={dui.aboutWalkImgSrc}
+                  title={dui.sidebarTitle}
+                  subtitle={dui.sidebarSubtitle}
+                  content={dui.aboutWalkContent}
+                  active={dui.activeMenuId === '路線介紹'}
+                  {...dui.menuSwitcherAction('路線介紹')}
+                />
+                <CreditMenuItem
+                  active={dui.activeMenuId === '關於圖臺'}
+                  {...dui.menuSwitcherAction('關於圖臺')}
+                  herf={dui.creditHref}
+                  description={dui.credit}
+                />
+                {endMenuChildren}
+              </>
             }
-            {dui.settingConfig.disabled || (
-              <SettingMenuItem
-                active={dui.activeMenuId === '工具設定'}
-                languageSwitcherDisabled={
-                  dui.settingConfig.languageSwitcherDisabled
+          >
+            <>
+              <LayerMenuItem
+                layerInfos={orderedLayerInfos.map((item) => ({
+                  id: item.id,
+                  type: item.description.type,
+                  name: item.description.name,
+                  show: item.show,
+                }))}
+                onToggleShow={(id, show) =>
+                  (Jsdc.Controller.get('Layer').getById(id).show = show)
                 }
-                {...dui.menuSwitcherAction('工具設定')}
+                onOpacityChange={(id, opacity) =>
+                  Jsdc.Controller.get('Layer')
+                    .getById(id)
+                    .setOpacity(Number(1 - opacity / 100))
+                }
+                active={dui.activeMenuId === '地圖圖層'}
+                {...dui.menuSwitcherAction('地圖圖層')}
               />
-            )}
-            {mainMenuChildren}
-          </>
-        </MenuList>
-      }
-    />
+              <SceneMenuItem
+                onTarget={dui.onSceneTargetClick}
+                onNavigate={dui.onSceneNavigate}
+                cardsReducer={dui.sceneCardsReducer}
+                active={dui.activeMenuId === '景點介紹'}
+                {...dui.menuSwitcherAction('景點介紹')}
+              />
+              {dui.weatherConfig.disabled || (
+                <WeatherMenuItem
+                  active={dui.activeMenuId === '氣象預測'}
+                  {...dui.menuSwitcherAction('氣象預測')}
+                  locations={dui.weatherConfig.locations}
+                  token={dui.weatherConfig.token!}
+                  onSelectLocation={([y, x]) =>
+                    Jsdc.viewer?.flyTo(latLng(y, x), 13)
+                  }
+                />
+              )}
+              {
+                <LegendMenuItem
+                  active={dui.activeMenuId === '圖例說明'}
+                  {...dui.menuSwitcherAction('圖例說明')}
+                  activeLegends={dui.legendConfig.activeLegends}
+                />
+              }
+              {dui.settingConfig.disabled || (
+                <SettingMenuItem
+                  active={dui.activeMenuId === '工具設定'}
+                  languageSwitcherDisabled={
+                    dui.settingConfig.languageSwitcherDisabled
+                  }
+                  {...dui.menuSwitcherAction('工具設定')}
+                />
+              )}
+              {mainMenuChildren}
+            </>
+          </MenuList>
+        }
+      />
+      <SceneCheckin />
+    </>
   )
 }
 DguideWalksApp.displayName = 'DguideWalksApp'

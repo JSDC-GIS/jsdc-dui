@@ -1,4 +1,6 @@
 import {
+  Feature,
+  FeatureCollection,
   LineString,
   MultiLineString,
   MultiPolygon,
@@ -23,8 +25,7 @@ export interface LayerApiRespVectorProps {
 }
 
 export interface LayerApiRespVectorType<T = {}>
-  extends LayerApiRespBase,
-    LayerApiRespVectorProps {
+  extends LayerApiRespBase, LayerApiRespVectorProps {
   geometry: T
 }
 
@@ -67,6 +68,145 @@ export interface LayerApiRespItem {
 
 export interface ApiGetLayerResponse {}
 
+// ── 景點（Strapi）API：GET {sceneApiUrl}walks/{eventId} ──────────────────────
+// 欄位維持 Strapi 原樣，不轉回舊的 GIS 屬性名稱。
+
+export interface SceneCategory {
+  code: number
+  slug: string
+  name: string
+  color: string
+  /** 兩位數字串（'01'～'12'），對應 `map_icons/type{N}.svg` 的 N。 */
+  icon: string
+  iconUrl: string
+}
+
+export interface SceneTheme {
+  documentId: string
+  name: string
+}
+
+export interface SceneGalleryItem {
+  url: string
+  thumb: string | null
+  caption: string | null
+}
+
+export interface SceneAudioTrack {
+  url: string
+  author: string | null
+  text: string | null
+}
+
+/** 依語言分軌，沒有該語言時為 null。 */
+export interface SceneAudio {
+  zh: SceneAudioTrack | null
+  en: SceneAudioTrack | null
+  tw: SceneAudioTrack | null
+}
+
+/** 語音配音者／英文內文作者，不是撰稿者（撰稿者是 `contributors`）。 */
+export interface SceneAuthors {
+  zh: string | null
+  en: string | null
+  tw: string | null
+}
+
+export interface SceneSpeech {
+  en: string | null
+  tw: string | null
+}
+
+export interface SceneLink {
+  label: string
+  url: string
+}
+
+export interface SceneProperties {
+  title: string
+  /** 從 title 開頭解析出的編號，例如 '01-1'。 */
+  seq: string
+  category: SceneCategory | null
+  region: string
+  theme: SceneTheme | null
+  /** 原 GIS 點位 UUID，舊的 `?id=` 深連結比對用；Strapi 新增的景點為 null。 */
+  legacyGisId: string | null
+  /** 原 GIS 點名原文，僅供集章 key 相容（`legacyName ?? title`），不用於顯示。 */
+  legacyName: string | null
+  summary: string | null
+  summaryEn: string | null
+  body: string | null
+  coverImage: string | null
+  coverThumb: string | null
+  gallery: SceneGalleryItem[]
+  video: string | null
+  audio: SceneAudio
+  speech: SceneSpeech
+  authors: SceneAuthors
+  contributors: string | null
+  links: SceneLink[]
+  address: string | null
+  price: string | null
+  openingHours: string | null
+  mapZoom: number | null
+  pageUrl: string
+  embedUrl: string
+  updatedAt: string
+}
+
+/** Strapi 原樣的景點 Feature；`id` 是 Strapi documentId，無座標時 `geometry` 為 null。 */
+export interface SceneFeature extends Feature<Point | null, SceneProperties> {
+  id: string
+}
+
+export interface WalkMapLayer {
+  name: string
+  url: string
+  attribution?: string
+  default?: boolean
+}
+
+export interface WalkMapConfig {
+  zoom: number
+  baseLayers: WalkMapLayer[]
+  overlays: WalkMapLayer[]
+}
+
+/** 代碼對應多個主題時才有內容，說明合併後的景點分屬哪些主題。 */
+export interface WalkTheme {
+  documentId: string
+  name: string
+  slug: string | null
+  region: string
+  regionLabel: string
+  pageUrl: string
+  poiCount: number
+}
+
+export interface WalkResponse {
+  code: string
+  slug: string | null
+  /** 代碼對應多個主題時為 null。 */
+  documentId: string | null
+  name: string
+  region: string
+  regionLabel: string
+  intro: string | null
+  coverImage: string | null
+  brochureUrl: string | null
+  pageUrl: string | null
+  viewerUrl: string
+  updatedAt: string | null
+  categories: SceneCategory[]
+  mapConfig: WalkMapConfig
+  bbox: number[]
+  poiCount: number
+  themes?: WalkTheme[]
+  pois: FeatureCollection<Point | null, SceneProperties> & {
+    features: SceneFeature[]
+  }
+}
+
 export interface ApiGetVisitorCountResponse {
   project: string
   counter: number
@@ -74,10 +214,12 @@ export interface ApiGetVisitorCountResponse {
 
 export default class ApiProvider {
   readonly baseUrl: string
+  readonly sceneApiUrl: string
   readonly eventId: string
   readonly cmsPath: string[]
   constructor(configProvider: ConfigProvider) {
     this.baseUrl = configProvider.baseApiUrl
+    this.sceneApiUrl = configProvider.sceneApiUrl
     this.eventId = configProvider.eventId
     this.cmsPath = configProvider.cmsPath || []
   }
@@ -88,6 +230,10 @@ export default class ApiProvider {
 
   get basemapsUrl() {
     return `${this.baseUrl}event/${this.eventId}/basemaps`
+  }
+
+  get walkApiUrl() {
+    return `${this.sceneApiUrl}walks/${this.eventId}`
   }
 
   get counterUrl() {
@@ -111,6 +257,16 @@ export default class ApiProvider {
     const url = this.basemapsUrl
     const resp = await fetch(url)
     return (await resp.json()) as BasemapApiRespItem[]
+  }
+
+  async getWalk() {
+    const url = this.walkApiUrl
+    const resp = await fetch(url)
+    // 找不到代碼時 Strapi 回 404 + error JSON，不能當成 WalkResponse 往下傳
+    if (!resp.ok) {
+      throw new Error(`[scene api]: ${resp.status} ${url}`)
+    }
+    return (await resp.json()) as WalkResponse
   }
 
   get proxyApiUrl() {
