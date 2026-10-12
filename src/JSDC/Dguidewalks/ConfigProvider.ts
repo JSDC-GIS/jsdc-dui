@@ -23,7 +23,7 @@ export default class ConfigProvider {
       'https://map.jsdc.com.tw/webgis/backend/dguidewalks/api/'
     this.sceneApiUrl =
       options.sceneApiUrl ||
-      'https://trfc-test.mapelon.com/dguidedwalks.tw/api/map/'
+      'https://dguidedwalks.mapelon.com/dguidedwalks.tw/api/map/'
     this.eventId = options.eventId
     this.cmsPath = options.cmsPath
     this.gisSceneLayerNames = options.gisSceneLayerNames || [

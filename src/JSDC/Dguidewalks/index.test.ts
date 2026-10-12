@@ -157,7 +157,7 @@ describe('Dguidewalks 景點（Strapi）', () => {
     const fetchMock = mockFetch()
     await createDgw().loadGisData()
     expect(fetchMock).toHaveBeenCalledWith(
-      'https://trfc-test.mapelon.com/dguidedwalks.tw/api/map/walks/n0004',
+      'https://dguidedwalks.mapelon.com/dguidedwalks.tw/api/map/walks/n0004',
     )
 
     const customFetchMock = mockFetch()
