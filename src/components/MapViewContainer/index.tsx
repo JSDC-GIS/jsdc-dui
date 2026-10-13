@@ -1,6 +1,6 @@
 import MapView, { IMapViewProps } from '../MapView'
 import React from 'react'
-import useCssVariable from '../../utils/useCssVariable'
+import useCssVariable, { cssUrl } from '../../utils/useCssVariable'
 import { useTranslation } from 'react-i18next'
 import './index.scss'
 
@@ -19,7 +19,7 @@ const MapViewContainer: React.FC<IMapViewContainerProps> = ({
 }: IMapViewContainerProps) => {
   const { t } = useTranslation()
   const style = useCssVariable({
-    '--header-mb-img': `url(${headerImgSrc})`,
+    '--header-mb-img': cssUrl(headerImgSrc),
   })
 
   const credit = `${t('copyright.text', { year: new Date().getFullYear() })}\n ${t('copyright.maintenance')}<a href="https://somedesign.com.tw" target='_blank'>${t('copyright.design')}</a>.`

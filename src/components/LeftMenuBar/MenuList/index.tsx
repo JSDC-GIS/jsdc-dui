@@ -1,5 +1,5 @@
 import React from 'react'
-import useCssVariable from '../../../utils/useCssVariable'
+import useCssVariable, { cssUrl } from '../../../utils/useCssVariable'
 import './index.scss'
 
 export interface IMenuListProps {
@@ -20,8 +20,8 @@ const MenuList: React.FC<IMenuListProps> = ({
   endChildren,
 }: IMenuListProps) => {
   const style = useCssVariable({
-    '--header-img': `url(${headerImg})`,
-    '--header-mb-img': `url(${headerMBImg})`,
+    '--header-img': cssUrl(headerImg),
+    '--header-mb-img': cssUrl(headerMBImg),
   })
   return (
     <div className="dui-MenuList" style={style}>

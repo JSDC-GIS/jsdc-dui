@@ -24,6 +24,8 @@ import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider'
 // 底圖、線、面的顏色、popup、預設顯示與圖層清單都來自 Strapi 的 `mapConfig`，
 // 路線顏色選單內建（`pathColorConfig`）；景點的 icon、點擊開集章卡片、cluster、集章 key、
 // `?id=` 深連結、列表的定位與導航也由 jsdc-dui 內建，要調整時傳 `sceneConfig`。
+// 主視覺、手機版橫幅、路線介紹的圖、分頁圖示跟著 Strapi 的 `viewerAssets`，圖例說明亮起來的
+// 類別跟著 `categories`；這裡傳的三張圖只是 Strapi 還沒有圖時的 fallback。
 // 需要額外行為（例如點面開景點）時，才監聽 `dgw.dataLoadEvent` 用
 // `Jsdc.Controller.get('Layer').getByName(圖層名稱)` 取圖層。
 
@@ -35,6 +37,8 @@ const EVENT_ID =
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
   sidebarSubtitle: '標題2',
+  // 三張圖都是選填的 fallback：`viewerAssets` 對應欄位有值時用 Strapi 的，沒有值
+  // （含 /walks 回來之前）才用這裡的。Strapi 的圖補齊後，下游可以整個不傳、把圖檔刪掉。
   aboutWalkImgSrc:
     'https://map.jsdc.com.tw/webgis/dguidewalks/s0002/static/img/intro-photo.fd72e6c.png',
   aboutWalkContent:
@@ -57,9 +61,8 @@ const duiConfigProps: IDuiContextProviderProps = {
       { county: '屏東縣', town: '滿州鄉' },
     ],
   },
-  legendConfig: {
-    activeLegends: ['歷史建物', '聚落', '紀念指標'],
-  },
+  // legendConfig 不用傳：圖例說明亮起來的類別跟著 Strapi 的 categories。
+  // 要自訂才傳 `legendConfig: { activeLegends: ['歷史建物', '聚落'] }`，要整個隱藏傳 `{ disabled: true }`。
   themeConfig: {
     '--dui-primary': '#EB9D1D',
     '--dui-accent': '#C95843',
@@ -128,14 +131,18 @@ const AppWrapper = () => {
           {...duiConfigProps}
           // 路線顏色選單預設不顯示，要顯示的專案明確開啟
           pathColorConfig={{ enabled: true }}
-          sceneConfig={{
-            checkinKanbanImgSrc: duiConfigProps.headerMBImgSrc,
-            // 以下都是預設值，列出來只是示範可以調什麼
-            // cluster: true,
-            // validDistance: 100,
-            // targetZoom: 18.5,
-            // onSceneClick: (marker, openDefault) => openDefault(),
-          }}
+          sceneConfig={
+            {
+              // 集章對話框上方的圖預設就是手機版橫幅（viewerAssets.headerMobile ?? headerMBImgSrc）；
+              // 要用另一張圖才傳：
+              // checkinKanbanImgSrc: kanbanImg,
+              // 以下都是預設值，列出來只是示範可以調什麼
+              // cluster: true,
+              // validDistance: 100,
+              // targetZoom: 18.5,
+              // onSceneClick: (marker, openDefault) => openDefault(),
+            }
+          }
           // 列表的定位、導航鈕也能覆寫；參數是景點 feature（id、properties、geometry），不是 title
           // onSceneTargetClick={(feature) => console.log(feature.id, feature.geometry)}
           // onSceneNavigate={(feature) => console.log(feature.properties.title)}

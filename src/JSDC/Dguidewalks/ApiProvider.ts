@@ -144,6 +144,24 @@ export interface WalkMapConfig {
   overlays: WalkMapLayer[]
 }
 
+/**
+ * 圖台的 6 張圖片，值是絕對網址；還沒有那張圖時是 null。
+ * 後端尚未實作前整個欄位不存在，一律當成「沒有」，改用下游專案自己的圖。
+ */
+export interface WalkViewerAssets {
+  /** 桌機版左側選單最上方的主視覺。 */
+  headerDesktop: string | null
+  /** 手機版橫幅；集章對話框上方的圖。 */
+  headerMobile: string | null
+  /** 「路線介紹」對話框裡的圖。 */
+  about: string | null
+  /** 瀏覽器分頁圖示。 */
+  logo: string | null
+  /** iOS 主畫面圖示。 */
+  appleTouchIcon: string | null
+  favicon: string | null
+}
+
 /** 代碼對應多個主題時才有內容，說明合併後的景點分屬哪些主題。 */
 export interface WalkTheme {
   documentId: string
@@ -171,6 +189,7 @@ export interface WalkResponse {
   updatedAt: string | null
   categories: SceneCategory[]
   mapConfig: WalkMapConfig
+  viewerAssets?: WalkViewerAssets | null
   bbox: number[]
   poiCount: number
   themes?: WalkTheme[]

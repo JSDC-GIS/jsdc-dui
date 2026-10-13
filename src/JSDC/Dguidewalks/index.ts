@@ -33,9 +33,21 @@ export type {
   WalkMapLayer,
   WalkResponse,
   WalkTileLayer,
+  WalkViewerAssets,
 } from './ApiProvider'
 export { isWalkGeoJSONLayer, isWalkTileLayer } from './ApiProvider'
 export type { GeoJSONOverlayLayer, PathColorItem } from './mapLayers'
+export {
+  applyViewerHeadIcons,
+  getLegendNamesFromCategories,
+  resolveViewerHeadIcons,
+  resolveViewerImages,
+} from './viewerAssets'
+export type {
+  ViewerHeadIcons,
+  ViewerImageFallbacks,
+  ViewerImages,
+} from './viewerAssets'
 export {
   SCENE_LAYER_NAME,
   DEFAULT_SCENE_VALID_DISTANCE,

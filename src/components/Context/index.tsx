@@ -1,7 +1,7 @@
 import { IWeatherDialogContentProps } from '../LeftMenuBar/Weather/WeatherDialogContent'
-import React, { createContext, useRef, useState } from 'react'
+import React, { createContext, useMemo, useState } from 'react'
 import useSwitch from '../../utils/useSwitch'
-import { ILegendDialogContentProps } from '../LeftMenuBar/Legend/LegendDialogContent'
+import { LegendName } from '../../icon'
 import useTheme, { defaultStyle, StyleType } from './Theme/useTheme'
 import Event from '../../JSDC/utils/Event'
 import { ISceneMenuItemProps } from '../LeftMenuBar/Scene/SceneMenuItem'
@@ -11,6 +11,12 @@ import useSceneController, {
 } from '../../hooks/useSceneController'
 import { SceneMarker } from '../../JSDC/Dguidewalks/scene'
 import { SceneFeature } from '../../JSDC/Dguidewalks/ApiProvider'
+import {
+  getLegendNamesFromCategories,
+  resolveViewerImages,
+} from '../../JSDC/Dguidewalks/viewerAssets'
+import useWalk from '../../hooks/useWalk'
+import useViewerHeadIcons from '../../hooks/useViewerHeadIcons'
 
 export type { SceneConfig, SceneController }
 
@@ -60,7 +66,16 @@ export type WeatherConfig = {
 export type LegendConfig = {
   /** 隱藏整個「圖例說明」選單項目 */
   disabled?: boolean
-  activeLegends: ILegendDialogContentProps['activeLegends']
+  /**
+   * 要亮起來（彩色）的類別名稱。不傳就跟著 Strapi：用 `/walks` 回應的 `categories[].name`，
+   * 也就是這條路線實際用到的類別。有傳就照傳入的清單（給想自訂的專案覆寫）。
+   */
+  activeLegends?: LegendName[]
+}
+
+/** context 裡算好的圖例設定：`activeLegends` 一定是陣列。 */
+export type ResolvedLegendConfig = LegendConfig & {
+  activeLegends: LegendName[]
 }
 
 export type SettingConfig = {
@@ -82,6 +97,10 @@ export type PathColorConfig = {
 export type DuiContextType = {
   sidebarTitle: string
   sidebarSubtitle: string
+  /**
+   * 「路線介紹」的圖、手機版橫幅、桌機版主視覺：已經算好的值——Strapi `viewerAssets`
+   * 對應欄位有值就是它，否則是下游傳的 prop；兩者都沒有時是空字串（不要渲染圖）。
+   */
   aboutWalkImgSrc: string
   aboutWalkContent: string
   credit: string
@@ -96,7 +115,13 @@ export type DuiContextType = {
   }
   menuSwitchEvent: Event<string | undefined>
   weatherConfig: WeatherConfig
-  legendConfig: LegendConfig
+  /** `activeLegends` 是算好的值：下游有傳用下游的，否則是 Strapi 的 `categories`。 */
+  legendConfig: ResolvedLegendConfig
+  /**
+   * 圖例要亮哪些類別是否已經確定。下游沒傳 `activeLegends` 時要等 `/walks` 回來，
+   * 在那之前是 false（圖例先不畫，避免閃一下全灰）。
+   */
+  legendReady: boolean
   settingConfig: SettingConfig
   pathColorConfig: PathColorConfig
   onSceneTargetClick: (feature: SceneFeature) => void
@@ -124,16 +149,26 @@ export interface IDuiContextProviderProps {
   children?: React.ReactNode
   sidebarTitle: string
   sidebarSubtitle: string
-  aboutWalkImgSrc: string
+  /**
+   * 「路線介紹」對話框裡的圖。選填：Strapi 的 `viewerAssets.about` 有值時用 Strapi 的，
+   * 這裡傳的是沒有值時（含 `/walks` 回來之前）的 fallback。
+   */
+  aboutWalkImgSrc?: string
   aboutWalkContent: string
   credit: string
   creditHref?: string
-  headerMBImgSrc: string
-  headerDImgSrc: string
+  /**
+   * 手機版橫幅的 fallback（Strapi：`viewerAssets.headerMobile`）。
+   * `sceneConfig.checkinKanbanImgSrc` 沒傳時，集章對話框上方也用這張算好的橫幅。
+   */
+  headerMBImgSrc?: string
+  /** 桌機版左側選單主視覺的 fallback（Strapi：`viewerAssets.headerDesktop`）。 */
+  headerDImgSrc?: string
   /** 下游自己加的選單項目 id（搭配 `mainMenuChildren` / `endMenuChildren`）；沒有自訂選單就不用傳 */
   menuSwitchItems?: Array<MenuItemType>
   weatherConfig: WeatherConfig
-  legendConfig: LegendConfig
+  /** 不傳就是預設：顯示「圖例說明」，亮起來的類別跟著 Strapi 的 `categories`。 */
+  legendConfig?: LegendConfig
   settingConfig?: SettingConfig
   /** 內建的「路線顏色」選單。不傳就是不顯示；`{ enabled: true }` 開啟。 */
   pathColorConfig?: PathColorConfig
@@ -162,7 +197,7 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   headerDImgSrc,
   children,
   weatherConfig,
-  legendConfig,
+  legendConfig = {},
   settingConfig = {},
   pathColorConfig = {},
   menuSwitchItems = [],
@@ -173,7 +208,36 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   sceneConfig,
 }) => {
   useTheme(themeConfig)
-  const scene = useSceneController(sceneConfig)
+  // 圖片與圖例跟著 Strapi 走，和圖層、景點共用同一次 /walks 請求
+  const { walk, settled } = useWalk()
+  const viewerAssets = walk?.viewerAssets
+  useViewerHeadIcons(viewerAssets)
+  const images = useMemo(
+    () =>
+      resolveViewerImages(viewerAssets, {
+        headerDImgSrc,
+        headerMBImgSrc,
+        aboutWalkImgSrc,
+      }),
+    [viewerAssets, headerDImgSrc, headerMBImgSrc, aboutWalkImgSrc],
+  )
+  const categoryLegends = useMemo(
+    () => getLegendNamesFromCategories(walk?.categories),
+    [walk],
+  )
+  const resolvedLegendConfig = useMemo(
+    () => ({
+      ...legendConfig,
+      activeLegends: legendConfig.activeLegends ?? categoryLegends,
+    }),
+    [legendConfig, categoryLegends],
+  )
+  // 集章對話框上方的圖：下游有明確傳就用下游的（刻意的覆寫），沒傳用算好的手機版橫幅
+  const scene = useSceneController({
+    ...sceneConfig,
+    checkinKanbanImgSrc:
+      sceneConfig?.checkinKanbanImgSrc ?? (images.headerMBImgSrc || undefined),
+  })
   const { switchById, activeId } = useSwitch<MenuItemType>([
     ...defaultMenuItems,
     ...menuSwitchItems,
@@ -197,18 +261,19 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   const value = {
     sidebarTitle,
     sidebarSubtitle,
-    aboutWalkImgSrc,
+    aboutWalkImgSrc: images.aboutWalkImgSrc,
     aboutWalkContent,
     credit,
     creditHref,
-    headerMBImgSrc,
-    headerDImgSrc,
+    headerMBImgSrc: images.headerMBImgSrc,
+    headerDImgSrc: images.headerDImgSrc,
     activeMenuId: activeId,
     menuSwitch,
     menuSwitcherAction,
     menuSwitchEvent,
     weatherConfig,
-    legendConfig,
+    legendConfig: resolvedLegendConfig,
+    legendReady: !!legendConfig.activeLegends || settled,
     settingConfig,
     pathColorConfig,
     onSceneTargetClick: onSceneTargetClick ?? scene.flyToScene,

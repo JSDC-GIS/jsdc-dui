@@ -44,6 +44,8 @@ const setup = (
     layerInfos = [] as object[],
     layerNameOrder = [] as string[],
     legendConfig = { activeLegends: [] } as object,
+    legendReady = true,
+    images = {} as object,
   } = {},
 ) => {
   let isLoaded = loaded
@@ -67,7 +69,9 @@ const setup = (
     }),
     weatherConfig: { disabled: true },
     legendConfig,
+    legendReady,
     settingConfig: {},
+    ...images,
     pathColorConfig,
   }
   const { container } = render(
@@ -99,7 +103,11 @@ const setup = (
     Array.from(
       container.querySelectorAll('.dui-LayerItem-content > span:first-child'),
     ).map((element) => element.textContent)
-  return { titles, rows, finishLoading, layerNames }
+  const legendIcons = () =>
+    Array.from(container.querySelectorAll('.legend-item img')).map((img) =>
+      (img as HTMLImageElement).src.replace(/^.*\/assets\//, ''),
+    )
+  return { container, titles, rows, finishLoading, layerNames, legendIcons }
 }
 
 describe('DguideWalksApp 的「路線顏色」選單', () => {
@@ -185,5 +193,101 @@ describe('DguideWalksApp 的圖層清單', () => {
       { layerInfos, layerNameOrder: ['正射影像', '堡圖'] },
     )
     expect(layerNames()).toEqual(['正射影像', '堡圖', '堡圖', '航照'])
+  })
+})
+
+describe('DguideWalksApp 的圖例內容', () => {
+  const colored = (icons: string[]) =>
+    icons.filter((src) => !src.endsWith('-g.svg'))
+
+  beforeEach(() => {
+    mockLanguage = 'zh-TW'
+  })
+
+  it('固定畫 12 個類別，activeLegends 裡的用彩色版，其餘灰色版', () => {
+    const { legendIcons } = setup(
+      {},
+      { legendConfig: { activeLegends: ['歷史建物', '商店'] } },
+    )
+    expect(legendIcons()).toHaveLength(12)
+    expect(colored(legendIcons())).toEqual([
+      'legends/icon-l-02.svg',
+      'legends/icon-l-12.svg',
+    ])
+  })
+
+  it('語系是 en 時換英文版圖示，亮起來的類別不變（用中文名稱比對）', () => {
+    mockLanguage = 'en'
+    const { legendIcons } = setup(
+      {},
+      { legendConfig: { activeLegends: ['歷史建物', '商店'] } },
+    )
+    expect(colored(legendIcons())).toEqual([
+      'legends/en/icon-l-02.svg',
+      'legends/en/icon-l-12.svg',
+    ])
+  })
+
+  it('圖例沒有的類別名稱被忽略，不會壞', () => {
+    const { legendIcons } = setup(
+      {},
+      { legendConfig: { activeLegends: ['不存在的類別', '聚落'] } },
+    )
+    expect(legendIcons()).toHaveLength(12)
+    expect(colored(legendIcons())).toEqual(['legends/icon-l-03.svg'])
+  })
+
+  it('還不確定要亮哪些類別（legendReady = false）時先不畫圖示，選單項目仍在', () => {
+    const { legendIcons, titles } = setup({}, { legendReady: false })
+    expect(titles()).toContain('menu.legendDescription')
+    expect(legendIcons()).toEqual([])
+  })
+})
+
+describe('DguideWalksApp 的圖片（沒有圖時不渲染破圖）', () => {
+  const headerVars = (container: HTMLElement) => {
+    const style = (container.querySelector('.dui-MenuList') as HTMLElement)
+      .style
+    return [
+      style.getPropertyValue('--header-img'),
+      style.getPropertyValue('--header-mb-img'),
+    ]
+  }
+  const aboutImg = (container: HTMLElement) =>
+    container.querySelector('.dui-AboutWalkDialogContent-img img')
+
+  it('有圖：主視覺是背景圖、路線介紹有 <img>', () => {
+    const { container } = setup(
+      {},
+      {
+        images: {
+          headerDImgSrc: 'https://strapi.test/d.png',
+          headerMBImgSrc: 'https://strapi.test/m.jpg',
+          aboutWalkImgSrc: 'https://strapi.test/a.png',
+        },
+      },
+    )
+    expect(headerVars(container)).toEqual([
+      'url("https://strapi.test/d.png")',
+      'url("https://strapi.test/m.jpg")',
+    ])
+    expect(aboutImg(container)?.getAttribute('src')).toBe(
+      'https://strapi.test/a.png',
+    )
+  })
+
+  it('沒有圖（空字串）：背景是 none、不渲染 <img>，不會出現 url(undefined)', () => {
+    const { container } = setup(
+      {},
+      {
+        images: { headerDImgSrc: '', headerMBImgSrc: '', aboutWalkImgSrc: '' },
+      },
+    )
+    expect(headerVars(container)).toEqual(['none', 'none'])
+    expect(aboutImg(container)).toBeNull()
+    expect(
+      container.querySelector('.dui-AboutWalkDialogContent'),
+    ).not.toBeNull()
+    expect(container.innerHTML).not.toContain('undefined')
   })
 })

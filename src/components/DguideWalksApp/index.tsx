@@ -149,7 +149,10 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                 <LegendMenuItem
                   active={dui.activeMenuId === '圖例說明'}
                   {...dui.menuSwitcherAction('圖例說明')}
-                  activeLegends={dui.legendConfig.activeLegends}
+                  // 還不確定要亮哪些類別時先不畫（undefined），避免閃一下全灰
+                  activeLegends={
+                    dui.legendReady ? dui.legendConfig.activeLegends : undefined
+                  }
                 />
               )}
               {dui.settingConfig.disabled || (
