@@ -45,7 +45,7 @@ const setup = (hasGps = true, config: SceneConfig = {}) => {
   const findSceneByTitle = jest.fn()
   const dgw = {
     eventId: 'n0004',
-    gisDataLoadEvent: new Event(),
+    dataLoadEvent: new Event(),
     sceneLayer: undefined,
     findSceneById: (id: string) => findSceneById(markers, id),
     findSceneByTitle,
@@ -174,7 +174,7 @@ describe('useSceneController 的集章卡片內文', () => {
     }))
     const dgw = {
       eventId: 'n0004',
-      gisDataLoadEvent: new Event(),
+      dataLoadEvent: new Event(),
       sceneLayer: undefined,
       findSceneById: (id: string) => findSceneById(markers, id),
       getSceneDetailArticle,

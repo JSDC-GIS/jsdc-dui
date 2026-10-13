@@ -4,8 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { JSDCContext, JSDCProvider } from './JSDC/Context'
 import JSDC from './JSDC'
 import './i18n/config'
-import { LayerApiRespVectorProps } from './JSDC/Dguidewalks/ApiProvider'
-import { GeoJSON, latLng, latLngBounds } from 'leaflet'
+import { latLng, latLngBounds } from 'leaflet'
 import {
   IDuiContextProviderProps,
   DuiContext,
@@ -21,11 +20,17 @@ import {
 import Checkin from './components/Icons/Checkin'
 import ConfigProvider from './JSDC/Dguidewalks/ConfigProvider'
 
-// 這個 demo 同時是「下游 App.tsx 遷移後應該長什麼樣」的範本：
-// 只有設定與線圖層樣式。景點的 icon、點擊開集章卡片、cluster、集章 key、
-// `?id=` 深連結、列表的定位與導航都由 jsdc-dui 內建，要調整時傳 `sceneConfig`。
+// 這個 demo 同時是「下游 App.tsx 遷移後應該長什麼樣」的範本：只剩設定。
+// 底圖、線、面的顏色、popup、預設顯示與圖層清單都來自 Strapi 的 `mapConfig`，
+// 路線顏色選單內建（`pathColorConfig`）；景點的 icon、點擊開集章卡片、cluster、集章 key、
+// `?id=` 深連結、列表的定位與導航也由 jsdc-dui 內建，要調整時傳 `sceneConfig`。
+// 需要額外行為（例如點面開景點）時，才監聽 `dgw.dataLoadEvent` 用
+// `Jsdc.Controller.get('Layer').getByName(圖層名稱)` 取圖層。
 
-const EVENT_ID = 'n0004'
+const DEFAULT_EVENT_ID = 'n0004'
+// demo 專用：`?eventId=n0028` 切換專案，方便用不同資料驗證。下游專案的代碼是寫死的。
+const EVENT_ID =
+  new URLSearchParams(window.location.search).get('eventId') || DEFAULT_EVENT_ID
 
 const duiConfigProps: IDuiContextProviderProps = {
   sidebarTitle: '標題1',
@@ -64,34 +69,21 @@ const duiConfigProps: IDuiContextProviderProps = {
   },
 }
 
-const getRouteColorByType = (type: string) => {
-  switch (type) {
-    case '1':
-      return '#4aca69'
-    case '2':
-      return '#4aca69'
-    default:
-      return 'blue'
-  }
-}
-
 function App() {
   const { Jsdc } = useContext(JSDCContext)
   const dui = useContext(DuiContext)
   const { dgw } = useContext(DguidewalksContext)
 
-  const init = () => {
-    Jsdc.Controller.get('Layer')
-      .getByName<GeoJSON>(`${EVENT_ID}-line`)
-      ?.forEachLayerAsGeoJSON<any, LayerApiRespVectorProps>(
-        (layer, properties) =>
-          layer.setStyle({ color: getRouteColorByType(properties.type) }),
-      )
-  }
-
   useEffect(() => {
     ;(window as any).JSDC = Jsdc
-    return dgw.gisDataLoadEvent.addEventListener(init)
+    // demo 專用：切到別的專案時沒有寫死的範圍，資料載完後移到 walk 回應的 bbox
+    return dgw.dataLoadEvent.addEventListener(() => {
+      if (EVENT_ID === DEFAULT_EVENT_ID || !dgw.walk) return
+      const [west, south, east, north] = dgw.walk.bbox
+      const bound = latLngBounds(latLng(south, west), latLng(north, east))
+      Jsdc.mapOption.bound = bound
+      Jsdc.viewer?.fitBounds(bound)
+    })
   }, [])
 
   return (
@@ -122,23 +114,20 @@ const AppWrapper = () => {
   const [Jsdc] = useState(
     new JSDC(EVENT_ID, {
       // n0004 walk 回應的 bbox
-      bound: latLngBounds(latLng(24.8426, 121.2727), latLng(24.8863, 121.2868)),
+      bound:
+        EVENT_ID === DEFAULT_EVENT_ID
+          ? latLngBounds(latLng(24.8426, 121.2727), latLng(24.8863, 121.2868))
+          : undefined,
       maxZoom: 19,
     }),
   )
   return (
     <JSDCProvider Jsdc={Jsdc}>
-      <DguidewalksProvider
-        Jsdc={Jsdc}
-        layersHiddenFromUI={[`${EVENT_ID}-line`]}
-        layersShowOnMapByDefault={[
-          '臺灣通用電子地圖(灰階)',
-          `${EVENT_ID}-line`,
-        ]}
-        config={config}
-      >
+      <DguidewalksProvider Jsdc={Jsdc} config={config}>
         <DuiContextProvider
           {...duiConfigProps}
+          // 路線顏色選單預設不顯示，要顯示的專案明確開啟
+          pathColorConfig={{ enabled: true }}
           sceneConfig={{
             checkinKanbanImgSrc: duiConfigProps.headerMBImgSrc,
             // 以下都是預設值，列出來只是示範可以調什麼

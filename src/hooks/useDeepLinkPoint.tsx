@@ -57,7 +57,7 @@ const useDeepLinkPoint = ({
       handler()
       return
     }
-    return dgw.gisDataLoadEvent.addEventListener(handler)
+    return dgw.dataLoadEvent.addEventListener(handler)
   }, [])
 }
 

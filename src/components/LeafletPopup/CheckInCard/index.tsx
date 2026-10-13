@@ -80,7 +80,11 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   return (
     <div className="dui-CheckInPopup" ref={innerRef}>
       <div className="dui-CheckInPopup-Kanban">
-        <img src={imgSrc} />
+        {imgSrc ? (
+          <img src={imgSrc} />
+        ) : (
+          <img className="no-image" src={icon.others.noImage} />
+        )}
         <div className="dui-CheckInPopup-action">
           {latLng ? (
             isCheckinValid ? (

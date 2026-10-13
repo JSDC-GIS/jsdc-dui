@@ -145,7 +145,7 @@ const useSceneController = (config: SceneConfig = {}) => {
     }
     // 景點圖層可能已經載完（事件早就發過）
     dgw.sceneLayer && bind()
-    const removeListener = dgw.gisDataLoadEvent.addEventListener(bind)
+    const removeListener = dgw.dataLoadEvent.addEventListener(bind)
     return () => {
       removeListener()
       unbind()

@@ -48,6 +48,16 @@
   .leaflet-right {
     right: 8px;
   }
+  /*
+   * 右下角 attribution（圖磚的版權文字）：最右邊是瀏覽人次（.dui-VisitorCount，
+   * 約 160px 寬），所以排在它左邊；容器撐滿地圖寬度，文字太長時往上換行。
+   */
+  .leaflet-bottom.leaflet-right {
+    left: 8px;
+  }
+  .leaflet-right .leaflet-control-attribution {
+    margin-right: 172px;
+  }
 }
 
 @mixin mobile {

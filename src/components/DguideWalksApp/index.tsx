@@ -11,10 +11,12 @@ import { latLng } from 'leaflet'
 import SceneMenuItem from '../LeftMenuBar/Scene/SceneMenuItem'
 import AboutWalkMenuItem from '../LeftMenuBar/AboutWalk/AboutWalkMenuItem'
 import SettingMenuItem from '../LeftMenuBar/Setting/SettingMenuItem'
+import PathColorMenuItem from '../LeftMenuBar/PathColor/PathColorMenuItem'
+import usePathColors from '../../hooks/usePathColors'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
 import VisitorCount from '../VisitorCount'
 import SceneCheckin from '../SceneCheckin'
-import { mapKeys, omit, pick } from 'lodash'
+import { sortByLayerNameOrder } from '../../JSDC/Dguidewalks/mapLayers'
 import { useTranslation } from 'react-i18next'
 
 export interface IDguideWalksAppProps {
@@ -38,13 +40,12 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
   const dui = useContext(DuiContext)
   const { Jsdc, layerInfos } = useContext(JSDCContext)
   const [visitors, setVisitors] = useState(0)
+  const pathColors = usePathColors()
 
-  const orderedLayerInfos = useMemo(() => {
-    const layerInfoMap = mapKeys(layerInfos, (info) => info.description.name)
-    const matchedInfos = Object.values(pick(layerInfoMap, layerNameOrder))
-    const restInfos = Object.values(omit(layerInfoMap, layerNameOrder))
-    return [...matchedInfos, ...restInfos]
-  }, [layerInfos, layerNameOrder])
+  const orderedLayerInfos = useMemo(
+    () => sortByLayerNameOrder(layerInfos, layerNameOrder),
+    [layerInfos, layerNameOrder],
+  )
 
   useEffect(() => {
     if (!defaultLanguage || typeof window === 'undefined') return
@@ -112,6 +113,7 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                   id: item.id,
                   type: item.description.type,
                   name: item.description.name,
+                  nameEn: item.description.nameEn,
                   show: item.show,
                 }))}
                 onToggleShow={(id, show) =>
@@ -143,13 +145,13 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                   }
                 />
               )}
-              {
+              {dui.legendConfig.disabled || (
                 <LegendMenuItem
                   active={dui.activeMenuId === '圖例說明'}
                   {...dui.menuSwitcherAction('圖例說明')}
                   activeLegends={dui.legendConfig.activeLegends}
                 />
-              }
+              )}
               {dui.settingConfig.disabled || (
                 <SettingMenuItem
                   active={dui.activeMenuId === '工具設定'}
@@ -157,6 +159,14 @@ const DguideWalksApp: React.FC<IDguideWalksAppProps> = ({
                     dui.settingConfig.languageSwitcherDisabled
                   }
                   {...dui.menuSwitcherAction('工具設定')}
+                />
+              )}
+              {/* 預設不顯示；開啟了但沒有可列的線段時也不渲染 */}
+              {dui.pathColorConfig.enabled && pathColors.length > 0 && (
+                <PathColorMenuItem
+                  items={pathColors}
+                  active={dui.activeMenuId === '路線顏色'}
+                  {...dui.menuSwitcherAction('路線顏色')}
                 />
               )}
               {mainMenuChildren}

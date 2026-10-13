@@ -64,7 +64,7 @@ class StrapiArticleParser implements IArticleProxyParser {
       feature,
       title,
       content: text.length > limit ? text.substring(0, limit) + '......' : text,
-      // 列表用小圖；沒有圖時給空字串，<img src=""> 不會發出請求
+      // 列表用小圖；沒有圖時給空字串，元件會改顯示預設圖（icon.others.noImage）
       imgSrc: coverThumb ?? coverImage ?? '',
       link: pageUrl,
     }

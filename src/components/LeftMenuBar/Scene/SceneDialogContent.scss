@@ -36,6 +36,13 @@
       object-fit: cover;
       border-radius: 6px;
     }
+    // 沒有圖片的景點：預設圖是小圖示，照原尺寸置中，不要拉大。
+    // 42 個下游專案在自己的 index.scss 用更高的權重把這裡的 img 設成
+    // object-fit: cover，所以要用 !important 才不會被蓋掉。
+    img.no-image {
+      object-fit: none !important;
+      background-color: #f0f0f0;
+    }
     .geonavigator {
       position: absolute;
       bottom: 0px;

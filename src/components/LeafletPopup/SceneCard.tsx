@@ -20,7 +20,11 @@ const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
   return (
     <div className="dui-SceneCard">
       <div className="dui-SceneCard-Kanban">
-        <img src={imgSrc} />
+        {imgSrc ? (
+          <img src={imgSrc} />
+        ) : (
+          <img className="no-image" src={icon.others.noImage} />
+        )}
       </div>
       <div className="dui-SceneCard-artical">
         <div className="header">

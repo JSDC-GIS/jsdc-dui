@@ -1,74 +1,9 @@
-import {
-  Feature,
-  FeatureCollection,
-  LineString,
-  MultiLineString,
-  MultiPolygon,
-  Point,
-  Polygon,
-} from 'geojson'
+import { Feature, FeatureCollection, GeoJsonObject, Point } from 'geojson'
+import type { PathOptions } from 'leaflet'
 import ConfigProvider from './ConfigProvider'
 
-interface LayerApiRespBase {
-  updatedAt: string
-  createdAt: string
-  options: null | {}
-  id: string
-  layerId: string
-}
-
-export interface LayerApiRespVectorProps {
-  name: string
-  type: string
-  url: null | string
-  [k: string]: any
-}
-
-export interface LayerApiRespVectorType<T = {}>
-  extends LayerApiRespBase, LayerApiRespVectorProps {
-  geometry: T
-}
-
-export type LayerApiRespLineFeature = LayerApiRespVectorType<
-  LineString | MultiLineString
->
-
-export type LayerApiRespPointFeature = LayerApiRespVectorType<Point>
-
-export type LayerApiRespPolygonFeature = LayerApiRespVectorType<
-  Polygon | MultiPolygon
->
-
-export interface LayerApiRespBasemap extends LayerApiRespBase {
-  url: 'https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}'
-}
-
-export interface BasemapApiRespItem {
-  createdAt: string
-  id: number
-  name: string
-  options: null | {}
-  type: 'xyz' | string
-  updatedAt: string
-  url: string
-}
-export interface LayerApiRespItem {
-  Basemap: null | LayerApiRespBasemap
-  LineFeatures: LayerApiRespLineFeature[]
-  PointFeatures: LayerApiRespPointFeature[]
-  PolygonFeatures: LayerApiRespPolygonFeature[]
-  createdAt: string
-  eventId: string
-  id: string
-  name: string
-  options: null | {}
-  type: 'line' | 'point' | 'polygon' | 'image'
-  updatedAt: string
-}
-
-export interface ApiGetLayerResponse {}
-
-// ── 景點（Strapi）API：GET {sceneApiUrl}walks/{eventId} ──────────────────────
+// ── Strapi API：GET {sceneApiUrl}walks/{eventId} ─────────────────────────────
+// 景點（`pois`）與圖層（`mapConfig`）都在同一支回應裡。
 // 欄位維持 Strapi 原樣，不轉回舊的 GIS 屬性名稱。
 
 export interface SceneCategory {
@@ -159,16 +94,53 @@ export interface SceneFeature extends Feature<Point | null, SceneProperties> {
   id: string
 }
 
-export interface WalkMapLayer {
+/** 圖磚（底圖、疊圖）。`name` 是圖層的 key，也是圖層清單顯示的名稱。 */
+export interface WalkTileLayer {
   name: string
   url: string
   attribution?: string
+  /** 只在 `baseLayers` 有意義：一進地圖就顯示的底圖。 */
   default?: boolean
+  /** 語系是 en 時圖層清單顯示的名稱。 */
+  nameEn?: string
 }
+
+/** 依 feature 屬性逐筆覆寫樣式：`String(properties[prop])` 與 `styles` 的 key 全等時套用。 */
+export interface WalkGeoJSONStyleBy {
+  prop: string
+  styles: Record<string, PathOptions>
+}
+
+/** 線、面：`mapConfig.overlays` 裡 `type: 'geojson'` 的疊圖。 */
+export interface WalkGeoJSONLayer {
+  name: string
+  type: 'geojson'
+  /** GeoJSON 檔的網址。相對路徑以 `sceneApiUrl` 的 origin 補齊。 */
+  url: string
+  /** 整個圖層的樣式（Leaflet Path options）。 */
+  style?: PathOptions
+  styleBy?: WalkGeoJSONStyleBy
+  /** 點擊圖形時顯示的屬性名稱，照原文取（m0009 是大寫的 `NAME`）。 */
+  popupProp?: string
+  /** 預設是否顯示在地圖上。未提供時視為 false。 */
+  visible?: boolean
+  /** 是否列在圖層清單。未提供時視為 true。 */
+  listed?: boolean
+}
+
+export type WalkMapLayer = WalkTileLayer | WalkGeoJSONLayer
+
+export const isWalkGeoJSONLayer = (
+  layer: WalkMapLayer,
+): layer is WalkGeoJSONLayer => (layer as WalkGeoJSONLayer).type === 'geojson'
+
+export const isWalkTileLayer = (layer: WalkMapLayer): layer is WalkTileLayer =>
+  !isWalkGeoJSONLayer(layer)
 
 export interface WalkMapConfig {
   zoom: number
-  baseLayers: WalkMapLayer[]
+  baseLayers: WalkTileLayer[]
+  /** 圖磚與 `geojson` 疊圖混在同一個陣列，用 `isWalkGeoJSONLayer` 區分。 */
   overlays: WalkMapLayer[]
 }
 
@@ -213,23 +185,13 @@ export interface ApiGetVisitorCountResponse {
 }
 
 export default class ApiProvider {
-  readonly baseUrl: string
   readonly sceneApiUrl: string
   readonly eventId: string
   readonly cmsPath: string[]
   constructor(configProvider: ConfigProvider) {
-    this.baseUrl = configProvider.baseApiUrl
     this.sceneApiUrl = configProvider.sceneApiUrl
     this.eventId = configProvider.eventId
     this.cmsPath = configProvider.cmsPath || []
-  }
-
-  get layersApiUrl() {
-    return `${this.baseUrl}event/${this.eventId}/layers`
-  }
-
-  get basemapsUrl() {
-    return `${this.baseUrl}event/${this.eventId}/basemaps`
   }
 
   get walkApiUrl() {
@@ -247,35 +209,33 @@ export default class ApiProvider {
     return (await resp.json()) as ApiGetVisitorCountResponse
   }
 
-  async getLayers() {
-    const url = this.layersApiUrl
-    const resp = await fetch(url)
-    return (await resp.json()) as LayerApiRespItem[]
-  }
-
-  async getBasemaps() {
-    const url = this.basemapsUrl
-    const resp = await fetch(url)
-    return (await resp.json()) as BasemapApiRespItem[]
-  }
-
   async getWalk() {
     const url = this.walkApiUrl
     const resp = await fetch(url)
     // 找不到代碼時 Strapi 回 404 + error JSON，不能當成 WalkResponse 往下傳
     if (!resp.ok) {
-      throw new Error(`[scene api]: ${resp.status} ${url}`)
+      throw new Error(`[walk api]: ${resp.status} ${url}`)
     }
     return (await resp.json()) as WalkResponse
   }
 
-  get proxyApiUrl() {
-    return `${this.baseUrl}jsdc-proxy/`
+  /**
+   * `mapConfig` 裡的 GeoJSON 檔網址是相對路徑（`/dguidedwalks.tw/map-data/...`），
+   * 以 `sceneApiUrl` 的 origin 補齊；絕對網址原樣使用。
+   * `sceneApiUrl` 本身是相對路徑（例如 `/api/map/`）時，先對目前頁面的網址解析。
+   */
+  resolveMapDataUrl(url: string) {
+    const pageUrl =
+      typeof window !== 'undefined' ? window.location.href : undefined
+    return new URL(url, new URL(this.sceneApiUrl, pageUrl)).href
   }
 
-  getProxyQuery = async (targetUrl: string) => {
-    const url = this.proxyApiUrl
-    const resp = await fetch(`${url}?proxy=${targetUrl}`)
-    return (await resp.text()) as string
+  async getGeoJSON(url: string) {
+    const resolved = this.resolveMapDataUrl(url)
+    const resp = await fetch(resolved)
+    if (!resp.ok) {
+      throw new Error(`[map data]: ${resp.status} ${resolved}`)
+    }
+    return (await resp.json()) as GeoJsonObject
   }
 }

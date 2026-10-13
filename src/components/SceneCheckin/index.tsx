@@ -21,7 +21,7 @@ const SceneCluster: React.FC = () => {
       add()
       return
     }
-    return dgw.gisDataLoadEvent.addEventListener(add)
+    return dgw.dataLoadEvent.addEventListener(add)
   }, [])
   return null
 }

@@ -11,6 +11,7 @@ export const menuItemKeys = {
   '景點介紹': 'menu.sceneIntro',
   '氣象預測': 'menu.weatherForecast',
   '圖例說明': 'menu.legendDescription',
+  '路線顏色': 'menu.pathColor',
   '路線介紹': 'menu.routeIntro',
   '關於圖臺': 'menu.aboutPlatform',
 } as const;

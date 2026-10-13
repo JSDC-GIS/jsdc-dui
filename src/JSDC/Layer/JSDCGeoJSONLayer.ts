@@ -1,4 +1,4 @@
-import { GeoJSON } from 'leaflet'
+import { GeoJSON, GeoJSONOptions } from 'leaflet'
 import JSDCLayer, { JSDCLayerConstructorOptions } from './JSDCLayer'
 import {
   FeatureCollection,
@@ -11,9 +11,12 @@ import {
 } from 'geojson'
 
 class JSDCGeoJSONLayer extends JSDCLayer<GeoJSON> {
-  constructor(options: JSDCLayerConstructorOptions) {
+  constructor(
+    options: JSDCLayerConstructorOptions,
+    geoJSONOptions?: GeoJSONOptions,
+  ) {
     super(options)
-    this.instance = new GeoJSON()
+    this.instance = new GeoJSON(undefined, geoJSONOptions)
   }
 
   addFeature(feature: GeoJsonObject) {

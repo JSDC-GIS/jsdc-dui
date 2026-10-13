@@ -32,9 +32,9 @@ const setup = (search: string, options: Partial<UseDeepLinkPointOptions>) => {
       scene('doc-2', null, [121.29, 24.89]),
     ]),
   )
-  const gisDataLoadEvent = new Event()
+  const dataLoadEvent = new Event()
   const dgw = {
-    gisDataLoadEvent,
+    dataLoadEvent,
     sceneLayer: undefined,
     findSceneById: (id: string) => findSceneById(markers, id),
   }
@@ -56,7 +56,7 @@ const setup = (search: string, options: Partial<UseDeepLinkPointOptions>) => {
       </DguidewalksContext.Provider>
     </JSDCContext.Provider>,
   )
-  return { gisDataLoadEvent, map, onResolve }
+  return { dataLoadEvent, map, onResolve }
 }
 
 describe('useDeepLinkPoint', () => {
@@ -71,8 +71,8 @@ describe('useDeepLinkPoint', () => {
   })
 
   it('?id= 是 Strapi documentId', async () => {
-    const { gisDataLoadEvent, map, onResolve } = setup('?id=doc-2', {})
-    gisDataLoadEvent.raise()
+    const { dataLoadEvent, map, onResolve } = setup('?id=doc-2', {})
+    dataLoadEvent.raise()
     await waitFor(() => expect(onResolve).toHaveBeenCalledTimes(1))
     expect(onResolve.mock.calls[0][0].feature.id).toBe('doc-2')
     const [latLng, zoom, flyOptions] = map.flyTo.mock.calls[0]
@@ -82,26 +82,26 @@ describe('useDeepLinkPoint', () => {
   })
 
   it('?id= 是舊的 GIS UUID（legacyGisId），舊連結繼續有效', async () => {
-    const { gisDataLoadEvent, onResolve } = setup('?id=gis-uuid-1', {})
-    gisDataLoadEvent.raise()
+    const { dataLoadEvent, onResolve } = setup('?id=gis-uuid-1', {})
+    dataLoadEvent.raise()
     await waitFor(() => expect(onResolve).toHaveBeenCalledTimes(1))
     expect(onResolve.mock.calls[0][0].feature.id).toBe('doc-1')
   })
 
   it('paramKey、flyToZoom 可以調整', async () => {
-    const { gisDataLoadEvent, map, onResolve } = setup('?poi=doc-1', {
+    const { dataLoadEvent, map, onResolve } = setup('?poi=doc-1', {
       paramKey: 'poi',
       flyToZoom: 19,
     })
-    gisDataLoadEvent.raise()
+    dataLoadEvent.raise()
     await waitFor(() => expect(onResolve).toHaveBeenCalledTimes(1))
     expect(map.flyTo.mock.calls[0][1]).toBe(19)
   })
 
   it('資料載入前不處理；找不到 id 只警告', async () => {
-    const { gisDataLoadEvent, map, onResolve } = setup('?id=nope', {})
+    const { dataLoadEvent, map, onResolve } = setup('?id=nope', {})
     expect(map.flyTo).not.toHaveBeenCalled()
-    gisDataLoadEvent.raise()
+    dataLoadEvent.raise()
     await waitFor(() => expect(warnSpy).toHaveBeenCalledTimes(1))
     expect(map.flyTo).not.toHaveBeenCalled()
     expect(onResolve).not.toHaveBeenCalled()
@@ -109,9 +109,9 @@ describe('useDeepLinkPoint', () => {
 
   it('沒有 ?id= 或 enabled 為 false 時不動作', async () => {
     const plain = setup('', {})
-    plain.gisDataLoadEvent.raise()
+    plain.dataLoadEvent.raise()
     const disabled = setup('?id=doc-1', { enabled: false })
-    disabled.gisDataLoadEvent.raise()
+    disabled.dataLoadEvent.raise()
     await Promise.resolve()
     expect(plain.map.flyTo).not.toHaveBeenCalled()
     expect(disabled.map.flyTo).not.toHaveBeenCalled()

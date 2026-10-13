@@ -7,7 +7,8 @@ import {
 import { normalizeTitle } from '../../utils/normalizeTitle'
 
 export type AbsctractArticleProxyParserContructor = {
-  proxyFetcher: (url: string) => Promise<string>
+  /** @deprecated 沒有任何地方會呼叫（proxy 已隨 GIS 後端移除），不需要再傳。 */
+  proxyFetcher?: (url: string) => Promise<string>
   cmsPath: string[]
   apiUrls?: string[]
 }
@@ -77,6 +78,7 @@ export class ArticleCache {
 
 /** @deprecated 舊的 Drupal 來源，見 `ArticleProxyParser`。 */
 abstract class AbsctractArticleProxyParser {
+  /** @deprecated 見 `AbsctractArticleProxyParserContructor.proxyFetcher`。 */
   proxyFetcher: AbsctractArticleProxyParserContructor['proxyFetcher']
   cmsPath: AbsctractArticleProxyParserContructor['cmsPath']
   apiUrls: string[]

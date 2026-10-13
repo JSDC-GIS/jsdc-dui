@@ -38,6 +38,10 @@ export const defaultMenuItems = [
     name: '工具設定',
   },
   {
+    id: '路線顏色',
+    name: '路線顏色',
+  },
+  {
     id: '路線介紹',
     name: '路線介紹',
   },
@@ -54,6 +58,7 @@ export type WeatherConfig = {
 }
 
 export type LegendConfig = {
+  /** 隱藏整個「圖例說明」選單項目 */
   disabled?: boolean
   activeLegends: ILegendDialogContentProps['activeLegends']
 }
@@ -63,6 +68,15 @@ export type SettingConfig = {
   disabled?: boolean
   /** 保留「工具設定」，但隱藏其中的語言切換器 */
   languageSwitcherDisabled?: boolean
+}
+
+export type PathColorConfig = {
+  /**
+   * 顯示「路線顏色」選單項目。預設不顯示，要顯示的專案明確設成 `true`
+   * （方向和 `settingConfig.disabled` 相反）。
+   * 內容由 `mapConfig` 已載入的線圖層自動產生；沒有任何可列的線段時，開啟了也不會出現。
+   */
+  enabled?: boolean
 }
 
 export type DuiContextType = {
@@ -84,6 +98,7 @@ export type DuiContextType = {
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   settingConfig: SettingConfig
+  pathColorConfig: PathColorConfig
   onSceneTargetClick: (feature: SceneFeature) => void
   onSceneNavigate: (feature: SceneFeature) => void
   sceneCardsReducer: ISceneMenuItemProps['cardsReducer']
@@ -115,10 +130,13 @@ export interface IDuiContextProviderProps {
   creditHref?: string
   headerMBImgSrc: string
   headerDImgSrc: string
-  menuSwitchItems: Array<MenuItemType>
+  /** 下游自己加的選單項目 id（搭配 `mainMenuChildren` / `endMenuChildren`）；沒有自訂選單就不用傳 */
+  menuSwitchItems?: Array<MenuItemType>
   weatherConfig: WeatherConfig
   legendConfig: LegendConfig
   settingConfig?: SettingConfig
+  /** 內建的「路線顏色」選單。不傳就是不顯示；`{ enabled: true }` 開啟。 */
+  pathColorConfig?: PathColorConfig
   themeConfig?: StyleType
   /**
    * 景點列表的定位鈕。預設飛到該景點（縮放層級見 `sceneConfig.targetZoom`）。
@@ -146,7 +164,8 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   weatherConfig,
   legendConfig,
   settingConfig = {},
-  menuSwitchItems,
+  pathColorConfig = {},
+  menuSwitchItems = [],
   themeConfig = defaultStyle,
   onSceneTargetClick,
   onSceneNavigate,
@@ -191,6 +210,7 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
     weatherConfig,
     legendConfig,
     settingConfig,
+    pathColorConfig,
     onSceneTargetClick: onSceneTargetClick ?? scene.flyToScene,
     sceneCardsReducer,
     onSceneNavigate: onSceneNavigate ?? scene.navigateToScene,

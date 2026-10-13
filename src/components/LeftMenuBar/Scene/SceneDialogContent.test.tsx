@@ -7,6 +7,7 @@ import {
 } from '../../../JSDC/Dguidewalks/ApiProvider'
 import { SummaryArticleType } from '../../../JSDC/Dguidewalks/proxyParser/@types'
 import SceneDialogContent from './SceneDialogContent'
+import icon from '../../../icon'
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ i18n: { language: 'zh-TW' } }),
@@ -26,13 +27,14 @@ const scene = (
 const article = (
   title: string,
   feature?: SceneFeature,
+  { imgSrc = '', link = '' } = {},
 ): SummaryArticleType => ({
   id: feature?.id,
   feature,
   title,
   content: '',
-  imgSrc: '',
-  link: '',
+  imgSrc,
+  link,
 })
 
 const street = scene('doc-street', '01老街', [121.28, 24.88])
@@ -92,5 +94,37 @@ describe('SceneDialogContent', () => {
     const { rows } = await setup([article('舊文章')])
     expect(rows[0].querySelector('.header-action')).toBeNull()
     expect(rows[0].querySelector('.geonavigator')).toBeNull()
+  })
+
+  it('沒有圖片的景點顯示預設圖，有圖片的照常顯示', async () => {
+    const { rows } = await setup([
+      article('01老街', street, { imgSrc: 'https://media.test/small_01.jpg' }),
+      article('01老街入口', entrance),
+    ])
+    const images = rows.map(
+      (row) => row.querySelector('img') as HTMLImageElement,
+    )
+    expect(images[0].getAttribute('src')).toBe(
+      'https://media.test/small_01.jpg',
+    )
+    expect(images[0].className).toBe('')
+    expect(images[1].getAttribute('src')).toBe(icon.others.noImage)
+    expect(images[1].className).toBe('no-image')
+    expect(icon.others.noImage).toMatch(/^data:image\/png;base64,iVBOR/)
+  })
+
+  it('沒有 pageUrl 的景點不顯示「more」', async () => {
+    const { rows } = await setup([
+      article('01老街', street, { link: 'https://page.test/01老街/' }),
+      article('01老街入口', entrance),
+      article('02沒有座標', noGeometry, { link: null as unknown as string }),
+    ])
+    expect(rows[0].querySelector('a.more')?.getAttribute('href')).toBe(
+      'https://page.test/01老街/',
+    )
+    expect(rows[1].querySelector('a.more')).toBeNull()
+    expect(rows[2].querySelector('a.more')).toBeNull()
+    // 頁數仍然照常顯示
+    expect(rows[1].querySelector('.count')?.textContent).toBe('02/3')
   })
 })

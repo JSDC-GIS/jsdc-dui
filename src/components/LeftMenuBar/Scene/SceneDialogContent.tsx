@@ -6,6 +6,7 @@ import { Article } from '../../../JSDC/Dguidewalks/proxyParser/@types'
 import { SceneFeature } from '../../../JSDC/Dguidewalks/ApiProvider'
 import Target from '../../Icons/Target'
 import NavigatorArrow from '../../Icons/NavigatorArrow'
+import icon from '../../../icon'
 
 export interface ISceneDialogContentProps {
   onTarget: (feature: SceneFeature) => void
@@ -44,7 +45,11 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
         return (
           <div key={article.id ?? index} className="dui-SceneDialogContent-row">
             <div className="dui-SceneDialogContent-picture">
-              <img src={article.imgSrc} />
+              {article.imgSrc ? (
+                <img src={article.imgSrc} />
+              ) : (
+                <img className="no-image" src={icon.others.noImage} />
+              )}
               {located && (
                 <p className="geonavigator" onClick={() => onNavigate(located)}>
                   <NavigatorArrow />
@@ -68,9 +73,11 @@ const SceneDialogContent: React.FC<ISceneDialogContentProps> = ({
               </div>
               <div className="dui-SceneDialogContent-footer">
                 <div className="count">{`${padNumber(index + 1)}/${articles.length}`}</div>
-                <a className="more" target="_blank" href={article.link}>
-                  more
-                </a>
+                {article.link && (
+                  <a className="more" target="_blank" href={article.link}>
+                    more
+                  </a>
+                )}
               </div>
             </div>
           </div>

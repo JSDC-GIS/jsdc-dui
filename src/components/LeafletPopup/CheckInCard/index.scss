@@ -26,6 +26,10 @@
     img {
       width: 100%;
     }
+    // 預設圖是小圖示，照原尺寸置中，不要拉成卡片的寬度
+    img.no-image {
+      width: auto;
+    }
   }
 
   &-action {
