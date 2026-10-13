@@ -38,14 +38,21 @@ export type {
 export { isWalkGeoJSONLayer, isWalkTileLayer } from './ApiProvider'
 export type { GeoJSONOverlayLayer, PathColorItem } from './mapLayers'
 export {
+  VIEWER_MANIFEST_ATTRIBUTE,
   applyViewerHeadIcons,
+  applyViewerManifest,
+  buildViewerManifest,
   getLegendNamesFromCategories,
+  pickViewerImageAssets,
+  resolveViewerManifestIcons,
   resolveViewerHeadIcons,
   resolveViewerImages,
 } from './viewerAssets'
 export type {
   ViewerHeadIcons,
+  ViewerImageAssets,
   ViewerImageFallbacks,
+  ViewerManifestIcon,
   ViewerImages,
 } from './viewerAssets'
 export {

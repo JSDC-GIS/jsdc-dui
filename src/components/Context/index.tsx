@@ -17,6 +17,8 @@ import {
 } from '../../JSDC/Dguidewalks/viewerAssets'
 import useWalk from '../../hooks/useWalk'
 import useViewerHeadIcons from '../../hooks/useViewerHeadIcons'
+import useViewerManifest from '../../hooks/useViewerManifest'
+import usePreloadedViewerImages from '../../hooks/usePreloadedViewerImages'
 
 export type { SceneConfig, SceneController }
 
@@ -212,14 +214,17 @@ const DuiContextProvider: React.FC<IDuiContextProviderProps> = ({
   const { walk, settled } = useWalk()
   const viewerAssets = walk?.viewerAssets
   useViewerHeadIcons(viewerAssets)
+  useViewerManifest(viewerAssets)
+  // Strapi 的圖先在背景載完才換上去（載入中、載入失敗都繼續顯示下游的圖），切換時不會閃
+  const preloadedAssets = usePreloadedViewerImages(viewerAssets)
   const images = useMemo(
     () =>
-      resolveViewerImages(viewerAssets, {
+      resolveViewerImages(preloadedAssets, {
         headerDImgSrc,
         headerMBImgSrc,
         aboutWalkImgSrc,
       }),
-    [viewerAssets, headerDImgSrc, headerMBImgSrc, aboutWalkImgSrc],
+    [preloadedAssets, headerDImgSrc, headerMBImgSrc, aboutWalkImgSrc],
   )
   const categoryLegends = useMemo(
     () => getLegendNamesFromCategories(walk?.categories),

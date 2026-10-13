@@ -21,9 +21,31 @@ export type ViewerHeadIcons = {
   appleTouchIcon?: string
 }
 
+/** `viewerAssets` 裡會顯示在畫面上的三張圖；沒有值的欄位是 null。 */
+export type ViewerImageAssets = Pick<
+  WalkViewerAssets,
+  'headerDesktop' | 'headerMobile' | 'about'
+>
+
+/** web app manifest 的一筆 `icons`。 */
+export type ViewerManifestIcon = {
+  src: string
+  sizes: string
+  type: string
+}
+
 // viewerAssets 整個不存在、是 null、個別欄位是 null 或空字串，都當成「沒有」
 const pickAsset = (value: unknown) =>
   typeof value === 'string' && value.trim() !== '' ? value : undefined
+
+/** 取出三張圖的網址，沒有值（不存在、null、空字串）的一律整理成 null。預載用。 */
+export const pickViewerImageAssets = (
+  viewerAssets: Partial<WalkViewerAssets> | null | undefined,
+): ViewerImageAssets => ({
+  headerDesktop: pickAsset(viewerAssets?.headerDesktop) ?? null,
+  headerMobile: pickAsset(viewerAssets?.headerMobile) ?? null,
+  about: pickAsset(viewerAssets?.about) ?? null,
+})
 
 /**
  * 三張圖各自的來源：`viewerAssets` 對應欄位有值就用它，否則用下游傳的 prop。
@@ -31,7 +53,7 @@ const pickAsset = (value: unknown) =>
  * `/walks` 回來之前 `viewerAssets` 是 undefined，結果就是 prop。
  */
 export const resolveViewerImages = (
-  viewerAssets: WalkViewerAssets | null | undefined,
+  viewerAssets: Partial<WalkViewerAssets> | null | undefined,
   fallbacks: ViewerImageFallbacks = {},
 ): ViewerImages => ({
   headerDImgSrc:
@@ -86,7 +108,7 @@ const setHeadLinks = (
 /**
  * 把 `<head>` 裡的 `<link rel="icon">`（含 `shortcut icon`）與 `<link rel="apple-touch-icon">`
  * 換成指定的網址；頁面上沒有對應的 `<link>` 時補一個。值是 undefined 的那一種完全不動。
- * 只處理這兩種 `<link>`，`manifest.json` 是靜態檔，不處理。
+ * 只處理這兩種 `<link>`；`<link rel="manifest">` 見 `applyViewerManifest`。
  */
 export const applyViewerHeadIcons = (
   icons: ViewerHeadIcons,
@@ -101,6 +123,139 @@ export const applyViewerHeadIcons = (
     icons.appleTouchIcon,
     false,
   )
+}
+
+/**
+ * manifest 的圖示：`logo`（192×192 PNG）一定要有，`appleTouchIcon`（180×180 PNG）有值才放；
+ * `favicon` 是 ICO，不放。沒有 `logo` 時是空陣列（不動下游的 manifest）。
+ */
+export const resolveViewerManifestIcons = (
+  viewerAssets: Partial<WalkViewerAssets> | null | undefined,
+): ViewerManifestIcon[] => {
+  const logo = pickAsset(viewerAssets?.logo)
+  if (!logo) return []
+  const appleTouchIcon = pickAsset(viewerAssets?.appleTouchIcon)
+  return [
+    { src: logo, sizes: '192x192', type: 'image/png' },
+    ...(appleTouchIcon
+      ? [{ src: appleTouchIcon, sizes: '180x180', type: 'image/png' }]
+      : []),
+  ]
+}
+
+const isPlainObject = (value: unknown): value is Record<string, any> =>
+  !!value && typeof value === 'object' && !Array.isArray(value)
+
+// 相對網址以原本 manifest 的網址為基準解析成絕對網址；不是字串或解析不了的原樣留著
+const toAbsoluteUrl = (value: unknown, baseUrl: string) => {
+  if (typeof value !== 'string') return value
+  try {
+    return new URL(value, baseUrl).href
+  } catch (error) {
+    return value
+  }
+}
+
+const resolveUrlFields = (
+  item: unknown,
+  keys: string[],
+  baseUrl: string,
+): unknown => {
+  if (!isPlainObject(item)) return item
+  const resolved = { ...item }
+  keys.forEach((key) => {
+    if (key in resolved) resolved[key] = toAbsoluteUrl(resolved[key], baseUrl)
+  })
+  return resolved
+}
+
+/**
+ * 以下游現有的 manifest 為底，把 `icons` 換成 Strapi 的圖示，其餘欄位原樣保留。
+ * 新的 manifest 會用 Blob URL 提供，相對網址會失去基準，所以 `start_url`、`scope`
+ * 以及保留下來的相對 `src` / `url`（`screenshots`、`shortcuts`）先以原本 manifest 的網址
+ * （`manifestUrl`，絕對網址）解析成絕對網址。沒有 `logo`、或 `manifest` 不是物件時回傳 undefined。
+ */
+export const buildViewerManifest = (
+  manifest: unknown,
+  manifestUrl: string,
+  viewerAssets: Partial<WalkViewerAssets> | null | undefined,
+): Record<string, any> | undefined => {
+  const icons = resolveViewerManifestIcons(viewerAssets)
+  if (icons.length === 0 || !isPlainObject(manifest)) return undefined
+  const result: Record<string, any> = { ...manifest, icons }
+  ;['start_url', 'scope'].forEach((key) => {
+    if (key in result) result[key] = toAbsoluteUrl(result[key], manifestUrl)
+  })
+  if (Array.isArray(result.screenshots)) {
+    result.screenshots = result.screenshots.map((item: unknown) =>
+      resolveUrlFields(item, ['src'], manifestUrl),
+    )
+  }
+  if (Array.isArray(result.shortcuts)) {
+    result.shortcuts = result.shortcuts.map((item: unknown) => {
+      const shortcut = resolveUrlFields(item, ['url'], manifestUrl)
+      if (!isPlainObject(shortcut) || !Array.isArray(shortcut.icons)) {
+        return shortcut
+      }
+      return {
+        ...shortcut,
+        icons: shortcut.icons.map((icon: unknown) =>
+          resolveUrlFields(icon, ['src'], manifestUrl),
+        ),
+      }
+    })
+  }
+  return result
+}
+
+/** 已經換過的 `<link rel="manifest">` 會帶這個屬性，值是原本的 manifest 網址。 */
+export const VIEWER_MANIFEST_ATTRIBUTE = 'data-dui-viewer-manifest'
+
+/**
+ * 讓「加到主畫面」的圖示跟著 Strapi：抓 `<link rel="manifest">` 指到的下游 manifest，
+ * 用 `buildViewerManifest` 換掉 `icons`，再把 `<link>` 指向新內容的 Blob URL。
+ * 頁面沒有 `<link rel="manifest">`、抓不到、不是合法的 JSON 物件時只 `console.warn`，
+ * 沒有 `logo` 時連警告都沒有——這些情況都完全不動原本的 `<link>`。
+ * 每個 `<link>` 只換一次（換過的再呼叫不會重抓）。回傳是否有換。
+ */
+export const applyViewerManifest = async (
+  viewerAssets: Partial<WalkViewerAssets> | null | undefined,
+  doc: Document = document,
+): Promise<boolean> => {
+  if (resolveViewerManifestIcons(viewerAssets).length === 0) return false
+  const link = doc.head.querySelector<HTMLLinkElement>('link[rel~="manifest"]')
+  if (!link || !link.getAttribute('href')) {
+    console.warn(
+      '[viewer assets]: no <link rel="manifest"> on the page, manifest icons not updated',
+    )
+    return false
+  }
+  if (link.hasAttribute(VIEWER_MANIFEST_ATTRIBUTE)) return false
+  // 先標記，同時間的第二次呼叫不會重抓；失敗時再拿掉
+  const manifestUrl = link.href
+  link.setAttribute(VIEWER_MANIFEST_ATTRIBUTE, manifestUrl)
+  try {
+    const resp = await fetch(manifestUrl)
+    if (!resp.ok) throw new Error(`${resp.status} ${manifestUrl}`)
+    const manifest = buildViewerManifest(
+      await resp.json(),
+      manifestUrl,
+      viewerAssets,
+    )
+    if (!manifest) throw new Error(`not a JSON object: ${manifestUrl}`)
+    const blob = new Blob([JSON.stringify(manifest)], {
+      type: 'application/manifest+json',
+    })
+    link.href = URL.createObjectURL(blob)
+    return true
+  } catch (error) {
+    link.removeAttribute(VIEWER_MANIFEST_ATTRIBUTE)
+    console.warn(
+      '[viewer assets]: failed to rebuild the manifest, keeping the original',
+      error,
+    )
+    return false
+  }
 }
 
 const isLegendName = (name: unknown): name is LegendName =>

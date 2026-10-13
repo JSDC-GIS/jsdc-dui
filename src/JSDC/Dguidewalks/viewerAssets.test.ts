@@ -1,6 +1,11 @@
 import { WalkViewerAssets } from './ApiProvider'
 import {
+  VIEWER_MANIFEST_ATTRIBUTE,
   applyViewerHeadIcons,
+  applyViewerManifest,
+  buildViewerManifest,
+  pickViewerImageAssets,
+  resolveViewerManifestIcons,
   getLegendNamesFromCategories,
   resolveViewerHeadIcons,
   resolveViewerImages,
@@ -219,4 +224,326 @@ describe('getLegendNamesFromCategories（圖例跟著 categories）', () => {
       expect(getLegendNamesFromCategories(categories as any)).toEqual([])
     },
   )
+})
+
+describe('pickViewerImageAssets', () => {
+  it('只取三張圖，沒有值的整理成 null', () => {
+    expect(
+      pickViewerImageAssets(
+        assets({
+          headerDesktop: 'https://strapi.test/d.png',
+          about: ' ',
+          logo: 'x',
+        }),
+      ),
+    ).toEqual({
+      headerDesktop: 'https://strapi.test/d.png',
+      headerMobile: null,
+      about: null,
+    })
+    expect(pickViewerImageAssets(undefined)).toEqual({
+      headerDesktop: null,
+      headerMobile: null,
+      about: null,
+    })
+  })
+})
+
+const LOGO = 'https://strapi.test/map-assets/n0028/logo.png?v=1'
+const APPLE = 'https://strapi.test/map-assets/n0028/apple-touch-icon.png?v=1'
+const MANIFEST_URL = 'https://map.test/webgis/dguidedwalks/n0028/manifest.json'
+const DOWNSTREAM_MANIFEST = {
+  short_name: '新竹晶片走讀',
+  name: '新竹晶片走讀 數位走讀圖臺',
+  icons: [
+    { src: 'favicon.ico', sizes: '64x64 32x32', type: 'image/x-icon' },
+    { src: 'logo.png', type: 'image/png', sizes: '192x192' },
+  ],
+  start_url: '.',
+  display: 'standalone',
+  theme_color: '#000000',
+  background_color: '#ffffff',
+}
+
+describe('resolveViewerManifestIcons', () => {
+  it('有 logo 與 appleTouchIcon：兩個都放（192、180，都是 PNG）；favicon 不放', () => {
+    expect(
+      resolveViewerManifestIcons(
+        assets({
+          logo: LOGO,
+          appleTouchIcon: APPLE,
+          favicon: 'https://x/f.ico',
+        }),
+      ),
+    ).toEqual([
+      { src: LOGO, sizes: '192x192', type: 'image/png' },
+      { src: APPLE, sizes: '180x180', type: 'image/png' },
+    ])
+  })
+
+  it('只有 logo：只放 logo', () => {
+    expect(resolveViewerManifestIcons(assets({ logo: LOGO }))).toEqual([
+      { src: LOGO, sizes: '192x192', type: 'image/png' },
+    ])
+  })
+
+  it.each([
+    [undefined],
+    [null],
+    [assets()],
+    [assets({ logo: '' })],
+    [assets({ appleTouchIcon: APPLE, favicon: 'https://x/f.ico' })],
+  ])('沒有 logo（%p）時是空的', (viewerAssets) => {
+    expect(resolveViewerManifestIcons(viewerAssets)).toEqual([])
+  })
+})
+
+describe('buildViewerManifest', () => {
+  it('icons 換成 Strapi 的，其餘欄位原樣保留', () => {
+    const manifest = buildViewerManifest(
+      DOWNSTREAM_MANIFEST,
+      MANIFEST_URL,
+      assets({ logo: LOGO, appleTouchIcon: APPLE }),
+    )!
+    expect(manifest.icons).toEqual([
+      { src: LOGO, sizes: '192x192', type: 'image/png' },
+      { src: APPLE, sizes: '180x180', type: 'image/png' },
+    ])
+    const { icons, start_url, ...rest } = manifest
+    const { icons: _i, start_url: _s, ...originalRest } = DOWNSTREAM_MANIFEST
+    expect(rest).toEqual(originalRest)
+    // 不改動傳入的物件
+    expect(DOWNSTREAM_MANIFEST.icons).toHaveLength(2)
+    expect(DOWNSTREAM_MANIFEST.start_url).toBe('.')
+  })
+
+  it('start_url、scope 以原本 manifest 的網址解析成絕對網址（子路徑部署）', () => {
+    const build = (extra: object) =>
+      buildViewerManifest(
+        { ...DOWNSTREAM_MANIFEST, ...extra },
+        MANIFEST_URL,
+        assets({ logo: LOGO }),
+      )!
+    expect(build({}).start_url).toBe(
+      'https://map.test/webgis/dguidedwalks/n0028/',
+    )
+    expect(build({}).scope).toBeUndefined()
+    expect(build({ start_url: './?source=pwa', scope: './' })).toMatchObject({
+      start_url: 'https://map.test/webgis/dguidedwalks/n0028/?source=pwa',
+      scope: 'https://map.test/webgis/dguidedwalks/n0028/',
+    })
+    expect(build({ start_url: '/', scope: '/webgis/' })).toMatchObject({
+      start_url: 'https://map.test/',
+      scope: 'https://map.test/webgis/',
+    })
+    // 已經是絕對網址的不變；不是字串的原樣留著
+    expect(build({ start_url: 'https://other.test/app/' }).start_url).toBe(
+      'https://other.test/app/',
+    )
+    expect(build({ start_url: 42 }).start_url).toBe(42)
+  })
+
+  it('保留下來的相對 src / url（screenshots、shortcuts）也解析成絕對網址', () => {
+    const manifest = buildViewerManifest(
+      {
+        ...DOWNSTREAM_MANIFEST,
+        screenshots: [{ src: 'shot.png', sizes: '540x720' }],
+        shortcuts: [
+          { name: '景點', url: './?menu=scene', icons: [{ src: 'scene.png' }] },
+        ],
+      },
+      MANIFEST_URL,
+      assets({ logo: LOGO }),
+    )!
+    expect(manifest.screenshots).toEqual([
+      {
+        src: 'https://map.test/webgis/dguidedwalks/n0028/shot.png',
+        sizes: '540x720',
+      },
+    ])
+    expect(manifest.shortcuts).toEqual([
+      {
+        name: '景點',
+        url: 'https://map.test/webgis/dguidedwalks/n0028/?menu=scene',
+        icons: [
+          { src: 'https://map.test/webgis/dguidedwalks/n0028/scene.png' },
+        ],
+      },
+    ])
+  })
+
+  it('沒有 logo、或 manifest 不是物件時回傳 undefined', () => {
+    expect(
+      buildViewerManifest(DOWNSTREAM_MANIFEST, MANIFEST_URL, assets()),
+    ).toBeUndefined()
+    expect(
+      buildViewerManifest(
+        DOWNSTREAM_MANIFEST,
+        MANIFEST_URL,
+        assets({ appleTouchIcon: APPLE }),
+      ),
+    ).toBeUndefined()
+    ;[null, undefined, 'oops', 42, [DOWNSTREAM_MANIFEST]].forEach((manifest) =>
+      expect(
+        buildViewerManifest(manifest, MANIFEST_URL, assets({ logo: LOGO })),
+      ).toBeUndefined(),
+    )
+  })
+})
+
+describe('applyViewerManifest（替換 <link rel="manifest">）', () => {
+  let warnSpy: jest.SpyInstance
+  let blobs: Blob[]
+  const HEAD =
+    '<link rel="icon" href="/logo.png"><link rel="manifest" href="/webgis/dguidedwalks/n0028/manifest.json">'
+  const ORIGINAL_URL = `${window.location.origin}/webgis/dguidedwalks/n0028/manifest.json`
+  const link = () =>
+    document.head.querySelector('link[rel="manifest"]') as HTMLLinkElement
+  const mockFetch = (response: () => unknown) => {
+    const fetchMock = jest.fn(async () => response())
+    ;(global as any).fetch = fetchMock
+    return fetchMock
+  }
+  const okResponse = (body: unknown) => () => ({
+    ok: true,
+    status: 200,
+    json: async () => body,
+  })
+  const readBlob = (blob: Blob) =>
+    new Promise<any>((resolve) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(JSON.parse(String(reader.result)))
+      reader.readAsText(blob)
+    })
+
+  beforeEach(() => {
+    document.head.innerHTML = HEAD
+    blobs = []
+    ;(URL as any).createObjectURL = jest.fn((blob: Blob) => {
+      blobs.push(blob)
+      return `blob:${window.location.origin}/manifest-${blobs.length}`
+    })
+    warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
+  })
+
+  afterEach(() => {
+    document.head.innerHTML = ''
+    delete (URL as any).createObjectURL
+    delete (global as any).fetch
+    warnSpy.mockRestore()
+  })
+
+  it('抓原本的 manifest，換掉 icons 後把 link 指向 Blob URL', async () => {
+    const fetchMock = mockFetch(okResponse(DOWNSTREAM_MANIFEST))
+    const applied = await applyViewerManifest(
+      assets({ logo: LOGO, appleTouchIcon: APPLE }),
+    )
+    expect(applied).toBe(true)
+    expect(fetchMock).toHaveBeenCalledWith(ORIGINAL_URL)
+    expect(link().getAttribute('href')).toBe(
+      `blob:${window.location.origin}/manifest-1`,
+    )
+    expect(link().getAttribute(VIEWER_MANIFEST_ATTRIBUTE)).toBe(ORIGINAL_URL)
+    expect(blobs[0].type).toBe('application/manifest+json')
+    const manifest = await readBlob(blobs[0])
+    expect(manifest).toEqual({
+      ...DOWNSTREAM_MANIFEST,
+      icons: [
+        { src: LOGO, sizes: '192x192', type: 'image/png' },
+        { src: APPLE, sizes: '180x180', type: 'image/png' },
+      ],
+      start_url: `${window.location.origin}/webgis/dguidedwalks/n0028/`,
+    })
+    // 其他 link 不動
+    expect(
+      document.head.querySelector('link[rel="icon"]')!.getAttribute('href'),
+    ).toBe('/logo.png')
+    expect(warnSpy).not.toHaveBeenCalled()
+  })
+
+  it('沒有 appleTouchIcon 時 icons 只有 logo', async () => {
+    mockFetch(okResponse(DOWNSTREAM_MANIFEST))
+    await applyViewerManifest(assets({ logo: LOGO }))
+    expect((await readBlob(blobs[0])).icons).toEqual([
+      { src: LOGO, sizes: '192x192', type: 'image/png' },
+    ])
+  })
+
+  it('只做一次：換過之後再呼叫（或同時呼叫兩次）不會重抓、不會再換', async () => {
+    const fetchMock = mockFetch(okResponse(DOWNSTREAM_MANIFEST))
+    const viewerAssets = assets({ logo: LOGO })
+    const results = await Promise.all([
+      applyViewerManifest(viewerAssets),
+      applyViewerManifest(viewerAssets),
+    ])
+    expect(results).toEqual([true, false])
+    expect(await applyViewerManifest(viewerAssets)).toBe(false)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(blobs).toHaveLength(1)
+    expect(warnSpy).not.toHaveBeenCalled()
+  })
+
+  describe('fallback：完全不動原本的 <link>', () => {
+    const expectUntouched = () => {
+      expect(document.head.innerHTML).toBe(HEAD)
+      expect(blobs).toEqual([])
+    }
+
+    it.each([
+      [undefined],
+      [null],
+      [assets()],
+      [assets({ appleTouchIcon: APPLE })],
+    ])('沒有 logo（%p）：不抓、不 warn', async (viewerAssets) => {
+      const fetchMock = mockFetch(okResponse(DOWNSTREAM_MANIFEST))
+      expect(await applyViewerManifest(viewerAssets)).toBe(false)
+      expect(fetchMock).not.toHaveBeenCalled()
+      expect(warnSpy).not.toHaveBeenCalled()
+      expectUntouched()
+    })
+
+    it('頁面沒有 <link rel="manifest">：warn，不補', async () => {
+      document.head.innerHTML = '<link rel="icon" href="/logo.png">'
+      const fetchMock = mockFetch(okResponse(DOWNSTREAM_MANIFEST))
+      expect(await applyViewerManifest(assets({ logo: LOGO }))).toBe(false)
+      expect(fetchMock).not.toHaveBeenCalled()
+      expect(document.head.innerHTML).toBe('<link rel="icon" href="/logo.png">')
+      expect(warnSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it.each<[string, () => unknown]>([
+      ['回 404', () => ({ ok: false, status: 404, json: async () => ({}) })],
+      [
+        '網路錯誤',
+        () => {
+          throw new TypeError('Failed to fetch')
+        },
+      ],
+      [
+        '不是合法的 JSON',
+        () => ({
+          ok: true,
+          status: 200,
+          json: async () => {
+            throw new SyntaxError('Unexpected token <')
+          },
+        }),
+      ],
+      ['JSON 不是物件（陣列）', okResponse([1, 2])],
+      ['JSON 是 null', okResponse(null)],
+    ])('抓 manifest %s：warn 一次', async (_title, response) => {
+      mockFetch(response)
+      expect(await applyViewerManifest(assets({ logo: LOGO }))).toBe(false)
+      expectUntouched()
+      expect(warnSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('失敗後不會留下標記，之後還能再試', async () => {
+      mockFetch(() => ({ ok: false, status: 500, json: async () => ({}) }))
+      await applyViewerManifest(assets({ logo: LOGO }))
+      expect(link().hasAttribute(VIEWER_MANIFEST_ATTRIBUTE)).toBe(false)
+      mockFetch(okResponse(DOWNSTREAM_MANIFEST))
+      expect(await applyViewerManifest(assets({ logo: LOGO }))).toBe(true)
+    })
+  })
 })

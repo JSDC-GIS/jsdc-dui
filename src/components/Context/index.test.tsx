@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
 import { WalkViewerAssets } from '../../JSDC/Dguidewalks/ApiProvider'
 import { SceneConfig } from '../../hooks/useSceneController'
+import { resetPreloadedImages } from '../../utils/preloadImage'
 import {
   DuiContext,
   DuiContextProvider,
@@ -22,6 +23,52 @@ jest.mock('../../hooks/useSceneController', () => ({
   __esModule: true,
   default: (config: object) => ({ config }),
 }))
+
+// jsdom 的 Image 不會真的載圖：用假的 Image 控制預載什麼時候成功、失敗
+type FakeImage = { src: string; onload?: () => void; onerror?: () => void }
+let fakeImages: FakeImage[] = []
+let imageMode: 'load' | 'error' | 'manual' = 'load'
+const settleImages = async (
+  kind: 'load' | 'error',
+  match: (src: string) => boolean = () => true,
+) => {
+  await act(async () => {
+    fakeImages
+      .filter((image) => match(image.src))
+      .forEach((image) => (kind === 'load' ? image.onload : image.onerror)?.())
+    fakeImages = fakeImages.filter((image) => !match(image.src))
+    await Promise.resolve()
+  })
+}
+const preloadedUrls: string[] = []
+let warnSpy: jest.SpyInstance
+const OriginalImage = global.Image
+
+beforeEach(() => {
+  resetPreloadedImages()
+  fakeImages = []
+  preloadedUrls.length = 0
+  imageMode = 'load'
+  ;(global as any).Image = class {
+    onload?: () => void
+    onerror?: () => void
+    private _src = ''
+    get src() {
+      return this._src
+    }
+    set src(value: string) {
+      this._src = value
+      preloadedUrls.push(value)
+      fakeImages.push(this)
+    }
+  }
+  warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
+})
+
+afterEach(() => {
+  ;(global as any).Image = OriginalImage
+  warnSpy.mockRestore()
+})
 
 const STRAPI = {
   headerDesktop: 'https://strapi.test/key-art_Desktop.png',
@@ -104,6 +151,8 @@ const setup = ({
       await walkPromise.catch(() => undefined)
     })
     await waitFor(() => expect(ref.dui!.legendReady).toBe(true))
+    // 預設讓 Strapi 的圖都預載成功；'manual' 時由測試自己決定
+    if (imageMode !== 'manual') await settleImages(imageMode)
   }
   return { dui: () => ref.dui!, dgw, images, kanban, load }
 }
@@ -344,5 +393,141 @@ describe('DuiContextProvider 放在 DguidewalksProvider 外面', () => {
       </DuiContextProvider>,
     )
     expect(ref.dui!.headerMBImgSrc).toBe(PROPS.headerMBImgSrc)
+  })
+})
+
+describe('DuiContextProvider 換圖前先預載', () => {
+  const strapiImages = {
+    headerDImgSrc: STRAPI.headerDesktop,
+    headerMBImgSrc: STRAPI.headerMobile,
+    aboutWalkImgSrc: STRAPI.about,
+  }
+  // 只給三張圖（沒有 logo），manifest 那條路不會跑，warn 只會來自預載
+  const IMAGES_ONLY = {
+    headerDesktop: STRAPI.headerDesktop,
+    headerMobile: STRAPI.headerMobile,
+    about: STRAPI.about,
+  }
+
+  it('/walks 回來後先預載，載入成功之前仍顯示下游的圖，成功才換', async () => {
+    imageMode = 'manual'
+    const { images, kanban, load } = setup({
+      props: PROPS,
+      viewerAssets: IMAGES_ONLY,
+    })
+    expect(preloadedUrls).toEqual([])
+    await load()
+    // 只預載會顯示在畫面上的三張，圖示不預載
+    expect(preloadedUrls).toEqual([
+      STRAPI.headerDesktop,
+      STRAPI.headerMobile,
+      STRAPI.about,
+    ])
+    expect(images()).toEqual(PROPS)
+    expect(kanban()).toBe(PROPS.headerMBImgSrc)
+
+    // 一張一張載完，各自換
+    await settleImages('load', (src) => src === STRAPI.headerMobile)
+    expect(images()).toEqual({ ...PROPS, headerMBImgSrc: STRAPI.headerMobile })
+    expect(kanban()).toBe(STRAPI.headerMobile)
+    await settleImages('load')
+    expect(images()).toEqual(strapiImages)
+    expect(warnSpy).not.toHaveBeenCalled()
+  })
+
+  it('載入失敗的那張維持下游的圖並 warn 一次，其他照常換', async () => {
+    imageMode = 'manual'
+    const { images, kanban, load } = setup({
+      props: PROPS,
+      viewerAssets: IMAGES_ONLY,
+    })
+    await load()
+    await settleImages('error', (src) => src === STRAPI.headerMobile)
+    await settleImages('load')
+    expect(images()).toEqual({
+      ...strapiImages,
+      headerMBImgSrc: PROPS.headerMBImgSrc,
+    })
+    expect(kanban()).toBe(PROPS.headerMBImgSrc)
+    expect(warnSpy).toHaveBeenCalledTimes(1)
+    expect(warnSpy.mock.calls[0][0]).toContain(STRAPI.headerMobile)
+  })
+
+  it('下游沒有 fallback：載入中、載入失敗都沒有圖（空字串），載完才出現', async () => {
+    imageMode = 'manual'
+    const { images, kanban, load } = setup({ viewerAssets: IMAGES_ONLY })
+    await load()
+    const none = { headerDImgSrc: '', headerMBImgSrc: '', aboutWalkImgSrc: '' }
+    expect(images()).toEqual(none)
+    expect(kanban()).toBeUndefined()
+    await settleImages('error', (src) => src === STRAPI.about)
+    await settleImages('load')
+    expect(images()).toEqual({ ...strapiImages, aboutWalkImgSrc: '' })
+    expect(kanban()).toBe(STRAPI.headerMobile)
+  })
+
+  it.each<[string, SetupOptions['viewerAssets']]>([
+    ['不存在', 'absent'],
+    ['是 null', null],
+    ['欄位都是 null', { headerDesktop: null, headerMobile: null, about: null }],
+    ['只有圖示', { logo: STRAPI.logo, favicon: STRAPI.favicon }],
+  ])('viewerAssets %s：完全不觸發預載', async (_title, viewerAssets) => {
+    const { images, load } = setup({ props: PROPS, viewerAssets })
+    await load()
+    expect(preloadedUrls).toEqual([])
+    expect(images()).toEqual(PROPS)
+  })
+
+  it('同一張圖只預載一次：重新渲染、另一個 provider 重掛都不會再下載，重掛時直接是 Strapi 的圖', async () => {
+    const first = setup({ props: PROPS, viewerAssets: IMAGES_ONLY })
+    await first.load()
+    expect(preloadedUrls).toHaveLength(3)
+    // 選單開關會讓 provider 重新渲染
+    act(() => first.dui().menuSwitch('地圖圖層'))
+    act(() => first.dui().menuSwitch(undefined))
+    expect(preloadedUrls).toHaveLength(3)
+
+    imageMode = 'manual'
+    const second = setup({ props: PROPS, viewerAssets: IMAGES_ONLY })
+    await second.load()
+    expect(preloadedUrls).toHaveLength(3)
+    expect(second.images()).toEqual(strapiImages)
+  })
+})
+
+describe('DuiContextProvider 的 manifest', () => {
+  afterEach(() => {
+    document.head.innerHTML = ''
+    delete (global as any).fetch
+  })
+
+  it('viewerAssets 有 logo 時把 <link rel="manifest"> 換成新的 manifest；沒有 logo 時不動', async () => {
+    const createObjectURL = jest.fn(() => 'blob:http://localhost/new-manifest')
+    ;(URL as any).createObjectURL = createObjectURL
+    ;(global as any).fetch = jest.fn(async () => ({
+      ok: true,
+      json: async () => ({ name: 'demo', start_url: '.' }),
+    }))
+    const link = () =>
+      document.head.querySelector('link[rel="manifest"]')!.getAttribute('href')
+
+    document.head.innerHTML =
+      '<link rel="manifest" href="/n0028/manifest.json">'
+    const without = setup({ viewerAssets: { about: STRAPI.about } })
+    await without.load()
+    expect(link()).toBe('/n0028/manifest.json')
+    expect((global as any).fetch).not.toHaveBeenCalled()
+
+    const withLogo = setup({ viewerAssets: STRAPI })
+    await withLogo.load()
+    await waitFor(() =>
+      expect(link()).toBe('blob:http://localhost/new-manifest'),
+    )
+    expect((global as any).fetch).toHaveBeenCalledTimes(1)
+    // 圖示（logo、appleTouchIcon、favicon）不預載，只預載會顯示在畫面上的三張
+    expect([...preloadedUrls].sort()).toEqual(
+      [STRAPI.headerDesktop, STRAPI.headerMobile, STRAPI.about].sort(),
+    )
+    delete (URL as any).createObjectURL
   })
 })
