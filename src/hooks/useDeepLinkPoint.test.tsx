@@ -77,7 +77,7 @@ describe('useDeepLinkPoint', () => {
     expect(onResolve.mock.calls[0][0].feature.id).toBe('doc-2')
     const [latLng, zoom, flyOptions] = map.flyTo.mock.calls[0]
     expect([latLng.lat, latLng.lng]).toEqual([24.89, 121.29])
-    expect(zoom).toBe(17)
+    expect(zoom).toBe(18.5)
     expect(flyOptions).toEqual({ duration: 4 })
   })
 

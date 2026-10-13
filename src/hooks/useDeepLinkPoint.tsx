@@ -6,6 +6,7 @@ import { SceneMarker } from '../JSDC/Dguidewalks/scene'
 export interface UseDeepLinkPointOptions {
   onResolve: (marker: SceneMarker) => void
   paramKey?: string
+  /** 飛到景點時的縮放層級。預設 18.5，和景點列表定位鈕（`sceneConfig.targetZoom`）一致。 */
   flyToZoom?: number
   flyToDuration?: number
   delayMs?: number
@@ -21,7 +22,7 @@ export interface UseDeepLinkPointOptions {
 const useDeepLinkPoint = ({
   onResolve,
   paramKey = 'id',
-  flyToZoom = 17,
+  flyToZoom = 18.5,
   flyToDuration = 4,
   delayMs = 1500,
   enabled = true,
