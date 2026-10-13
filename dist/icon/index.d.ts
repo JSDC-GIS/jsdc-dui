@@ -46,6 +46,7 @@ export declare const credit: {
 };
 export declare const others: {
     processing: string;
+    noImage: string;
 };
 declare const _default: {
     activable: {
@@ -69,6 +70,7 @@ declare const _default: {
     };
     others: {
         processing: string;
+        noImage: string;
     };
 };
 export default _default;

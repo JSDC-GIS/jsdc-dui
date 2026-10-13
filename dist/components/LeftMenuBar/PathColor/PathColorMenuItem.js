@@ -1,0 +1,2 @@
+import{__rest as t,__assign as o}from"tslib";import e from"react";import{useTranslation as r}from"react-i18next";import m from"../MenuList/MenuItemWithDialog.js";import i from"../../Icons/PathColor.js";import a from"./PathColorDialogContent.js";var n=function(n){var l=n.items,s=t(n,["items"]),p=r().t;return e.createElement(m,o({},s,{title:p("menu.pathColor"),Icon:i}),e.createElement(a,{items:l}))};n.displayName="PathColorMenuItem";export{n as default};
+//# sourceMappingURL=PathColorMenuItem.js.map

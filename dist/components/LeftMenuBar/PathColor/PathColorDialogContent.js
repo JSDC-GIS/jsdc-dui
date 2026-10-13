@@ -1,0 +1,2 @@
+import a from"react";var e=function(e){var t=e.items;return a.createElement("ul",{className:"dui-PathColorDialogContent"},t.map(function(e){return a.createElement("li",{key:"".concat(e.name,"_").concat(e.color),className:"path-item"},a.createElement("span",{className:"path-color",style:{backgroundColor:e.color},"aria-hidden":"true"}),a.createElement("span",{className:"path-name"},e.label))}))};e.displayName="PathColorDialogContent";export{e as default};
+//# sourceMappingURL=PathColorDialogContent.js.map

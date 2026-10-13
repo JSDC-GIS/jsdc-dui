@@ -1,51 +1,6 @@
-import { Feature, FeatureCollection, LineString, MultiLineString, MultiPolygon, Point, Polygon } from 'geojson';
+import { Feature, FeatureCollection, GeoJsonObject, Point } from 'geojson';
+import type { PathOptions } from 'leaflet';
 import ConfigProvider from './ConfigProvider';
-interface LayerApiRespBase {
-    updatedAt: string;
-    createdAt: string;
-    options: null | {};
-    id: string;
-    layerId: string;
-}
-export interface LayerApiRespVectorProps {
-    name: string;
-    type: string;
-    url: null | string;
-    [k: string]: any;
-}
-export interface LayerApiRespVectorType<T = {}> extends LayerApiRespBase, LayerApiRespVectorProps {
-    geometry: T;
-}
-export type LayerApiRespLineFeature = LayerApiRespVectorType<LineString | MultiLineString>;
-export type LayerApiRespPointFeature = LayerApiRespVectorType<Point>;
-export type LayerApiRespPolygonFeature = LayerApiRespVectorType<Polygon | MultiPolygon>;
-export interface LayerApiRespBasemap extends LayerApiRespBase {
-    url: 'https://gis.sinica.edu.tw/tileserver/file-exists.php?img=JM50K_1916-jpg-{z}-{x}-{y}';
-}
-export interface BasemapApiRespItem {
-    createdAt: string;
-    id: number;
-    name: string;
-    options: null | {};
-    type: 'xyz' | string;
-    updatedAt: string;
-    url: string;
-}
-export interface LayerApiRespItem {
-    Basemap: null | LayerApiRespBasemap;
-    LineFeatures: LayerApiRespLineFeature[];
-    PointFeatures: LayerApiRespPointFeature[];
-    PolygonFeatures: LayerApiRespPolygonFeature[];
-    createdAt: string;
-    eventId: string;
-    id: string;
-    name: string;
-    options: null | {};
-    type: 'line' | 'point' | 'polygon' | 'image';
-    updatedAt: string;
-}
-export interface ApiGetLayerResponse {
-}
 export interface SceneCategory {
     code: number;
     slug: string;
@@ -124,16 +79,62 @@ export interface SceneProperties {
 export interface SceneFeature extends Feature<Point | null, SceneProperties> {
     id: string;
 }
-export interface WalkMapLayer {
+/** 圖磚（底圖、疊圖）。`name` 是圖層的 key，也是圖層清單顯示的名稱。 */
+export interface WalkTileLayer {
     name: string;
     url: string;
     attribution?: string;
+    /** 只在 `baseLayers` 有意義：一進地圖就顯示的底圖。 */
     default?: boolean;
+    /** 語系是 en 時圖層清單顯示的名稱。 */
+    nameEn?: string;
 }
+/** 依 feature 屬性逐筆覆寫樣式：`String(properties[prop])` 與 `styles` 的 key 全等時套用。 */
+export interface WalkGeoJSONStyleBy {
+    prop: string;
+    styles: Record<string, PathOptions>;
+}
+/** 線、面：`mapConfig.overlays` 裡 `type: 'geojson'` 的疊圖。 */
+export interface WalkGeoJSONLayer {
+    name: string;
+    type: 'geojson';
+    /** GeoJSON 檔的網址。相對路徑以 `sceneApiUrl` 的 origin 補齊。 */
+    url: string;
+    /** 整個圖層的樣式（Leaflet Path options）。 */
+    style?: PathOptions;
+    styleBy?: WalkGeoJSONStyleBy;
+    /** 點擊圖形時顯示的屬性名稱，照原文取（m0009 是大寫的 `NAME`）。 */
+    popupProp?: string;
+    /** 預設是否顯示在地圖上。未提供時視為 false。 */
+    visible?: boolean;
+    /** 是否列在圖層清單。未提供時視為 true。 */
+    listed?: boolean;
+}
+export type WalkMapLayer = WalkTileLayer | WalkGeoJSONLayer;
+export declare const isWalkGeoJSONLayer: (layer: WalkMapLayer) => layer is WalkGeoJSONLayer;
+export declare const isWalkTileLayer: (layer: WalkMapLayer) => layer is WalkTileLayer;
 export interface WalkMapConfig {
     zoom: number;
-    baseLayers: WalkMapLayer[];
+    baseLayers: WalkTileLayer[];
+    /** 圖磚與 `geojson` 疊圖混在同一個陣列，用 `isWalkGeoJSONLayer` 區分。 */
     overlays: WalkMapLayer[];
+}
+/**
+ * 圖台的 6 張圖片，值是絕對網址；還沒有那張圖時是 null。
+ * 後端尚未實作前整個欄位不存在，一律當成「沒有」，改用下游專案自己的圖。
+ */
+export interface WalkViewerAssets {
+    /** 桌機版左側選單最上方的主視覺。 */
+    headerDesktop: string | null;
+    /** 手機版橫幅；集章對話框上方的圖。 */
+    headerMobile: string | null;
+    /** 「路線介紹」對話框裡的圖。 */
+    about: string | null;
+    /** 瀏覽器分頁圖示。 */
+    logo: string | null;
+    /** iOS 主畫面圖示。 */
+    appleTouchIcon: string | null;
+    favicon: string | null;
 }
 /** 代碼對應多個主題時才有內容，說明合併後的景點分屬哪些主題。 */
 export interface WalkTheme {
@@ -161,6 +162,7 @@ export interface WalkResponse {
     updatedAt: string | null;
     categories: SceneCategory[];
     mapConfig: WalkMapConfig;
+    viewerAssets?: WalkViewerAssets | null;
     bbox: number[];
     poiCount: number;
     themes?: WalkTheme[];
@@ -173,20 +175,19 @@ export interface ApiGetVisitorCountResponse {
     counter: number;
 }
 export default class ApiProvider {
-    readonly baseUrl: string;
     readonly sceneApiUrl: string;
     readonly eventId: string;
     readonly cmsPath: string[];
     constructor(configProvider: ConfigProvider);
-    get layersApiUrl(): string;
-    get basemapsUrl(): string;
     get walkApiUrl(): string;
     get counterUrl(): string;
     getVisitorCount(): Promise<ApiGetVisitorCountResponse>;
-    getLayers(): Promise<LayerApiRespItem[]>;
-    getBasemaps(): Promise<BasemapApiRespItem[]>;
     getWalk(): Promise<WalkResponse>;
-    get proxyApiUrl(): string;
-    getProxyQuery: (targetUrl: string) => Promise<string>;
+    /**
+     * `mapConfig` 裡的 GeoJSON 檔網址是相對路徑（`/dguidedwalks.tw/map-data/...`），
+     * 以 `sceneApiUrl` 的 origin 補齊；絕對網址原樣使用。
+     * `sceneApiUrl` 本身是相對路徑（例如 `/api/map/`）時，先對目前頁面的網址解析。
+     */
+    resolveMapDataUrl(url: string): string;
+    getGeoJSON(url: string): Promise<GeoJsonObject>;
 }
-export {};

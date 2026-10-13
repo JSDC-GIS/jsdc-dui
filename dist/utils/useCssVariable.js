@@ -1,2 +1,2 @@
-var r=function(r){return r};export{r as default};
+var n=function(n){return n},r=function(n){return n?"url(".concat(JSON.stringify(n),")"):"none"};export{r as cssUrl,n as default};
 //# sourceMappingURL=useCssVariable.js.map

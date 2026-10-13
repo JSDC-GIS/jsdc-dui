@@ -1,0 +1,2 @@
+import{useContext as t,useState as n,useEffect as e}from"react";import{DguidewalksContext as r}from"../JSDC/Dguidewalks/Context/index.js";var l=function(){var l=t(r).dgw,a=n({walk:null==l?void 0:l.walk,settled:!!(null==l?void 0:l.walk)}),o=a[0],i=a[1];return e(function(){if(l){var t=!1;return l.loadWalk().then(function(n){return t||i({walk:n,settled:!0})}).catch(function(){return t||i({walk:void 0,settled:!0})}),function(){t=!0}}},[l]),o};export{l as default};
+//# sourceMappingURL=useWalk.js.map

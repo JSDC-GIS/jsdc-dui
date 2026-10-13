@@ -7,6 +7,7 @@ export declare const menuItemKeys: {
     readonly 景點介紹: "menu.sceneIntro";
     readonly 氣象預測: "menu.weatherForecast";
     readonly 圖例說明: "menu.legendDescription";
+    readonly 路線顏色: "menu.pathColor";
     readonly 路線介紹: "menu.routeIntro";
     readonly 關於圖臺: "menu.aboutPlatform";
 };

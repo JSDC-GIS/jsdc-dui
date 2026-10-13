@@ -1,0 +1,2 @@
+import{useContext as t,useState as r,useEffect as e}from"react";import{useTranslation as n}from"react-i18next";import{DguidewalksContext as a}from"../JSDC/Dguidewalks/Context/index.js";var o=function(){var o=t(a).dgw,i=n().i18n,u=r([]),d=u[0],f=u[1];return e(function(){if(o){var t=function(){return f(o.getPathColors(i.language))};return t(),o.dataLoadEvent.addEventListener(t)}},[o,i.language]),d};export{o as default};
+//# sourceMappingURL=usePathColors.js.map

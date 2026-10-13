@@ -1,8 +1,8 @@
-import { GeoJSON } from 'leaflet';
+import { GeoJSON, GeoJSONOptions } from 'leaflet';
 import JSDCLayer, { JSDCLayerConstructorOptions } from './JSDCLayer';
 import { Point, Feature, GeoJsonProperties, LineString, Polygon, GeoJsonObject } from 'geojson';
 declare class JSDCGeoJSONLayer extends JSDCLayer<GeoJSON> {
-    constructor(options: JSDCLayerConstructorOptions);
+    constructor(options: JSDCLayerConstructorOptions, geoJSONOptions?: GeoJSONOptions);
     addFeature(feature: GeoJsonObject): void;
     groupFeaturesByGeomType(): {
         points: Feature<Point, GeoJsonProperties>[];

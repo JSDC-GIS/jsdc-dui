@@ -1,2 +1,2 @@
-import a from"../../Layer/JSDCLayer.js";import{TileLayer as e}from"leaflet";import{uniqueId as o}from"lodash";var r=function(r,t){var m=new e(t,{maxZoom:20}),n=new a({id:"".concat(r,"_").concat(o("basemap")),description:{name:r,type:"image"}});return n.setInstance(m),n};export{r as default};
+import e from"../../Layer/JSDCLayer.js";import{TileLayer as t}from"leaflet";import{uniqueId as a}from"lodash";var i=function(i,n,o){void 0===o&&(o={});var r=new t(n,{maxZoom:20,attribution:o.attribution}),m=new e({id:"".concat(i,"_").concat(a("basemap")),description:{name:i,type:"image",nameEn:o.nameEn,visible:!0===o.visible,listed:!0}});return m.setInstance(r),m};export{i as default};
 //# sourceMappingURL=createTileLayer.js.map
