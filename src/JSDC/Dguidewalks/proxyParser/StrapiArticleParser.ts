@@ -47,6 +47,14 @@ class StrapiArticleParser implements IArticleProxyParser {
     }
   }
 
+  // 英文版且有 titleEn 才換；中文版維持整段 title（雙語專案是「中文\n英文」兩行）。
+  // 只影響顯示，集章 key 與用標題找景點仍用 title／legacyName。
+  private pickTitle(feature: SceneFeature) {
+    const { title, titleEn } = feature.properties
+    const english = titleEn?.trim()
+    return this.isEnglish && english ? english : title
+  }
+
   // 英文沒填（null 或只有空白）的景點退回中文，CMS 大多數景點還沒補英文
   private pickContent(feature: SceneFeature) {
     const { summary, summaryEn } = feature.properties
@@ -56,7 +64,8 @@ class StrapiArticleParser implements IArticleProxyParser {
   }
 
   getSummaryByFeature(feature: SceneFeature): SummaryArticleType {
-    const { title, coverThumb, coverImage, pageUrl } = feature.properties
+    const { coverThumb, coverImage, pageUrl } = feature.properties
+    const title = this.pickTitle(feature)
     const { text, isEnglish } = this.pickContent(feature)
     const limit = isEnglish ? SUMMARY_LIMIT.en : SUMMARY_LIMIT.zh
     return {
@@ -71,8 +80,8 @@ class StrapiArticleParser implements IArticleProxyParser {
   }
 
   getDetailByFeature(feature: SceneFeature): DetailArticleType {
-    const { title, coverThumb, coverImage, pageUrl, contributors } =
-      feature.properties
+    const { coverThumb, coverImage, pageUrl, contributors } = feature.properties
+    const title = this.pickTitle(feature)
     return {
       title,
       subtitle: title,

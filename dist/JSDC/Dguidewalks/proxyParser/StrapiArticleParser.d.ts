@@ -20,6 +20,7 @@ declare class StrapiArticleParser implements IArticleProxyParser {
     get isEnglish(): boolean;
     setLanguage(language?: string): void;
     private getFeatures;
+    private pickTitle;
     private pickContent;
     getSummaryByFeature(feature: SceneFeature): SummaryArticleType;
     getDetailByFeature(feature: SceneFeature): DetailArticleType;

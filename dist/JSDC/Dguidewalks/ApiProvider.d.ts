@@ -55,6 +55,11 @@ export interface SceneProperties {
     legacyGisId: string | null;
     /** 原 GIS 點名原文，僅供集章 key 相容（`legacyName ?? title`），不用於顯示。 */
     legacyName: string | null;
+    /**
+     * 英文名稱（雙語專案 n0028、n0032 才有，v9 請後端新增）。英文版顯示它，沒填就退回 `title`。
+     * 欄位上線前 API 不會回這個 key，所以是選填。
+     */
+    titleEn?: string | null;
     summary: string | null;
     summaryEn: string | null;
     body: string | null;

@@ -218,7 +218,8 @@ const useSceneController = (config: SceneConfig = {}) => {
             debugUrl,
             config.validDistance ?? DEFAULT_SCENE_VALID_DISTANCE,
           ),
-          title: marker.feature.properties.title,
+          // 顯示用的標題跟著語系（英文版的 titleEn）；集章用的 checkinName 仍是原文
+          title: detail.title || marker.feature.properties.title,
           checkinName: getSceneCheckinName(marker.feature),
           subtitle: detail.subtitle || '',
           imgSrc: detail.imgSrc,

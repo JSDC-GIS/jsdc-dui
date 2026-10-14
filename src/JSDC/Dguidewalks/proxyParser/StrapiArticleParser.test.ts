@@ -130,6 +130,54 @@ describe('StrapiArticleParser.getAll', () => {
     expect(loadWalk).toHaveBeenCalledTimes(3)
   })
 
+  describe('titleEn（雙語專案的英文名稱）', () => {
+    const bilingual = [
+      scene('a', {
+        title: '01 家離水邊那麼近\n 01 My home is so close to the water',
+        titleEn: '01 My home is so close to the water',
+      }),
+      scene('b', { title: '02 只有中文', titleEn: null }),
+      scene('c', { title: '03 空白', titleEn: '  ' }),
+      // titleEn 欄位上線前 API 沒有這個 key
+      scene('d', { title: '04 沒有欄位' }),
+    ]
+
+    it('英文版用 titleEn，沒填（null、只有空白、沒有欄位）退回 title', async () => {
+      const { parser } = createParser(bilingual)
+      const articles = await parser.getAll(undefined, 'en')
+      expect(articles.map((article) => article.title)).toEqual([
+        '01 My home is so close to the water',
+        '02 只有中文',
+        '03 空白',
+        '04 沒有欄位',
+      ])
+    })
+
+    it('中文版維持整段 title', async () => {
+      const { parser } = createParser(bilingual)
+      const [article] = await parser.getAll(undefined, 'zh-TW')
+      expect(article.title).toBe(
+        '01 家離水邊那麼近\n 01 My home is so close to the water',
+      )
+    })
+
+    it('景點介紹的 title、subtitle 跟著語系，feature 本身不變', () => {
+      const { parser } = createParser(bilingual)
+      parser.setLanguage('en')
+      const detail = parser.getDetailByFeature(bilingual[0])
+      expect(detail.title).toBe('01 My home is so close to the water')
+      expect(detail.subtitle).toBe('01 My home is so close to the water')
+      // 集章 key、用標題找景點都讀 properties.title，不能被改到
+      expect(bilingual[0].properties.title).toBe(
+        '01 家離水邊那麼近\n 01 My home is so close to the water',
+      )
+      parser.setLanguage('zh-TW')
+      expect(parser.getDetailByFeature(bilingual[0]).title).toBe(
+        '01 家離水邊那麼近\n 01 My home is so close to the water',
+      )
+    })
+  })
+
   it('walk 載入失敗時回傳空陣列', async () => {
     const parser = new StrapiArticleParser({
       loadWalk: async () => {
