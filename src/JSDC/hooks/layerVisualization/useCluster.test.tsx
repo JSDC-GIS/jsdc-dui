@@ -97,6 +97,58 @@ describe('useCluster', () => {
     expect(map.hasLayer(markers['pair-1'])).toBe(false)
   })
 
+  // 重現載入時的情境：JSDC 建好地圖就 flyToBounds，景點在飛行途中才載完。
+  // 飛行期間 Leaflet 不發 moveend，markercluster 的縮放層級與顯示範圍停在起飛時；
+  // 飛行結束的 zoomend 只展開舊層級的 cluster，舊層級就已是單點、但不在起飛時範圍內的點不會被補畫。
+  // jsdom 沒有 CSS 3D，flyTo 會直接跳到終點，所以用 Leaflet 飛行時發的事件模擬：
+  // 起飛發 zoomstart／movestart，落地（setView）發 zoomend／moveend。
+  it('地圖移動途中 addLayer，移動結束後不在起飛範圍內的單點仍畫在地圖上', async () => {
+    const { map, getApi } = await setup()
+    const cluster = findCluster(map)!
+    const layer = new JSDCGeoJSONLayer({ id: 'scene', description: {} as any })
+    // 終點附近的單點：縮放 13 時就是單點，且在起飛時（中心 121.4、縮放 13）的顯示範圍外
+    layer.addFeature(point('far-single', [121.8, 24.9]))
+    // 終點附近會聚合的兩點，確認聚合照常
+    layer.addFeature(point('far-pair-1', [121.86, 24.93]))
+    layer.addFeature(point('far-pair-2', [121.86001, 24.93001]))
+    const markers = markersOf(layer)
+
+    act(() => {
+      map.fire('zoomstart').fire('movestart')
+      getApi().addLayer(layer)
+    })
+    // 移動還沒結束時來源圖層已收起，避免未聚合的點閃一下
+    expect(layer.show).toBe(false)
+    // 移動結束前不加進 cluster
+    expect(cluster.getLayers()).toHaveLength(0)
+
+    act(() => {
+      map.setView([24.9, 121.8], 14, { animate: false })
+    })
+    // 等 markercluster 的縮放動畫佇列跑完
+    await act(() => new Promise((resolve) => setTimeout(resolve, 400)))
+
+    expect(cluster.getLayers()).toHaveLength(3)
+    expect(map.hasLayer(markers['far-single'])).toBe(true)
+    expect(document.body.contains(markers['far-single'].getElement()!)).toBe(
+      true,
+    )
+    expect(map.hasLayer(markers['far-pair-1'])).toBe(false)
+    expect(map.hasLayer(markers['far-pair-2'])).toBe(false)
+  })
+
+  it('地圖沒有在移動時 addLayer 立即生效', async () => {
+    const { map, getApi } = await setup()
+    const layer = createSourceLayer()
+    const markers = markersOf(layer)
+    // 一次完整的移動（movestart → moveend）結束後，不應再延後
+    act(() => {
+      map.setView([24.9, 121.4], 13, { animate: false })
+      getApi().addLayer(layer)
+    })
+    expect(map.hasLayer(markers['single-a'])).toBe(true)
+  })
+
   it('toggleShowCluster 在 cluster 與來源圖層之間切換', async () => {
     const { map, getApi } = await setup()
     const layer = createSourceLayer()

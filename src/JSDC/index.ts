@@ -6,6 +6,7 @@ import location from './extends/location'
 import zoomHome from './extends/zoomHome'
 import { iconUrl, iconRetinaUrl, shadowUrl } from './utils/markerImages'
 import Event from './utils/Event'
+import { trackMapMotion } from './utils/mapMotion'
 
 const iconDefault = Leaflet.icon({
   iconRetinaUrl,
@@ -44,6 +45,8 @@ class JSDC {
     })
     try {
       this.viewer = new Map(this.id, _option)
+      // 要在 flyToBounds 之前掛上，才追蹤得到開場飛行（useCluster 靠它判斷）
+      trackMapMotion(this.viewer)
       option.bound && this.viewer.flyToBounds(option.bound)
       this.viewer.zoomControl.setPosition('topright')
       this.viewer.addControl(new location({ Jsdc: this } as any))
