@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react'
+import { MarkerClusterGroupOptions } from 'leaflet'
 import { DuiContext } from '../Context'
 import { JSDCContext } from '../../JSDC/Context'
 import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
@@ -9,10 +10,15 @@ import './index.scss'
 
 // 獨立成元件是因為 useCluster 一掛上就會把 cluster group 加到地圖，
 // 不做 cluster 的專案（sceneConfig.cluster = false）不能呼叫它。
-const SceneCluster: React.FC = () => {
+const SceneCluster: React.FC<{ options?: MarkerClusterGroupOptions }> = ({
+  options,
+}) => {
   const { Jsdc } = useContext(JSDCContext)
   const { dgw } = useContext(DguidewalksContext)
-  const { addLayer } = useCluster(Jsdc.asyncViewer)
+  // cluster group 只在第一次 render 建立，之後改 options 不會生效
+  const { addLayer } = useCluster(Jsdc.asyncViewer, {
+    config: { showCoverageOnHover: false, ...options },
+  })
 
   useEffect(() => {
     const add = () => dgw.sceneLayer && addLayer(dgw.sceneLayer)
@@ -36,7 +42,15 @@ const SceneCheckin: React.FC = () => {
 
   return (
     <>
-      {scene.config.cluster !== false && <SceneCluster />}
+      {scene.config.cluster !== false && (
+        <SceneCluster
+          options={
+            typeof scene.config.cluster === 'object'
+              ? scene.config.cluster
+              : undefined
+          }
+        />
+      )}
       <ResponsiveDialog
         kanbanImgSrc={scene.config.checkinKanbanImgSrc}
         open={!!scene.checkinSrc}

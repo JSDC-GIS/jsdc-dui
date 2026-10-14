@@ -24,8 +24,9 @@ const useCluster = (asyncMap: Promise<Map>, options: UseClusterParams = {}) => {
   const showCluster = async () => {
     const map = await asyncMap
     map.removeLayer(cluster.current)
-    map.addLayer(cluster.current)
+    // 先收起來源圖層再把 cluster 加回地圖，理由同 addLayer
     sourceLayers.current.forEach((layer) => (layer.show = false))
+    map.addLayer(cluster.current)
     setShow(true)
   }
 
@@ -51,8 +52,10 @@ const useCluster = (asyncMap: Promise<Map>, options: UseClusterParams = {}) => {
 
   const addLayer = (layer: UseClusterValidLayer) => {
     if (!layer.instance) return
-    cluster.current.addLayer(layer.instance)
+    // 順序不能對調：來源圖層還在地圖上時先加進 cluster，markercluster 當下畫出的單點
+    // 會在收起來源圖層時一起被移出地圖，之後平移縮放都不會補畫
     hideSourceLayer(layer)
+    cluster.current.addLayer(layer.instance)
   }
 
   useEffect(() => {
