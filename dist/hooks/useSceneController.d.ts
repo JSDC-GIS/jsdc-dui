@@ -1,3 +1,4 @@
+import { MarkerClusterGroupOptions } from 'leaflet';
 import { SceneFeature } from '../JSDC/Dguidewalks/ApiProvider';
 import { SceneMarker } from '../JSDC/Dguidewalks/scene';
 import type { ICheckInCardProps } from '../components/LeafletPopup/CheckInCard';
@@ -16,8 +17,12 @@ export type SceneDeepLinkConfig = Omit<UseDeepLinkPointOptions, 'onResolve' | 'e
  * 點 marker 開集章卡片、cluster、`?id=` 深連結、列表的定位與導航。
  */
 export type SceneConfig = {
-    /** 景點是否做 cluster。預設 true。 */
-    cluster?: boolean;
+    /**
+     * 景點是否做 cluster。預設 true。
+     * 傳 `MarkerClusterGroupOptions` 等於開 cluster 並覆蓋參數（會和預設的 `showCoverageOnHover: false` 合併），
+     * 例如 `{ disableClusteringAtZoom: 19, spiderfyOnMaxZoom: false }`。
+     */
+    cluster?: boolean | MarkerClusterGroupOptions;
     /** 集章的有效距離（公尺）。預設 100；不限距離傳 `Infinity`。網址帶 `#debug` 時一律不限。 */
     validDistance?: number;
     /** 景點列表定位鈕飛過去的縮放層級。預設 18.5。 */
