@@ -29,6 +29,7 @@ export declare class ArticleCache {
     hasExternalKey(key: string): boolean;
     get articles(): {
         content: string;
+        contentHtml?: string | undefined;
         subtitle: string;
         ref: string;
         title: string;

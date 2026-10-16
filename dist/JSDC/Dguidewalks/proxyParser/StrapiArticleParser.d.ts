@@ -22,6 +22,7 @@ declare class StrapiArticleParser implements IArticleProxyParser {
     private getFeatures;
     private pickTitle;
     private pickContent;
+    private pickBody;
     getSummaryByFeature(feature: SceneFeature): SummaryArticleType;
     getDetailByFeature(feature: SceneFeature): DetailArticleType;
     /** 順序就是 API 回傳的順序（後端已排好），不再依 title 前綴重排。 */

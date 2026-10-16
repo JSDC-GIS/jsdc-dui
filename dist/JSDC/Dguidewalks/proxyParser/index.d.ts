@@ -11,6 +11,7 @@ declare class ArticleProxyParser extends AbsctractArticleProxyParser implements 
     getAll(refresh?: boolean | undefined, language?: string): Promise<SummaryArticleType[]>;
     getDetailByFeature(feature: SceneFeature): Promise<{
         content: string;
+        contentHtml?: string | undefined;
         subtitle: string;
         ref: string;
         title: string;
@@ -21,6 +22,7 @@ declare class ArticleProxyParser extends AbsctractArticleProxyParser implements 
     }>;
     getDetailByTitle(title: string, fallbackUrl?: string | null | undefined): Promise<{
         content: string;
+        contentHtml?: string | undefined;
         subtitle: string;
         ref: string;
         title: string;
