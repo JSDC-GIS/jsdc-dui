@@ -4,6 +4,7 @@ import {
   SummaryArticleType,
 } from './@types'
 import { SceneFeature, WalkResponse } from '../ApiProvider'
+import { toSceneContentHtml } from '../sceneBody'
 
 export type StrapiArticleParserOptions = {
   /**
@@ -63,6 +64,16 @@ class StrapiArticleParser implements IArticleProxyParser {
     return { text: summary ?? '', isEnglish: false }
   }
 
+  // 卡片的內文：中文 body → summary；英文 bodyEn → summaryEn → body → summary。
+  // 只有空白的欄位視同沒填。列表仍用 pickContent（純文字截短）。
+  private pickBody(feature: SceneFeature) {
+    const { body, bodyEn, summary, summaryEn } = feature.properties
+    const candidates = this.isEnglish
+      ? [bodyEn, summaryEn, body, summary]
+      : [body, summary]
+    return candidates.find((value) => value?.trim()) ?? ''
+  }
+
   getSummaryByFeature(feature: SceneFeature): SummaryArticleType {
     const { coverThumb, coverImage, pageUrl } = feature.properties
     const title = this.pickTitle(feature)
@@ -86,6 +97,7 @@ class StrapiArticleParser implements IArticleProxyParser {
       title,
       subtitle: title,
       content: this.pickContent(feature).text,
+      contentHtml: toSceneContentHtml(this.pickBody(feature)),
       imgSrc: coverImage ?? coverThumb ?? '',
       link: pageUrl,
       // 沒有撰稿者時仍保留「撰稿者：」前綴，卡片才不會只剩孤零零的「未知」

@@ -224,6 +224,7 @@ const useSceneController = (config: SceneConfig = {}) => {
           subtitle: detail.subtitle || '',
           imgSrc: detail.imgSrc,
           mainTextContent: detail.content,
+          mainHtmlContent: detail.contentHtml,
           credit: detail.ref || '撰稿者：未知',
           checkinSrc: buildCheckinSrc(marker.feature),
           onCheckin: (src) => {

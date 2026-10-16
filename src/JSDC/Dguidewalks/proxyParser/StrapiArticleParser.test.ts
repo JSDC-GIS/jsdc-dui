@@ -197,6 +197,7 @@ describe('StrapiArticleParser.getDetailByFeature', () => {
       title: '01大溪老街區',
       subtitle: '01大溪老街區',
       content: '01大溪老街區 的中文介紹',
+      contentHtml: '<p>01大溪老街區 的中文介紹</p>',
       imgSrc: 'https://media.test/01大溪老街區.jpg',
       link: 'https://page.test/01大溪老街區/',
       ref: '撰稿者：方文樹、林炯任',
@@ -240,5 +241,58 @@ describe('StrapiArticleParser.getDetailByFeature', () => {
   it('沒有 title 版本的 API', () => {
     const { parser } = createParser()
     expect('getDetailByTitle' in parser).toBe(false)
+  })
+
+  describe('contentHtml（卡片內文）', () => {
+    const html = (
+      parser: StrapiArticleParser,
+      props: Partial<SceneProperties>,
+    ) => parser.getDetailByFeature(scene('x', props)).contentHtml
+
+    it('中文：body 優先，空的（null、只有空白）退回 summary', () => {
+      const { parser } = createParser()
+      expect(html(parser, { body: '<p>全文</p>', summary: '摘要' })).toBe(
+        '<p>全文</p>',
+      )
+      expect(html(parser, { body: ' \n ', summary: '摘要' })).toBe(
+        '<p>摘要</p>',
+      )
+      expect(html(parser, { body: null, summary: null })).toBe('')
+    })
+
+    it('中文版不讀 bodyEn、summaryEn', () => {
+      const { parser } = createParser()
+      expect(
+        html(parser, { body: null, bodyEn: '<p>EN</p>', summaryEn: 'en' }),
+      ).toBe('<p>x 的中文介紹</p>')
+    })
+
+    it('英文：bodyEn → summaryEn → body → summary', () => {
+      const { parser } = createParser()
+      parser.setLanguage('en')
+      const all = {
+        bodyEn: '<p>EN body</p>',
+        summaryEn: 'EN summary',
+        body: '<p>中文全文</p>',
+        summary: '中文摘要',
+      }
+      expect(html(parser, all)).toBe('<p>EN body</p>')
+      expect(html(parser, { ...all, bodyEn: null })).toBe('<p>EN summary</p>')
+      expect(html(parser, { ...all, bodyEn: ' ', summaryEn: null })).toBe(
+        '<p>中文全文</p>',
+      )
+      // bodyEn 欄位上線前 API 不會回這個 key
+      expect(
+        html(parser, { summaryEn: null, body: null, summary: '中文摘要' }),
+      ).toBe('<p>中文摘要</p>')
+    })
+
+    it('純文字 content 不變（列表與舊用法）', () => {
+      const { parser } = createParser()
+      const detail = parser.getDetailByFeature(
+        scene('x', { body: '<p>全文</p>', summary: '摘要' }),
+      )
+      expect(detail.content).toBe('摘要')
+    })
   })
 })

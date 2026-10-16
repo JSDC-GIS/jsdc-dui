@@ -14,6 +14,11 @@ export interface ICheckInCardProps extends React.HTMLProps<HTMLDivElement> {
   subtitle: string
   imgSrc: string
   mainTextContent: string
+  /**
+   * 已過濾的內文 HTML（`toSceneContentHtml` 的結果）。有值就取代 `mainTextContent`；
+   * 不要傳未過濾的字串進來。
+   */
+  mainHtmlContent: string
   credit: string
   sceneLatLng: LatLng
   /**
@@ -43,6 +48,7 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
   subtitle = '...',
   imgSrc = icon.others.processing,
   mainTextContent = '...',
+  mainHtmlContent,
   credit = '　:　',
   innerRef,
   sceneLatLng,
@@ -124,7 +130,14 @@ const CheckInCard: React.FC<Partial<ICheckInCardProps>> = ({
           <p className="title">{title}</p>
           <p className="subtitle">{subtitle}</p>
         </div>
-        <div className="content">{mainTextContent}</div>
+        {mainHtmlContent ? (
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: mainHtmlContent }}
+          />
+        ) : (
+          <div className="content">{mainTextContent}</div>
+        )}
         <div className="CheckInPopup-credit">
           <span>{credit}</span>
         </div>

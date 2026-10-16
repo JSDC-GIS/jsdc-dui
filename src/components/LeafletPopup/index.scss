@@ -1,3 +1,4 @@
+@import './sceneContent';
 .dui-LeafletPopupTable {
   &-name {
     margin-bottom: 10px;
@@ -88,10 +89,7 @@
       // overflow: auto;
       min-width: 100px;
       min-height: 100px;
-      &::first-letter {
-        color: var(--dui-primary);
-        font-size: large;
-      }
+      @include scene-content;
     }
     .SceneCard-credit {
       margin-top: 15px;

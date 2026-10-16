@@ -25,6 +25,11 @@ export type ListingTextField = {
 
 export type ArticleExternalProps = {
   content: string
+  /**
+   * 景點卡片用的內文 HTML（已過濾，可以直接放進 DOM）。Strapi 來源才有；
+   * 沒有時卡片顯示純文字的 `content`。
+   */
+  contentHtml?: string
   subtitle: string
   ref: string
 }

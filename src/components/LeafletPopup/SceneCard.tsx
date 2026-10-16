@@ -7,6 +7,11 @@ export interface ISceneCardProps {
   subtitle: string
   imgSrc: string
   mainTextContent: string
+  /**
+   * 已過濾的內文 HTML（`toSceneContentHtml` 的結果）。有值就取代 `mainTextContent`；
+   * 不要傳未過濾的字串進來。
+   */
+  mainHtmlContent: string
   credit: string
 }
 
@@ -15,6 +20,7 @@ const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
   subtitle = '...',
   imgSrc = icon.others.processing,
   mainTextContent = '...',
+  mainHtmlContent,
   credit = '　:　',
 }) => {
   return (
@@ -31,7 +37,14 @@ const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
           <p className="title">{title}</p>
           <p className="subtitle">{subtitle}</p>
         </div>
-        <div className="content">{mainTextContent}</div>
+        {mainHtmlContent ? (
+          <div
+            className="content"
+            dangerouslySetInnerHTML={{ __html: mainHtmlContent }}
+          />
+        ) : (
+          <div className="content">{mainTextContent}</div>
+        )}
         <div className="SceneCard-credit">
           <span>{credit}</span>
         </div>

@@ -821,6 +821,7 @@ describe('Dguidewalks 景點文章（內建 Strapi 來源）', () => {
       title: '01大溪老街區',
       subtitle: '01大溪老街區',
       content: '01大溪老街區 的中文介紹',
+      contentHtml: '<p>01大溪老街區 的中文介紹</p>',
       imgSrc: 'https://media.test/doc-1.jpg',
       link: 'https://page.test/doc-1/',
       ref: '撰稿者：林炯任',

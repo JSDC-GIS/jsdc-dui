@@ -75,7 +75,13 @@ export interface SceneProperties {
   titleEn?: string | null
   summary: string | null
   summaryEn: string | null
+  /** 內文，HTML 或純文字（約 330 個景點沒有標籤）。景點卡片顯示這個，空的才退回 `summary`。 */
   body: string | null
+  /**
+   * 英文內文（v10 請後端新增，n0028 才有值）。英文版的景點卡片顯示它，沒填依序退回
+   * `summaryEn`、`body`、`summary`。欄位上線前 API 不會回這個 key，所以是選填。
+   */
+  bodyEn?: string | null
   coverImage: string | null
   coverThumb: string | null
   gallery: SceneGalleryItem[]
