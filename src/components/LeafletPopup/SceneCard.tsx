@@ -2,6 +2,10 @@ import React from 'react'
 import icon from '../../icon'
 import './index.scss'
 
+/**
+ * @deprecated 沒有集章功能的舊版景點卡片，jsdc-dui 內部與下游都沒有使用（2026-10-16 查過）。
+ * 景點卡片請用 `CheckInCard`（`useSceneController` 已內建）。之後的大版本會移除。
+ */
 export interface ISceneCardProps {
   title: string
   subtitle: string
@@ -15,6 +19,10 @@ export interface ISceneCardProps {
   credit: string
 }
 
+/**
+ * @deprecated 沒有集章功能的舊版景點卡片，jsdc-dui 內部與下游都沒有使用（2026-10-16 查過）。
+ * 景點卡片請用 `CheckInCard`（`useSceneController` 已內建）。之後的大版本會移除。
+ */
 const SceneCard: React.FC<Partial<ISceneCardProps>> = ({
   title = '...',
   subtitle = '...',

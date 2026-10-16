@@ -10,6 +10,7 @@ export type BindPopupWithComponentOptions<P> = {
 export declare function bindPopupWithComponent<P>(layer: Layer, stringRenderer: typeof renderToString, { Component, props, onLayerClick }: BindPopupWithComponentOptions<P>): void;
 export declare const bindPopupWithTable: (layer: Layer, stringRenderer: typeof renderToString, options: ILeafletPopupTableProps) => void;
 declare const LeafletPopup: {
+    /** @deprecated 改用 `CheckInCard`，見 `SceneCard.tsx`。 */
     SceneCard: import("react").FC<Partial<import("./SceneCard").ISceneCardProps>>;
     Table: import("react").FC<ILeafletPopupTableProps>;
 };

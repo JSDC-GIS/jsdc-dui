@@ -32,6 +32,7 @@ export const bindPopupWithTable = (
 }
 
 const LeafletPopup = {
+  /** @deprecated 改用 `CheckInCard`，見 `SceneCard.tsx`。 */
   SceneCard,
   Table,
 }
