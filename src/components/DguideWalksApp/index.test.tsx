@@ -5,7 +5,8 @@ import { DguidewalksContext } from '../../JSDC/Dguidewalks/Context'
 import { PathColorItem } from '../../JSDC/Dguidewalks/mapLayers'
 import Event from '../../JSDC/utils/Event'
 import { DuiContext, PathColorConfig } from '../Context'
-import DguideWalksApp from '.'
+import DguideWalksApp, { IDguideWalksAppProps } from '.'
+import { applyFixedLanguage } from '../../i18n/config'
 
 let mockLanguage = 'zh-TW'
 jest.mock('react-i18next', () => ({
@@ -15,6 +16,10 @@ jest.mock('react-i18next', () => ({
   }),
 }))
 // chroma-js 是 ESM，jest 不轉譯 node_modules；這裡只用到 DuiContext，不會真的呼叫它
+jest.mock('../../i18n/config', () => ({
+  applyFixedLanguage: jest.fn(),
+  scopedStorageKey: (base: string) => base,
+}))
 jest.mock('chroma-js', () => ({ __esModule: true, default: () => ({}) }))
 // 只看左側選單：地圖本體與景點的內建畫面不在這裡測
 jest.mock('../MapViewContainer', () => ({
@@ -46,6 +51,7 @@ const setup = (
     legendConfig = { activeLegends: [] } as object,
     legendReady = true,
     images = {} as object,
+    appProps = {} as IDguideWalksAppProps,
   } = {},
 ) => {
   let isLoaded = loaded
@@ -80,7 +86,7 @@ const setup = (
         value={{ dgw, layerLegendImages: {}, layerNames: {} } as any}
       >
         <DuiContext.Provider value={dui as any}>
-          <DguideWalksApp />
+          <DguideWalksApp {...appProps} />
         </DuiContext.Provider>
       </DguidewalksContext.Provider>
     </JSDCContext.Provider>,
@@ -289,5 +295,29 @@ describe('DguideWalksApp 的圖片（沒有圖時不渲染破圖）', () => {
       container.querySelector('.dui-AboutWalkDialogContent'),
     ).not.toBeNull()
     expect(container.innerHTML).not.toContain('undefined')
+  })
+})
+
+describe('DguideWalksApp 的語言設定', () => {
+  beforeEach(() => {
+    jest.mocked(applyFixedLanguage).mockClear()
+    window.localStorage.clear()
+  })
+
+  it('沒傳 language 時不會進固定語言模式', () => {
+    setup({})
+    expect(applyFixedLanguage).not.toHaveBeenCalled()
+  })
+
+  it('傳 language 時固定該語言，且不走 defaultLanguage 的首次套用旗標', () => {
+    setup({}, { appProps: { language: 'zh-TW', defaultLanguage: 'en' } })
+    expect(applyFixedLanguage).toHaveBeenCalledWith('zh-TW')
+    expect(window.localStorage.getItem('dui-i18n-default-applied')).toBeNull()
+  })
+
+  it('只傳 defaultLanguage 時維持原本的首次套用行為', () => {
+    setup({}, { appProps: { defaultLanguage: 'en' } })
+    expect(applyFixedLanguage).not.toHaveBeenCalled()
+    expect(window.localStorage.getItem('dui-i18n-default-applied')).toBe('1')
   })
 })

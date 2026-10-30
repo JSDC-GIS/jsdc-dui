@@ -1,6 +1,6 @@
 {
   "name": "jsdc-dui",
-  "version": "1.7.2",
+  "version": "2.2.5",
   "module": "dist",
   "types": "dist/index.d.ts",
   "repository": {
